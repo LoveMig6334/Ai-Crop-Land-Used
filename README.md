@@ -63,12 +63,17 @@ The project works with Thai agricultural price data:
    cd "Ai Crop Land-Used"
    ```
 
-2. **Install dependencies**:
+2. **Create Python Environment (version 3.12.10)**:
+   ```bash
+   python -m venv .venv
+   ```
+
+3. **Install dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
 
-3. **Verify installation**:
+4. **Verify installation**:
    ```bash
    python -c "import torch; print(torch.__version__)"
    ```
