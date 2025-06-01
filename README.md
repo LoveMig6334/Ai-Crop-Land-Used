@@ -19,22 +19,26 @@ Ai Crop Land-Used/
 ├── requirements.txt
 ├── data/
 │   ├── data_processed/
-│   │   └── cassava/
-│   │       └── price_avg.csv          # Processed cassava price data
+│   │   ├── cassava/
+│   │   │   └── price_avg.csv          # Processed cassava price data
+│   │   └── corn/
+│   │       └── price_avg.csv          # Processed corn price data
 │   └── raw/
 │       ├── cassava/
-│       │   ├── price_avg.csv          # Raw cassava price data
-│       │   └── price_min-max.csv      # Min-max price data
+│       │   ├── price_avg.xls          # Raw cassava price data (Excel)
+│       │   └── price_min-max.xls      # Cassava min-max price data (Excel)
 │       └── corn/
-│           ├── price avg/             # Corn average price data
-│           └── price min-max/         # Corn min-max price data
+│           ├── price_avg.xls          # Raw corn price data (Excel)
+│           └── price_min-max.xls      # Corn min-max price data (Excel)
 ├── src/
 │   ├── data preparation/
 │   │   ├── data_cleanup.py            # Data cleaning utilities
 │   │   └── data_plot.py              # Data visualization tools
 │   └── model/
-│       ├── example.ipynb             # Main forecasting model notebook
-│       └── cassava_prices_forecast.png # Generated forecast visualization
+│       ├── LSTM Model.ipynb          # Main LSTM forecasting model notebook
+│       └── image/
+│           ├── cassava_prices_forecast.png # Cassava forecast visualization
+│           └── corn_prices_forecast.png    # Corn forecast visualization
 ```
 
 ## 🚀 Features
