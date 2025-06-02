@@ -33,19 +33,27 @@ Ai Crop Land-Used/
 ├── src/
 │   ├── data preparation/
 │   │   ├── data_cleanup.py            # Data cleaning utilities
-│   │   └── data_plot.py              # Data visualization tools
+│   │   └── data_plot.py               # Data visualization tools
 │   └── model/
-│       ├── LSTM Model.ipynb          # Main LSTM forecasting model notebook
-│       └── image/
-│           ├── cassava_prices_forecast.png # Cassava forecast visualization
-│           └── corn_prices_forecast.png    # Corn forecast visualization
+│       ├── ARIMA Model.ipynb          # Statistical forecasting model notebook
+│       ├── LSTM Model.ipynb           # Deep learning forecasting model notebook
+│       ├── image/
+│       │   ├── cassava_prices_forecast.png # Cassava forecast visualization
+│       │   └── corn_prices_forecast.png    # Corn forecast visualization
+│       └── util/
+│           ├── __init__.py
+│           ├── data_path.py           # Data path utilities
+│           ├── lstm_cust_class.py     # Custom LSTM model class
+│           └── transformer_cust_class.py # Custom Transformer model class
 ```
 
 ## 🚀 Features
 
 - **Data Preprocessing**: Clean and prepare raw agricultural price data
 - **Data Visualization**: Generate plots for price trend analysis
-- **Time Series Forecasting**: LSTM-based neural network for price prediction
+- **Time Series Forecasting**: 
+  - LSTM-based neural network for price prediction
+  - ARIMA statistical model for comparison
 - **Multi-Crop Support**: Handles both cassava and corn price data
 - **Thai Date Processing**: Handles Thai Buddhist calendar dates
 - **Scalable Architecture**: Modular design for easy extension to other crops
@@ -53,7 +61,7 @@ Ai Crop Land-Used/
 ## 📊 Data Description
 
 The project works with Thai agricultural price data:
-- **Time Period**: 2547-2567 BE (2004-2024 CE)
+- **Time Period**: 2547-2568 BE (2004-2025 CE)
 - **Frequency**: Monthly price data
 - **Crops**: Cassava and Corn
 - **Price Types**: Average, minimum, and maximum prices
@@ -86,9 +94,11 @@ The project works with Thai agricultural price data:
 
 ### Price Forecasting
 
-1. **Open the Jupyter notebook**:
+1. **Open the Jupyter notebook for preferred model**:
    ```bash
    jupyter notebook "src/model/LSTM Model.ipynb"
+   # or
+   jupyter notebook "src/model/ARIMA Model.ipynb"
    ```
 
 2. **Run the forecasting model**:
@@ -108,40 +118,55 @@ The project works with Thai agricultural price data:
 - Handles Thai date format conversion
 - Provides statistical summaries
 
-#### Forecasting Model (`example.ipynb`)
+#### Forecasting Models
+**LSTM Model** (`LSTM Model.ipynb`)
 - LSTM neural network implementation
 - Time series preprocessing with MinMaxScaler
 - 12-month sequence input for 12-month prediction
 - PyTorch-based deep learning pipeline
 
+**ARIMA Model** (`ARIMA Model.ipynb`) 
+- Statistical time series forecasting
+- Auto-regressive Integrated Moving Average
+- Traditional statistical approach for comparison
+
 ## 🧠 Model Architecture
 
-The forecasting model uses:
+The project implements two forecasting approaches:
+
+**LSTM Model:**
 - **Input**: 12 months of historical price data
 - **Architecture**: LSTM (Long Short-Term Memory) neural network
 - **Output**: 12 months of future price predictions
-- **Framework**: PyTorch
+- **Framework**: PyTorch (v2.7.0)
 - **Preprocessing**: MinMaxScaler for data normalization
+
+**ARIMA Model:**
+- **Input**: Historical time series data
+- **Method**: Auto-Regressive Integrated Moving Average
+- **Components**: AR (auto-regression), I (differencing), MA (moving average)
+- **Libraries**: statsmodels, statsforecast
 
 ## 📈 Results
 
-The model generates:
+The models generate:
 - Price forecasts for the next 12 months
 - Visualization of predicted vs. actual prices
 - Performance metrics and validation results
-- Saved forecast plots in the `src/model/` directory
+- Saved forecast plots in the `src/model/image` directory
+- Comparative analysis between statistical and deep learning approaches
 
 ## 🔧 Technical Requirements
 
 - **Python**: 3.12.10
-- **PyTorch**: 2.7.0 (with CUDA support)
+- **PyTorch**: 2.7.0 (with CUDA 12.6 support)
 - **Key Libraries**:
-  - pandas: Data manipulation
-  - numpy: Numerical computing
-  - matplotlib: Visualization
-  - scikit-learn: Data preprocessing
-  - jupyter: Interactive development
-  - PyTorch: AI training class framework
+  - pandas: 2.2.3 (Data manipulation)
+  - numpy: 2.2.6 (Numerical computing)
+  - matplotlib: 3.10.3 (Visualization)
+  - scikit-learn: 1.6.1 (Data preprocessing)
+  - statsmodels: 0.14.4 (Statistical modeling)
+  - jupyter: 1.1.1 (Interactive development)
 
 ## 📝 Data Format
 
@@ -167,3 +192,5 @@ For questions or collaboration opportunities, please open an issue or contact th
 ---
 
 *Built with ❤️ for sustainable agriculture and data-driven farming decisions*
+
+*Last updated: June 2025*
