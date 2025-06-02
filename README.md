@@ -156,6 +156,8 @@ The models generate:
 - Saved forecast plots in the `src/model/image` directory
 - Comparative analysis between statistical and deep learning approaches
 
+![LSTM](src/model/image/cassava_prices_forecast.png)
+
 ## 🔧 Technical Requirements
 
 - **Python**: 3.12.10
