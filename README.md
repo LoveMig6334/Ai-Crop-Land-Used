@@ -15,21 +15,26 @@ This project aims to:
 
 ```
 Ai Crop Land-Used/
+├── GIL-TEST.py                     # Python GIL status testing utility
 ├── README.md
 ├── requirements.txt
 ├── data/
 │   ├── data_processed/
 │   │   ├── cassava/
-│   │   │   └── price_avg.csv          # Processed cassava price data
-│   │   └── corn/
-│   │       └── price_avg.csv          # Processed corn price data
+│   │   │   ├── price_avg.csv          # Processed cassava price data
+│   │   │   └── price_low_high.csv     # Processed cassava min-max price data
+│   │   ├── corn/
+│   │   │   ├── price_avg.csv          # Processed corn price data
+│   │   │   └── price_low_high.csv     # Processed corn min-max price data
+│   │   └── weather/                   # Weather data directory
 │   └── raw/
 │       ├── cassava/
 │       │   ├── price_avg.xls          # Raw cassava price data (Excel)
 │       │   └── price_min-max.xls      # Cassava min-max price data (Excel)
-│       └── corn/
-│           ├── price_avg.xls          # Raw corn price data (Excel)
-│           └── price_min-max.xls      # Corn min-max price data (Excel)
+│       ├── corn/
+│       │   ├── price_avg.xls          # Raw corn price data (Excel)
+│       │   └── price_min-max.xls      # Corn min-max price data (Excel)
+│       └── weather/                   # Raw weather data directory
 ├── src/
 │   ├── data preparation/
 │   │   ├── data_cleanup.py            # Data cleaning utilities
@@ -37,6 +42,7 @@ Ai Crop Land-Used/
 │   └── model/
 │       ├── ARIMA Model.ipynb          # Statistical forecasting model notebook
 │       ├── LSTM Model.ipynb           # Deep learning forecasting model notebook
+│       ├── Transformer Model.ipynb    # Transformer-based forecasting model notebook
 │       ├── image/
 │       │   ├── cassava_prices_forecast.png # Cassava forecast visualization
 │       │   └── corn_prices_forecast.png    # Corn forecast visualization
@@ -53,6 +59,7 @@ Ai Crop Land-Used/
 - **Data Visualization**: Generate plots for price trend analysis
 - **Time Series Forecasting**: 
   - LSTM-based neural network for price prediction
+  - Transformer-based model for advanced sequence analysis
   - ARIMA statistical model for comparison
 - **Multi-Crop Support**: Handles both cassava and corn price data
 - **Thai Date Processing**: Handles Thai Buddhist calendar dates
@@ -66,6 +73,7 @@ The project works with Thai agricultural price data:
 - **Crops**: Cassava and Corn
 - **Price Types**: Average, minimum, and maximum prices
 - **Currency**: Thai Baht (THB)
+- **Additional Data**: Weather data for correlation analysis
 
 ## 🛠️ Installation
 
@@ -80,14 +88,29 @@ The project works with Thai agricultural price data:
    python -m venv .venv
    ```
 
-3. **Install dependencies**:
+3. **Activate the environment**:
+   - Windows:
+   ```bash
+   .venv\Scripts\activate
+   ```
+   - Linux/Mac:
+   ```bash
+   source .venv/bin/activate
+   ```
+
+4. **Install dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Verify installation**:
+5. **Verify installation**:
    ```bash
    python -c "import torch; print(torch.__version__)"
+   ```
+
+6. **Check GIL and Python status** (Optional):
+   ```bash
+   python GIL-TEST.py
    ```
 
 ## 💻 Usage
@@ -97,6 +120,8 @@ The project works with Thai agricultural price data:
 1. **Open the Jupyter notebook for preferred model**:
    ```bash
    jupyter notebook "src/model/LSTM Model.ipynb"
+   # or
+   jupyter notebook "src/model/Transformer Model.ipynb"
    # or
    jupyter notebook "src/model/ARIMA Model.ipynb"
    ```
@@ -125,6 +150,12 @@ The project works with Thai agricultural price data:
 - 12-month sequence input for 12-month prediction
 - PyTorch-based deep learning pipeline
 
+**Transformer Model** (`Transformer Model.ipynb`)
+- Self-attention based sequence model
+- Advanced pattern recognition capabilities
+- Parallelized computation for faster training
+- State-of-the-art neural network architecture
+
 **ARIMA Model** (`ARIMA Model.ipynb`) 
 - Statistical time series forecasting
 - Auto-regressive Integrated Moving Average
@@ -132,7 +163,7 @@ The project works with Thai agricultural price data:
 
 ## 🧠 Model Architecture
 
-The project implements two forecasting approaches:
+The project implements three forecasting approaches:
 
 **LSTM Model:**
 - **Input**: 12 months of historical price data
@@ -140,6 +171,13 @@ The project implements two forecasting approaches:
 - **Output**: 12 months of future price predictions
 - **Framework**: PyTorch (v2.7.0)
 - **Preprocessing**: MinMaxScaler for data normalization
+
+**Transformer Model:**
+- **Input**: Historical price data sequence
+- **Architecture**: Self-attention mechanism with encoding layers
+- **Output**: Future price predictions with confidence intervals
+- **Framework**: PyTorch (v2.7.0)
+- **Advantages**: Better at capturing long-range dependencies in time series data
 
 **ARIMA Model:**
 - **Input**: Historical time series data
@@ -169,6 +207,8 @@ The models generate:
   - scikit-learn: 1.6.1 (Data preprocessing)
   - statsmodels: 0.14.4 (Statistical modeling)
   - jupyter: 1.1.1 (Interactive development)
+  - fugue: 0.9.1 (Data processing)
+  - coreforecast: 0.0.16 (Forecasting utilities)
 
 ## 📝 Data Format
 
@@ -195,4 +235,4 @@ For questions or collaboration opportunities, please open an issue or contact th
 
 *Built with ❤️ for sustainable agriculture and data-driven farming decisions*
 
-*Last updated: June 2025*
+*Last updated: June 4, 2025*
