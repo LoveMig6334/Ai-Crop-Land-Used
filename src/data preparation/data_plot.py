@@ -1,17 +1,5 @@
-import os
-
 import matplotlib.pyplot as plt
 import pandas as pd
-
-
-def get_file_path() -> str:
-    folder_path = os.path.join(
-        os.path.dirname(os.path.join(os.path.dirname(__file__))), "data"
-    )
-    file_path = os.path.join(folder_path, "PriceDay.csv")
-    print(file_path)
-
-    return file_path
 
 
 def price_reading(file_path) -> None:
@@ -62,17 +50,3 @@ def print_year(file_path: str) -> None:
     for date_str in date:
         day, month, year = date_str.split(" ")
         print(f"Day: {day}, Month: {month_dict[month]}, Year: {year}")
-
-
-def main() -> None:
-    data_path = get_file_path()
-
-    price_reading(data_path)
-
-    plot_data(data_path)
-
-    print_year(data_path)
-
-
-if __name__ == "__main__":
-    main()

@@ -1,33 +1,24 @@
-import os
-
 import pandas as pd
 
 
-def get_file_path() -> str:
-    folder_path = os.path.join(
-        os.path.dirname(os.path.join(os.path.dirname(__file__))), "data"
-    )
-    file_path = os.path.join(folder_path, "PriceDay.csv")
-    print(file_path)
+def file_xls_to_csv(file_path: str, output_path: str) -> None:
+    """
+    Convert an Excel file to CSV format.
 
-    return file_path
-
-
-def remove_unwanted_columns(file_path, columns_name: str) -> None:
-    df = pd.read_csv(file_path)
-    df.drop(columns_name, axis=1, inplace=True)
-    df.to_csv(file_path, index=False)
-    print(f"Removed columns: {columns_name}")
+    :param file_path: Path to the input Excel file.
+    :param output_path: Path where the output CSV file will be saved.
+    """
+    df = pd.read_excel(file_path)
+    df.to_csv(output_path, index=False)
 
 
-def main() -> None:
-    data_path = get_file_path()
-
-    unwanted_columns = ["ประเภท", "สินค้า", "หน่วย"]
-
-    for column in unwanted_columns:
-        remove_unwanted_columns(data_path, column)
+def remove_unwanted_columns(df: pd.DataFrame, columns_name: str) -> pd.DataFrame:
+    df.drop(columns=columns_name, axis=1, inplace=True)
+    return df
 
 
-if __name__ == "__main__":
-    main()
+def remove_unwanted_rows(
+    df: pd.DataFrame, column_name: str, value: str
+) -> pd.DataFrame:
+    df = df[df[column_name] != value]
+    return df
