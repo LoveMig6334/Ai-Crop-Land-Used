@@ -7,13 +7,12 @@ def price_ratio(p_dict: dict) -> dict:
             continue
         sum += value
 
-    ration = 100 / sum
-
+    ratio = 100 / sum
     result_dict = {}
 
     for key, value in p_dict.items():
         try:
-            result_dict[key] = value * ration
+            result_dict[key] = value * ratio
         except Exception as e:
             print(f"Error processing {key}: {e}")
             continue
