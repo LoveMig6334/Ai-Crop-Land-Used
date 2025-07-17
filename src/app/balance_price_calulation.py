@@ -12,7 +12,8 @@ def price_ratio(p_dict: dict) -> dict:
 
     for key, value in p_dict.items():
         try:
-            result_dict[key] = value * ratio
+            new_ratio = value * ratio
+            result_dict[key] = round(new_ratio, 2)
         except Exception as e:
             print(f"Error processing {key}: {e}")
             continue
