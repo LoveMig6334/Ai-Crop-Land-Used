@@ -1,25 +1,3 @@
-def less_divide(lst: tuple) -> float:
-    """
-    Calculate the less divide of a tuple of numbers.
-
-    Args:
-        lst (tuple): A tuple of numbers.
-        Returns:
-        float: The result of the less divide operation.
-
-    Example:
-        >>> less_divide((10, 2, 5))
-        1.0
-    """
-
-    result = lst[0]
-    for num in lst[1:]:
-        if num == 0:
-            raise ValueError("Division by zero is not allowed.")
-        result /= num
-    return result
-
-
 def price_ratio(p_dict: dict) -> dict:
     sum = 0
 
