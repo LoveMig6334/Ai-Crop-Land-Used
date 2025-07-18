@@ -1,11 +1,11 @@
 # AI Crop Land-Use Analysis and Price Forecasting
 
-A machine learning project for analyzing and forecasting crop prices, specifically focusing on cassava and corn agricultural commodities in Thailand. This project combines data preprocessing, visualization, and deep learning models to predict future crop prices based on historical data.
+A machine learning project for analyzing and forecasting crop prices, specifically focusing on cassava, corn, green beans, and soybean agricultural commodities in Thailand. This project combines data preprocessing, visualization, and deep learning models to predict future crop prices based on historical data.
 
 ## 🌾 Project Overview
 
 This project aims to:
-- Analyze historical crop price data for cassava and corn
+- Analyze historical crop price data for cassava, corn, green beans, and soybean
 - Clean and preprocess agricultural price data
 - Visualize price trends and patterns
 - Develop neural network models for price forecasting
@@ -26,6 +26,10 @@ Ai Crop Land-Used/
 │   │   ├── corn/
 │   │   │   ├── price_avg.csv          # Processed corn price data
 │   │   │   └── price_low_high.csv     # Processed corn min-max price data
+│   │   ├── green_beans/
+│   │   │   └── price_avg.csv          # Processed green beans price data
+│   │   ├── soybean/
+│   │   │   └── price_avg.csv          # Processed soybean price data
 │   │   └── weather/                   # Weather data directory
 │   └── raw/
 │       ├── cassava/
@@ -34,23 +38,33 @@ Ai Crop Land-Used/
 │       ├── corn/
 │       │   ├── price_avg.xls          # Raw corn price data (Excel)
 │       │   └── price_min-max.xls      # Corn min-max price data (Excel)
+│       ├── green_beans/               # Green beans data directory
+│       ├── soybean/                   # Soybean data directory
 │       └── weather/                   # Raw weather data directory
+├── logs/                            # Application logs directory
 ├── src/
+│   ├── app/
+│   │   ├── app.py                     # Main application module
+│   │   ├── balance_price_calulation.py # Price balancing algorithms
+│   │   └── prices_graph_plot.py       # Price graphing utilities
 │   ├── data preparation/
 │   │   ├── data_cleanup.py            # Data cleaning utilities
-│   │   └── data_plot.py               # Data visualization tools
-│   └── model/
-│       ├── ARIMA Model.ipynb          # Statistical forecasting model notebook
-│       ├── LSTM Model.ipynb           # Deep learning forecasting model notebook
-│       ├── Transformer Model.ipynb    # Transformer-based forecasting model notebook
-│       ├── image/
-│       │   ├── cassava_prices_forecast.png # Cassava forecast visualization
-│       │   └── corn_prices_forecast.png    # Corn forecast visualization
-│       └── util/
-│           ├── __init__.py
-│           ├── data_path.py           # Data path utilities
-│           ├── lstm_cust_class.py     # Custom LSTM model class
-│           └── transformer_cust_class.py # Custom Transformer model class
+│   │   ├── data_plot.py               # Data visualization tools
+│   │   └── raw_data_path.py           # Raw data path utilities
+│   ├── model/
+│   │   ├── ARIMA Model.ipynb          # Statistical forecasting model notebook
+│   │   ├── LSTM Model.ipynb           # Deep learning forecasting model notebook
+│   │   ├── Transformer Model.ipynb    # Transformer-based forecasting model notebook
+│   │   ├── image/
+│   │   │   ├── cassava_prices_forecast.png # Cassava forecast visualization
+│   │   │   └── corn_prices_forecast.png    # Corn forecast visualization
+│   │   └── util/
+│   │       ├── __init__.py
+│   │       ├── data_path.py           # Data path utilities
+│   │       ├── lstm_cust_class.py     # Custom LSTM model class
+│   │       └── transformer_cust_class.py # Custom Transformer model class
+│   └── utils/
+│       └── logger.py                  # Logging utilities
 ```
 
 ## 🚀 Features
@@ -61,16 +75,19 @@ Ai Crop Land-Used/
   - LSTM-based neural network for price prediction
   - Transformer-based model for advanced sequence analysis
   - ARIMA statistical model for comparison
-- **Multi-Crop Support**: Handles both cassava and corn price data
+- **Multi-Crop Support**: Handles cassava, corn, green beans, and soybean price data
 - **Thai Date Processing**: Handles Thai Buddhist calendar dates
 - **Scalable Architecture**: Modular design for easy extension to other crops
+- **Interactive Application**: Web-based interface for price analysis and forecasting
+- **Price Balancing**: Algorithms for calculating balanced crop prices
+- **Structured Logging**: Comprehensive logging system for debugging and monitoring
 
 ## 📊 Data Description
 
 The project works with Thai agricultural price data:
 - **Time Period**: 2547-2568 BE (2004-2025 CE)
 - **Frequency**: Monthly price data
-- **Crops**: Cassava and Corn
+- **Crops**: Cassava, Corn, Green Beans, and Soybean
 - **Price Types**: Average, minimum, and maximum prices
 - **Currency**: Thai Baht (THB)
 - **Additional Data**: Weather data for correlation analysis
@@ -131,6 +148,18 @@ The project works with Thai agricultural price data:
    - The model will train on historical data and generate predictions
    - Results will be saved as visualizations
 
+### Web Application
+
+1. **Start the web application**:
+   ```bash
+   python src/app/app.py
+   ```
+
+2. **Access the application**:
+   - Open your browser and navigate to `http://localhost:5000`
+   - Use the interactive dashboard to explore crop price data
+   - Generate forecasts and visualizations through the web interface
+
 ### Key Components
 
 #### Data Cleaning (`data_cleanup.py`)
@@ -142,6 +171,21 @@ The project works with Thai agricultural price data:
 - Generates price trend plots
 - Handles Thai date format conversion
 - Provides statistical summaries
+
+#### Web Application (`app.py`)
+- Interactive web interface for data exploration
+- API endpoints for forecasting results
+- User-friendly visualization dashboard
+
+#### Price Analysis (`balance_price_calculation.py`)
+- Algorithms for price equilibrium calculation
+- Seasonal price adjustment methods
+- Cross-crop price correlation analysis
+
+#### Logger (`logger.py`)
+- Structured logging system
+- Error tracking and monitoring
+- Performance metrics collection
 
 #### Forecasting Models
 **LSTM Model** (`LSTM Model.ipynb`)
@@ -235,4 +279,4 @@ For questions or collaboration opportunities, please open an issue or contact th
 
 *Built with ❤️ for sustainable agriculture and data-driven farming decisions*
 
-*Last updated: June 4, 2025*
+*Last updated: July 18, 2025*
