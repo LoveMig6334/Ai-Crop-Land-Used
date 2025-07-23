@@ -45,7 +45,7 @@ Ai Crop Land-Used/
 ├── src/
 │   ├── app/
 │   │   ├── app.py                     # Main application module
-│   │   ├── balance_price_calulation.py # Price balancing algorithms
+│   │   ├── balance_price_calculation.py # Price balancing algorithms
 │   │   └── prices_graph_plot.py       # Price graphing utilities
 │   ├── data preparation/
 │   │   ├── data_cleanup.py            # Data cleaning utilities

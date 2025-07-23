@@ -10,7 +10,7 @@ from matplotlib.figure import Figure
 
 # Add parent directory to path to import custom modules
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from app.balance_price_calulation import price_ratio
+from app.balance_price_calculation import price_ratio
 from model.util.data_path import cassava_price_avg, corn_price_avg
 
 app = Flask(
