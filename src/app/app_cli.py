@@ -1,5 +1,10 @@
 import logging
 import os
+import sys
+from pathlib import Path
+
+# Add the parent directory (src) to the Python path to enable utils imports
+sys.path.append(str(Path(__file__).parent.parent))
 
 from utils.logger import ensure_directory_exists, get_log_dir, get_timestamp_string
 
@@ -9,7 +14,7 @@ def setup_log() -> dict:
     ensure_directory_exists(log_dir)
 
     time_stamp = get_timestamp_string()
-    log_file = os.path.join(log_dir, f"log_{time_stamp}.txt")
+    log_file = os.path.join(log_dir, f"log_{time_stamp}.log")
 
     root_logger = logging.getLogger()
     for handler in root_logger.handlers:
@@ -36,5 +41,17 @@ def setup_log() -> dict:
     return {"log_dir": log_dir, "log_file": log_file, "root_logger": root_logger}
 
 
-if __name__ == "__main__":
+def main() -> None:
     setup_log()
+
+    while True:
+        number = int(input("Enter a number (0 to exit): "))
+        logging.info(f"User entered number: {number}")
+
+        if number == 0:
+            logging.info("Exiting the application.")
+            break
+
+
+if __name__ == "__main__":
+    main()

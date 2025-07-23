@@ -10,7 +10,7 @@ def get_log_dir() -> Path:
 
 def get_timestamp_string() -> str:
     """Get a timestamp string for filenames"""
-    return datetime.now().strftime("%Y%m%d_%H%M%S")
+    return datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 
 
 def ensure_directory_exists(directory_path) -> str:
