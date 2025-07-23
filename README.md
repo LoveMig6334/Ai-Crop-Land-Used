@@ -239,6 +239,7 @@ The models generate:
 - Comparative analysis between statistical and deep learning approaches
 
 ![LSTM](src/model/image/cassava_prices_forecast.png)
+![LSTM](src/model/image/cassava_error.png)
 
 ## 🔧 Technical Requirements
 
