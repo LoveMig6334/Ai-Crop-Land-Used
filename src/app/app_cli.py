@@ -45,12 +45,7 @@ def main() -> None:
     setup_log()
 
     while True:
-        number = int(input("Enter a number (0 to exit): "))
-        logging.info(f"User entered number: {number}")
-
-        if number == 0:
-            logging.info("Exiting the application.")
-            break
+        start_mounth = int(input("Enter the start month (1-12, 0 to exit): "))
 
 
 if __name__ == "__main__":
