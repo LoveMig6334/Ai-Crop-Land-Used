@@ -240,6 +240,7 @@ The models generate:
 
 ![LSTM](src/model/image/cassava_prices_forecast.png)
 ![LSTM](src/model/image/error/cassava_error.png)
+![LSTM](src/model/image/overlap/output.png)
 
 ## 🔧 Technical Requirements
 
