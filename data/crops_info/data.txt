@@ -1,0 +1,7 @@
+Crop Duration:
+--------------------
+cassava: 240 - 300
+corn: 90 - 120
+green_bean: 60 - 90
+soybean: 75 - 100
+sugarcane: 270 - 300
