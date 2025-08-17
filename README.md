@@ -9,16 +9,19 @@ This project aims to:
 - Clean and preprocess agricultural price data
 - Visualize price trends and patterns
 - Develop neural network models for price forecasting
+- Calculate potential income per rai (Thai land measurement unit)
 - Provide insights for agricultural decision-making
 
 ## 📁 Project Structure
 
 ```
-Ai Crop Land-Used/
+AI Crop Land-Used/
 ├── GIL-TEST.py                     # Python GIL status testing utility
 ├── README.md
 ├── requirements.txt
 ├── data/
+│   ├── crops_info/
+│   │   └── data.txt                   # Information about crops
 │   ├── data_processed/
 │   │   ├── cassava/
 │   │   │   ├── price_avg.csv          # Processed cassava price data
@@ -26,44 +29,58 @@ Ai Crop Land-Used/
 │   │   ├── corn/
 │   │   │   ├── price_avg.csv          # Processed corn price data
 │   │   │   └── price_low_high.csv     # Processed corn min-max price data
-│   │   ├── green_beans/
+│   │   ├── green_bean/
 │   │   │   └── price_avg.csv          # Processed green beans price data
-│   │   ├── soybean/
-│   │   │   └── price_avg.csv          # Processed soybean price data
-│   │   └── weather/                   # Weather data directory
+│   │   └── soybean/
+│   │       └── price_avg.csv          # Processed soybean price data
 │   └── raw/
 │       ├── cassava/
 │       │   ├── price_avg.xls          # Raw cassava price data (Excel)
 │       │   └── price_min-max.xls      # Cassava min-max price data (Excel)
-│       ├── corn/
-│       │   ├── price_avg.xls          # Raw corn price data (Excel)
-│       │   └── price_min-max.xls      # Corn min-max price data (Excel)
-│       ├── green_beans/               # Green beans data directory
-│       ├── soybean/                   # Soybean data directory
-│       └── weather/                   # Raw weather data directory
+│       └── corn/
+│           ├── price_avg.xls          # Raw corn price data (Excel)
+│           └── price_min-max.xls      # Corn min-max price data (Excel)
 ├── logs/                            # Application logs directory
 ├── src/
-│   ├── app/
-│   │   ├── app.py                     # Main application module
-│   │   ├── balance_price_calculation.py # Price balancing algorithms
-│   │   └── prices_graph_plot.py       # Price graphing utilities
+│   ├── app.py                         # Main web application module
+│   ├── app_cli.py                     # Command-line interface application
 │   ├── data preparation/
 │   │   ├── data_cleanup.py            # Data cleaning utilities
 │   │   ├── data_plot.py               # Data visualization tools
 │   │   └── raw_data_path.py           # Raw data path utilities
 │   ├── model/
-│   │   ├── ARIMA Model.ipynb          # Statistical forecasting model notebook
-│   │   ├── LSTM Model.ipynb           # Deep learning forecasting model notebook
-│   │   ├── Transformer Model.ipynb    # Transformer-based forecasting model notebook
+│   │   ├── (1) LSTM Model.ipynb       # LSTM-based forecasting model notebook
+│   │   ├── (2) Transformer Model.ipynb # Transformer-based forecasting model notebook
+│   │   ├── (3) ARIMA Model.ipynb      # Statistical forecasting model notebook
+│   │   ├── Overlap_price.ipynb        # Price overlap analysis notebook
+│   │   ├── forecast_price/
+│   │   │   ├── cassava_forecast.txt   # Cassava price forecasts
+│   │   │   ├── corn_forecast.txt      # Corn price forecasts
+│   │   │   ├── green_bean_forecast.txt # Green bean price forecasts
+│   │   │   └── soybean_forecast.txt   # Soybean price forecasts
 │   │   ├── image/
 │   │   │   ├── cassava_prices_forecast.png # Cassava forecast visualization
-│   │   │   └── corn_prices_forecast.png    # Corn forecast visualization
+│   │   │   ├── corn_prices_forecast.png    # Corn forecast visualization
+│   │   │   ├── green_bean.png         # Green bean forecast visualization
+│   │   │   ├── soy_bean.png           # Soybean forecast visualization
+│   │   │   ├── error/                 # Model error visualizations
+│   │   │   │   ├── cassava_error.png
+│   │   │   │   ├── corn_error.png
+│   │   │   │   ├── green_bean_error.png
+│   │   │   │   └── soy_bean_error.png
+│   │   │   └── overlap/
+│   │   │       └── output.png         # Price overlap visualization
+│   │   ├── income_per_rai/
+│   │   │   ├── cassava_income.txt     # Cassava income calculations
+│   │   │   └── income_plot.ipynb      # Income visualization notebook
 │   │   └── util/
 │   │       ├── __init__.py
 │   │       ├── data_path.py           # Data path utilities
 │   │       ├── lstm_cust_class.py     # Custom LSTM model class
+│   │       ├── parse_loc.py           # Location parsing utilities
 │   │       └── transformer_cust_class.py # Custom Transformer model class
 │   └── utils/
+│       ├── balance_price_calculation.py # Price balancing algorithms
 │       └── logger.py                  # Logging utilities
 ```
 
@@ -96,18 +113,18 @@ The project works with Thai agricultural price data:
 
 1. **Clone the repository**:
    ```bash
-   git clone <repository-url>
-   cd "Ai Crop Land-Used"
+   git clone https://github.com/LoveMig6334/Ai-Crop-Land-Used.git
+   cd "AI Crop Land-Used"
    ```
 
-2. **Create Python Environment (version 3.12.10)**:
+2. **Create Python Environment (version 3.12+)**:
    ```bash
    python -m venv .venv
    ```
 
 3. **Activate the environment**:
    - Windows:
-   ```bash
+   ```powershell
    .venv\Scripts\activate
    ```
    - Linux/Mac:
@@ -136,29 +153,52 @@ The project works with Thai agricultural price data:
 
 1. **Open the Jupyter notebook for preferred model**:
    ```bash
-   jupyter notebook "src/model/LSTM Model.ipynb"
+   jupyter notebook "src/model/(1) LSTM Model.ipynb"
    # or
-   jupyter notebook "src/model/Transformer Model.ipynb"
+   jupyter notebook "src/model/(2) Transformer Model.ipynb"
    # or
-   jupyter notebook "src/model/ARIMA Model.ipynb"
+   jupyter notebook "src/model/(3) ARIMA Model.ipynb"
    ```
 
 2. **Run the forecasting model**:
    - Execute all cells in the notebook
    - The model will train on historical data and generate predictions
-   - Results will be saved as visualizations
+   - Results will be saved as visualizations and text files in the `forecast_price` directory
+
+3. **Compare model results**:
+   ```bash
+   jupyter notebook "src/model/Overlap_price.ipynb"
+   ```
+   - View overlapping predictions from different models
+   - Results will be saved in the `image/overlap` directory
+
+### Income Analysis
+
+1. **View income calculations per rai**:
+   ```bash
+   jupyter notebook "src/model/income_per_rai/income_plot.ipynb"
+   ```
+   - Analyze potential income based on forecasted prices
+   - Results provide insights for optimal crop selection
 
 ### Web Application
 
 1. **Start the web application**:
    ```bash
-   python src/app/app.py
+   python src/app.py
    ```
 
 2. **Access the application**:
    - Open your browser and navigate to `http://localhost:5000`
    - Use the interactive dashboard to explore crop price data
    - Generate forecasts and visualizations through the web interface
+
+3. **Use CLI version** (alternative):
+   ```bash
+   python src/app_cli.py
+   ```
+   - Command-line interface for quick data access
+   - Generate reports and analysis from terminal
 
 ### Key Components
 
@@ -172,8 +212,9 @@ The project works with Thai agricultural price data:
 - Handles Thai date format conversion
 - Provides statistical summaries
 
-#### Web Application (`app.py`)
+#### Web Application (`app.py` and `app_cli.py`)
 - Interactive web interface for data exploration
+- Command-line interface for quick access
 - API endpoints for forecasting results
 - User-friendly visualization dashboard
 
@@ -188,19 +229,19 @@ The project works with Thai agricultural price data:
 - Performance metrics collection
 
 #### Forecasting Models
-**LSTM Model** (`LSTM Model.ipynb`)
+**LSTM Model** (`(1) LSTM Model.ipynb`)
 - LSTM neural network implementation
 - Time series preprocessing with MinMaxScaler
 - 12-month sequence input for 12-month prediction
 - PyTorch-based deep learning pipeline
 
-**Transformer Model** (`Transformer Model.ipynb`)
+**Transformer Model** (`(2) Transformer Model.ipynb`)
 - Self-attention based sequence model
 - Advanced pattern recognition capabilities
 - Parallelized computation for faster training
 - State-of-the-art neural network architecture
 
-**ARIMA Model** (`ARIMA Model.ipynb`) 
+**ARIMA Model** (`(3) ARIMA Model.ipynb`) 
 - Statistical time series forecasting
 - Auto-regressive Integrated Moving Average
 - Traditional statistical approach for comparison
@@ -213,21 +254,28 @@ The project implements three forecasting approaches:
 - **Input**: 12 months of historical price data
 - **Architecture**: LSTM (Long Short-Term Memory) neural network
 - **Output**: 12 months of future price predictions
-- **Framework**: PyTorch (v2.7.0)
+- **Framework**: PyTorch (v2.7.1)
 - **Preprocessing**: MinMaxScaler for data normalization
+- **Custom Implementation**: Uses `lstm_cust_class.py` for model definition
 
 **Transformer Model:**
 - **Input**: Historical price data sequence
 - **Architecture**: Self-attention mechanism with encoding layers
 - **Output**: Future price predictions with confidence intervals
-- **Framework**: PyTorch (v2.7.0)
+- **Framework**: PyTorch (v2.7.1)
 - **Advantages**: Better at capturing long-range dependencies in time series data
+- **Custom Implementation**: Uses `transformer_cust_class.py` for model definition
 
 **ARIMA Model:**
 - **Input**: Historical time series data
 - **Method**: Auto-Regressive Integrated Moving Average
 - **Components**: AR (auto-regression), I (differencing), MA (moving average)
 - **Libraries**: statsmodels, statsforecast
+
+**Overlap Analysis:**
+- Compares predictions from all three models
+- Visualizes prediction differences
+- Helps identify the most reliable forecasting approach for each crop
 
 ## 📈 Results
 
@@ -236,25 +284,38 @@ The models generate:
 - Visualization of predicted vs. actual prices
 - Performance metrics and validation results
 - Saved forecast plots in the `src/model/image` directory
-- Comparative analysis between statistical and deep learning approaches
+- Error analysis visualizations in `src/model/image/error`
+- Comparative analysis between different forecasting approaches
+- Income calculations per rai (Thai land measurement unit)
 
-![LSTM](src/model/image/cassava_prices_forecast.png)
-![LSTM](src/model/image/error/cassava_error.png)
-![LSTM](src/model/image/overlap/output.png)
+**Sample Visualizations:**
+
+**Cassava Price Forecast:**
+![Cassava Forecast](src/model/image/cassava_prices_forecast.png)
+
+**Error Analysis:**
+![Error Analysis](src/model/image/error/cassava_error.png)
+
+**Model Comparison:**
+![Model Comparison](src/model/image/overlap/output.png)
+
+The output data files in `forecast_price/` contain detailed numerical predictions that can be used for further analysis or integrated into agricultural planning systems.
 
 ## 🔧 Technical Requirements
 
-- **Python**: 3.12.10
-- **PyTorch**: 2.7.0 (with CUDA 12.6 support)
+- **Python**: 3.12+
+- **PyTorch**: 2.7.1 (with CUDA 12.6 support)
 - **Key Libraries**:
-  - pandas: 2.2.3 (Data manipulation)
-  - numpy: 2.2.6 (Numerical computing)
+  - pandas: 2.3.1 (Data manipulation)
+  - numpy: 2.1.2 (Numerical computing)
   - matplotlib: 3.10.3 (Visualization)
-  - scikit-learn: 1.6.1 (Data preprocessing)
-  - statsmodels: 0.14.4 (Statistical modeling)
+  - scikit-learn: 1.7.1 (Data preprocessing)
+  - statsmodels: 0.14.5 (Statistical modeling)
+  - statsforecast: 2.0.2 (Forecasting algorithms)
   - jupyter: 1.1.1 (Interactive development)
   - fugue: 0.9.1 (Data processing)
   - coreforecast: 0.0.16 (Forecasting utilities)
+  - Flask: 3.1.1 (Web application framework)
 
 ## 📝 Data Format
 
@@ -281,4 +342,4 @@ For questions or collaboration opportunities, please open an issue or contact th
 
 *Built with ❤️ for sustainable agriculture and data-driven farming decisions*
 
-*Last updated: July 18, 2025*
+*Last updated: August 17, 2025*
