@@ -1,38 +1,44 @@
-Transformer Model Evaluation Metrics for Cassava - 20250826_152415
+Transformer Model Evaluation Metrics for Cassava - 20250826_161856
 ============================================================
 
 Overall Metrics:
 --------------------
-Mean Absolute Error (MAE): 0.295578
-Mean Absolute Percentage Error (MAPE): 10.0015%
-Model Accuracy: 90.37%
+Mean Absolute Error (MAE): 0.307240
+Mean Absolute Percentage Error (MAPE): 9.3247%
+Model Accuracy: 89.99%
 
 Monthly Evaluation:
 --------------------
 Month      Actual     Forecast   Error      Abs Error  % Error   
-Jan 2024   3.65       3.38       0.2744     0.2744     7.52      %
-Feb 2024   3.65       3.25       0.4015     0.4015     11.00     %
-Mar 2024   3.57       3.05       0.5207     0.5207     14.59     %
-Apr 2024   3.24       2.94       0.2962     0.2962     9.14      %
-May 2024   3.19       2.95       0.2429     0.2429     7.61      %
-Jun 2024   3.09       3.02       0.0667     0.0667     2.16      %
-Jul 2024   3.06       3.04       0.0216     0.0216     0.70      %
-Aug 2024   2.95       3.09       -0.1431    0.1431     4.85      %
-Sep 2024   2.86       3.09       -0.2298    0.2298     8.03      %
-Oct 2024   2.65       3.07       -0.4191    0.4191     15.81     %
-Nov 2024   2.60       2.93       -0.3304    0.3304     12.71     %
-Dec 2024   2.32       2.92       -0.6006    0.6006     25.89     %
+Jan 2024   3.65       3.43       0.2165     0.2165     5.93      %
+Feb 2024   3.65       3.01       0.6378     0.6378     17.48     %
+Mar 2024   3.57       2.93       0.6404     0.6404     17.94     %
+Apr 2024   3.24       2.79       0.4520     0.4520     13.95     %
+May 2024   3.19       2.50       0.6937     0.6937     21.75     %
+Jun 2024   3.09       2.61       0.4766     0.4766     15.43     %
+Jul 2024   3.06       2.71       0.3471     0.3471     11.34     %
+Aug 2024   2.95       2.90       0.0493     0.0493     1.67      %
+Sep 2024   2.86       2.92       -0.0642    0.0642     2.24      %
+Oct 2024   2.65       2.57       0.0751     0.0751     2.83      %
+Nov 2024   2.60       2.63       -0.0282    0.0282     1.08      %
+Dec 2024   2.32       2.31       0.0057     0.0057     0.25      %
 
 Area Under Curve Analysis:
 --------------------
-Total Absolute Error Area: 3.1094
-Under-prediction Area: 1.6868
-Over-prediction Area: 1.4227
-Net Error Area: 0.2641
-Average Monthly Absolute Error: 0.2591
-Number of Transition Points: 1
+Total Absolute Error Area: 3.5758
+Under-prediction Area: 3.4834
+Over-prediction Area: 0.0923
+Net Error Area: 3.3911
+Average Monthly Absolute Error: 0.2980
+Number of Transition Points: 4
 
 Transition Points:
 --------------------
-Transition 1: Between Jul 2024 and Aug 2024 at position 6.13
+Transition 1: Between Aug 2024 and Sep 2024 at position 7.43
    Direction: Under to Over prediction
+Transition 2: Between Sep 2024 and Oct 2024 at position 8.46
+   Direction: Over to Under prediction
+Transition 3: Between Oct 2024 and Nov 2024 at position 9.73
+   Direction: Under to Over prediction
+Transition 4: Between Nov 2024 and Dec 2024 at position 10.83
+   Direction: Over to Under prediction
