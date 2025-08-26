@@ -1,0 +1,40 @@
+LSTM Model Evaluation Metrics for Green_bean - 20250826_144109
+============================================================
+
+Overall Metrics:
+--------------------
+Mean Absolute Error (MAE): 2.396351
+Mean Absolute Percentage Error (MAPE): 9.0160%
+Model Accuracy: 90.81%
+
+Monthly Evaluation:
+--------------------
+Month      Actual     Forecast   Error      Abs Error  % Error   
+Jan 2024   25.11      21.63      3.4763     3.4763     13.84     %
+Feb 2024   25.00      23.32      1.6809     1.6809     6.72      %
+Mar 2024   26.34      26.33      0.0121     0.0121     0.05      %
+Apr 2024   25.62      27.53      -1.9112    1.9112     7.46      %
+May 2024   25.00      27.55      -2.5497    2.5497     10.20     %
+Jun 2024   25.00      27.97      -2.9660    2.9660     11.86     %
+Jul 2024   25.00      28.08      -3.0755    3.0755     12.30     %
+Aug 2024   27.50      27.74      -0.2421    0.2421     0.88      %
+Sep 2024   31.00      26.59      4.4136     4.4136     14.24     %
+Oct 2024   30.00      24.44      5.5623     5.5623     18.54     %
+Nov 2024   24.00      22.30      1.6955     1.6955     7.06      %
+Dec 2024   23.28      22.11      1.1710     1.1710     5.03      %
+
+Area Under Curve Analysis:
+--------------------
+Total Absolute Error Area: 26.4326
+Under-prediction Area: 15.6881
+Over-prediction Area: 10.7445
+Net Error Area: 4.9436
+Average Monthly Absolute Error: 2.2027
+Number of Transition Points: 2
+
+Transition Points:
+--------------------
+Transition 1: Between Mar 2024 and Apr 2024 at position 2.01
+   Direction: Under to Over prediction
+Transition 2: Between Aug 2024 and Sep 2024 at position 7.05
+   Direction: Over to Under prediction

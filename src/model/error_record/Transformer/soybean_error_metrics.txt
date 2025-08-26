@@ -1,0 +1,40 @@
+Transformer Model Evaluation Metrics for Soybean - 20250826_140918
+============================================================
+
+Overall Metrics:
+--------------------
+Mean Absolute Error (MAE): 1.393110
+Mean Absolute Percentage Error (MAPE): 7.4508%
+Model Accuracy: 92.41%
+
+Monthly Evaluation:
+--------------------
+Month      Actual     Forecast   Error      Abs Error  % Error   
+Jan 2024   19.45      17.65      1.8012     1.8012     9.26      %
+Feb 2024   19.45      18.19      1.2592     1.2592     6.47      %
+Mar 2024   19.45      18.88      0.5697     0.5697     2.93      %
+Apr 2024   21.67      18.10      3.5736     3.5736     16.49     %
+May 2024   19.78      18.23      1.5472     1.5472     7.82      %
+Jun 2024   17.50      18.04      -0.5377    0.5377     3.07      %
+Jul 2024   17.38      16.61      0.7698     0.7698     4.43      %
+Aug 2024   17.25      15.88      1.3748     1.3748     7.97      %
+Sep 2024   17.13      15.96      1.1740     1.1740     6.85      %
+Oct 2024   17.00      15.88      1.1233     1.1233     6.61      %
+Nov 2024   17.00      16.04      0.9565     0.9565     5.63      %
+Dec 2024   17.10      15.07      2.0302     2.0302     11.87     %
+
+Area Under Curve Analysis:
+--------------------
+Total Absolute Error Area: 14.8016
+Under-prediction Area: 14.2639
+Over-prediction Area: 0.5377
+Net Error Area: 13.7261
+Average Monthly Absolute Error: 1.2335
+Number of Transition Points: 2
+
+Transition Points:
+--------------------
+Transition 1: Between May 2024 and Jun 2024 at position 4.74
+   Direction: Under to Over prediction
+Transition 2: Between Jun 2024 and Jul 2024 at position 5.41
+   Direction: Over to Under prediction

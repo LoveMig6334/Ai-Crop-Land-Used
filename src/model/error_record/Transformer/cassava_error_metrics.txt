@@ -1,0 +1,38 @@
+Transformer Model Evaluation Metrics for Cassava - 20250826_143636
+============================================================
+
+Overall Metrics:
+--------------------
+Mean Absolute Error (MAE): 0.165955
+Mean Absolute Percentage Error (MAPE): 5.5013%
+Model Accuracy: 94.59%
+
+Monthly Evaluation:
+--------------------
+Month      Actual     Forecast   Error      Abs Error  % Error   
+Jan 2024   3.65       3.50       0.1540     0.1540     4.22      %
+Feb 2024   3.65       3.31       0.3366     0.3366     9.22      %
+Mar 2024   3.57       3.21       0.3608     0.3608     10.11     %
+Apr 2024   3.24       3.14       0.0954     0.0954     2.94      %
+May 2024   3.19       3.08       0.1090     0.1090     3.42      %
+Jun 2024   3.09       3.01       0.0779     0.0779     2.52      %
+Jul 2024   3.06       2.95       0.1149     0.1149     3.75      %
+Aug 2024   2.95       2.88       0.0653     0.0653     2.21      %
+Sep 2024   2.86       2.83       0.0290     0.0290     1.02      %
+Oct 2024   2.65       2.78       -0.1324    0.1324     5.00      %
+Nov 2024   2.60       2.74       -0.1382    0.1382     5.31      %
+Dec 2024   2.32       2.70       -0.3779    0.3779     16.29     %
+
+Area Under Curve Analysis:
+--------------------
+Total Absolute Error Area: 1.7255
+Under-prediction Area: 1.2659
+Over-prediction Area: 0.4596
+Net Error Area: 0.8064
+Average Monthly Absolute Error: 0.1438
+Number of Transition Points: 1
+
+Transition Points:
+--------------------
+Transition 1: Between Sep 2024 and Oct 2024 at position 8.18
+   Direction: Under to Over prediction

@@ -1,0 +1,33 @@
+Transformer Model Evaluation Metrics for Corn - 20250826_142841
+============================================================
+
+Overall Metrics:
+--------------------
+Mean Absolute Error (MAE): 1.925681
+Mean Absolute Percentage Error (MAPE): 17.1398%
+Model Accuracy: 82.15%
+
+Monthly Evaluation:
+--------------------
+Month      Actual     Forecast   Error      Abs Error  % Error   
+Jan 2024   10.28      10.01      0.2677     0.2677     2.60      %
+Feb 2024   10.32      9.79       0.5306     0.5306     5.14      %
+Mar 2024   10.27      9.51       0.7576     0.7576     7.38      %
+Apr 2024   10.14      9.34       0.7970     0.7970     7.86      %
+May 2024   10.74      9.17       1.5671     1.5671     14.59     %
+Jun 2024   12.14      8.51       3.6278     3.6278     29.88     %
+Jul 2024   12.45      8.37       4.0803     4.0803     32.77     %
+Aug 2024   12.08      8.08       4.0012     4.0012     33.12     %
+Sep 2024   10.81      8.13       2.6835     2.6835     24.82     %
+Oct 2024   9.86       8.37       1.4946     1.4946     15.16     %
+Nov 2024   9.77       8.23       1.5406     1.5406     15.77     %
+Dec 2024   10.62      8.86       1.7602     1.7602     16.57     %
+
+Area Under Curve Analysis:
+--------------------
+Total Absolute Error Area: 22.0942
+Under-prediction Area: 22.0942
+Over-prediction Area: 0.0000
+Net Error Area: 22.0942
+Average Monthly Absolute Error: 1.8412
+Number of Transition Points: 0

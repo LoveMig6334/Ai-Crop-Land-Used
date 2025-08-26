@@ -1,0 +1,38 @@
+LSTM Model Evaluation Metrics for Soybean - 20250826_144722
+============================================================
+
+Overall Metrics:
+--------------------
+Mean Absolute Error (MAE): 1.796872
+Mean Absolute Percentage Error (MAPE): 9.5978%
+Model Accuracy: 90.21%
+
+Monthly Evaluation:
+--------------------
+Month      Actual     Forecast   Error      Abs Error  % Error   
+Jan 2024   19.45      16.10      3.3506     3.3506     17.23     %
+Feb 2024   19.45      16.88      2.5667     2.5667     13.20     %
+Mar 2024   19.45      17.54      1.9085     1.9085     9.81      %
+Apr 2024   21.67      18.21      3.4554     3.4554     15.95     %
+May 2024   19.78      18.57      1.2062     1.2062     6.10      %
+Jun 2024   17.50      18.40      -0.8994    0.8994     5.14      %
+Jul 2024   17.38      18.27      -0.8871    0.8871     5.10      %
+Aug 2024   17.25      18.51      -1.2620    1.2620     7.32      %
+Sep 2024   17.13      18.72      -1.5883    1.5883     9.27      %
+Oct 2024   17.00      18.67      -1.6664    1.6664     9.80      %
+Nov 2024   17.00      18.48      -1.4813    1.4813     8.71      %
+Dec 2024   17.10      18.39      -1.2906    1.2906     7.55      %
+
+Area Under Curve Analysis:
+--------------------
+Total Absolute Error Area: 19.2418
+Under-prediction Area: 10.8121
+Over-prediction Area: 8.4298
+Net Error Area: 2.3823
+Average Monthly Absolute Error: 1.6035
+Number of Transition Points: 1
+
+Transition Points:
+--------------------
+Transition 1: Between May 2024 and Jun 2024 at position 4.57
+   Direction: Under to Over prediction
