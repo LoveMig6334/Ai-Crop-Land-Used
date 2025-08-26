@@ -52,22 +52,53 @@ AI Crop Land-Used/
 │   │   ├── (1) LSTM Model.ipynb       # LSTM-based forecasting model notebook
 │   │   ├── (2) Transformer Model.ipynb # Transformer-based forecasting model notebook
 │   │   ├── (3) ARIMA Model.ipynb      # Statistical forecasting model notebook
+│   │   ├── Gantt chart.ipynb          # Crop planning and rotation visualization
 │   │   ├── Overlap_price.ipynb        # Price overlap analysis notebook
-│   │   ├── forecast_price/
-│   │   │   ├── cassava_forecast.txt   # Cassava price forecasts
-│   │   │   ├── corn_forecast.txt      # Corn price forecasts
-│   │   │   ├── green_bean_forecast.txt # Green bean price forecasts
-│   │   │   └── soybean_forecast.txt   # Soybean price forecasts
+│   │   ├── forecast_price/            # Model forecasts organized by model type
+│   │   │   ├── ARIMA/                 # ARIMA model forecasts
+│   │   │   ├── LSTM/                  # LSTM model forecasts
+│   │   │   │   ├── cassava_forecast.txt
+│   │   │   │   ├── corn_forecast.txt
+│   │   │   │   ├── green_bean_forecast.txt
+│   │   │   │   └── soybean_forecast.txt
+│   │   │   └── Transformer/           # Transformer model forecasts
+│   │   │       ├── cassava_forecast.txt
+│   │   │       ├── corn_forecast.txt
+│   │   │       ├── green_bean_forecast.txt
+│   │   │       └── soybean_forecast.txt
+│   │   ├── error_record/              # Error metrics organized by model type
+│   │   │   ├── ARIMA/                 # ARIMA model error metrics
+│   │   │   ├── LSTM/                  # LSTM model error metrics
+│   │   │   │   ├── cassava_error_metrics.txt
+│   │   │   │   ├── corn_error_metrics.txt
+│   │   │   │   ├── green_bean_error_metrics.txt
+│   │   │   │   └── soybean_error_metrics.txt
+│   │   │   └── Transformer/           # Transformer model error metrics
+│   │   │       ├── cassava_error_metrics.txt
+│   │   │       ├── corn_error_metrics.txt
+│   │   │       ├── green_bean_error_metrics.txt
+│   │   │       └── soybean_error_metrics.txt
 │   │   ├── image/
-│   │   │   ├── cassava_prices_forecast.png # Cassava forecast visualization
-│   │   │   ├── corn_prices_forecast.png    # Corn forecast visualization
-│   │   │   ├── green_bean.png         # Green bean forecast visualization
-│   │   │   ├── soy_bean.png           # Soybean forecast visualization
-│   │   │   ├── error/                 # Model error visualizations
-│   │   │   │   ├── cassava_error.png
-│   │   │   │   ├── corn_error.png
-│   │   │   │   ├── green_bean_error.png
-│   │   │   │   └── soy_bean_error.png
+│   │   │   ├── error/                 # Error visualizations by model type
+│   │   │   │   ├── ARIMA/
+│   │   │   │   ├── LSTM/
+│   │   │   │   │   ├── cassava_error.png
+│   │   │   │   │   ├── corn_error.png
+│   │   │   │   │   ├── green_bean_error.png
+│   │   │   │   │   └── soy_bean_error.png
+│   │   │   │   └── Transformer/
+│   │   │   │       ├── cassava_error.png
+│   │   │   │       ├── corn_error.png
+│   │   │   │       ├── green_bean_error.png
+│   │   │   │       └── soy_bean_error.png
+│   │   │   ├── forecast/              # Forecast visualizations by model type
+│   │   │   │   ├── ARIMA/
+│   │   │   │   ├── LSTM/
+│   │   │   │   │   └── cassava_prices_forecast.png
+│   │   │   │   └── Transformer/
+│   │   │   ├── gantt chart/           # Gantt chart visualizations
+│   │   │   │   ├── optimal.png        # Optimal crop rotation visualization
+│   │   │   │   └── optimize.png       # Optimized crop rotation visualization
 │   │   │   └── overlap/
 │   │   │       └── output.png         # Price overlap visualization
 │   │   ├── income_per_rai/
@@ -98,6 +129,8 @@ AI Crop Land-Used/
 - **Interactive Application**: Web-based interface for price analysis and forecasting
 - **Price Balancing**: Algorithms for calculating balanced crop prices
 - **Structured Logging**: Comprehensive logging system for debugging and monitoring
+- **Gantt Chart Analysis**: Visualize optimal crop planting and harvesting schedules
+- **Crop Rotation Optimization**: Optimize crop rotation patterns for maximum yield and profit
 
 ## 📊 Data Description
 
@@ -163,7 +196,7 @@ The project works with Thai agricultural price data:
 2. **Run the forecasting model**:
    - Execute all cells in the notebook
    - The model will train on historical data and generate predictions
-   - Results will be saved as visualizations and text files in the `forecast_price` directory
+   - Results will be saved as visualizations and text files in the `forecast_price` directory organized by model type
 
 3. **Compare model results**:
    ```bash
@@ -171,6 +204,14 @@ The project works with Thai agricultural price data:
    ```
    - View overlapping predictions from different models
    - Results will be saved in the `image/overlap` directory
+
+4. **Analyze crop planting schedules**:
+   ```bash
+   jupyter notebook "src/model/Gantt chart.ipynb"
+   ```
+   - Visualize optimal planting and harvesting schedules
+   - Compare optimized vs. non-optimized crop rotation patterns
+   - Results will be saved in the `image/gantt chart` directory
 
 ### Income Analysis
 
@@ -277,6 +318,12 @@ The project implements three forecasting approaches:
 - Visualizes prediction differences
 - Helps identify the most reliable forecasting approach for each crop
 
+**Gantt Chart Analysis:**
+- Visualizes crop planting and harvesting schedules
+- Optimizes crop rotation patterns for maximum yield
+- Identifies optimal timing for agricultural activities
+- Shows both optimized and non-optimized schedules for comparison
+
 ## 📈 Results
 
 The models generate:
@@ -346,4 +393,4 @@ For questions or collaboration opportunities, please open an issue or contact th
 
 *Built with ❤️ for sustainable agriculture and data-driven farming decisions*
 
-*Last updated: August 17, 2025*
+*Last updated: August 26, 2025*
