@@ -291,13 +291,17 @@ The models generate:
 **Sample Visualizations:**
 
 **Cassava Price Forecast:**
-![Cassava Forecast](src/model/image/cassava_prices_forecast.png)
+![Cassava Forecast](src/model/image/forecast/LSTM/cassava_prices_forecast.png)
 
 **Error Analysis:**
-![Error Analysis](src/model/image/error/cassava_error.png)
+![Error Analysis](src/model/image/error/Transformer/soy_bean_error.png)
 
 **Model Comparison:**
 ![Model Comparison](src/model/image/overlap/output.png)
+
+**Gantt Chart with non-optimized and optimized**
+![Gantt Chart Optimal](src/model/image/gantt%20chart/optimal.png)
+![Gantt Chart Optimized](src/model/image/gantt%20chart/optimize.png)
 
 The output data files in `forecast_price/` contain detailed numerical predictions that can be used for further analysis or integrated into agricultural planning systems.
 
