@@ -93,6 +93,10 @@ AI Crop Land-Used/
 │   │   ├── image/
 │   │   │   ├── error/                 # Error visualizations by model type
 │   │   │   │   ├── ARIMA/
+│   │   │   │   │   ├── cassava_error.png
+│   │   │   │   │   ├── corn_error.png
+│   │   │   │   │   ├── green_bean_error.png
+│   │   │   │   │   └── soy_bean_error.png
 │   │   │   │   ├── LSTM/
 │   │   │   │   │   ├── cassava_error.png
 │   │   │   │   │   ├── corn_error.png
@@ -105,9 +109,20 @@ AI Crop Land-Used/
 │   │   │   │       └── soy_bean_error.png
 │   │   │   ├── forecast/              # Forecast visualizations by model type
 │   │   │   │   ├── ARIMA/
+│   │   │   │   │   ├── cassava.png
+│   │   │   │   │   ├── corn.png
+│   │   │   │   │   ├── green_bean.png
+│   │   │   │   │   └── soy_bean.png
 │   │   │   │   ├── LSTM/
-│   │   │   │   │   └── cassava.png    # Cassava forecast visualization
+│   │   │   │   │   ├── cassava.png
+│   │   │   │   │   ├── corn.png
+│   │   │   │   │   ├── green_bean.png
+│   │   │   │   │   └── soy_bean.png
 │   │   │   │   └── Transformer/
+│   │   │   │       ├── cassava.png
+│   │   │   │       ├── corn.png
+│   │   │   │       ├── green_bean.png
+│   │   │   │       └── soy_bean.png
 │   │   │   ├── gantt chart/           # Gantt chart visualizations
 │   │   │   │   ├── optimal.png        # Optimal crop rotation visualization
 │   │   │   │   └── optimize.png       # Optimized crop rotation visualization
