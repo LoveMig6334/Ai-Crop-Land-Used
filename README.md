@@ -338,7 +338,7 @@ The models generate:
 **Sample Visualizations:**
 
 **Cassava Price Forecast:**
-![Cassava Forecast](src/model/image/forecast/LSTM/cassava_prices_forecast.png)
+![Cassava Forecast](src/model/image/forecast/LSTM/cassava.png)
 
 **Error Analysis:**
 ![Error Analysis](src/model/image/error/Transformer/soy_bean_error.png)
