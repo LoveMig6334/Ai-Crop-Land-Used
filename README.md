@@ -17,11 +17,11 @@ This project aims to:
 ```
 AI Crop Land-Used/
 ├── GIL-TEST.py                     # Python GIL status testing utility
-├── README.md
-├── requirements.txt
+├── README.md                       # Project documentation
+├── requirements.txt                # Python dependencies
 ├── data/
 │   ├── crops_info/
-│   │   └── data.txt                   # Information about crops
+│   │   └── crops_info_data.txt        # Information about crops
 │   ├── data_processed/
 │   │   ├── cassava/
 │   │   │   ├── price_avg.csv          # Processed cassava price data
@@ -37,14 +37,18 @@ AI Crop Land-Used/
 │       ├── cassava/
 │       │   ├── price_avg.xls          # Raw cassava price data (Excel)
 │       │   └── price_min-max.xls      # Cassava min-max price data (Excel)
-│       └── corn/
-│           ├── price_avg.xls          # Raw corn price data (Excel)
-│           └── price_min-max.xls      # Corn min-max price data (Excel)
+│       ├── corn/
+│       │   ├── price_avg.xls          # Raw corn price data (Excel)
+│       │   └── price_min-max.xls      # Corn min-max price data (Excel)
+│       ├── green_bean/
+│       │   └── price_avg.csv          # Raw green beans price data (CSV)
+│       └── soybean/
+│           └── price_avg.csv          # Raw soybean price data (CSV)
 ├── logs/                            # Application logs directory
-├── src/
+├── src/                             # Source code directory
 │   ├── app.py                         # Main web application module
 │   ├── app_cli.py                     # Command-line interface application
-│   ├── data preparation/
+│   ├── data preparation/              # Data preprocessing modules
 │   │   ├── data_cleanup.py            # Data cleaning utilities
 │   │   ├── data_plot.py               # Data visualization tools
 │   │   └── raw_data_path.py           # Raw data path utilities
@@ -54,20 +58,12 @@ AI Crop Land-Used/
 │   │   ├── (3) ARIMA Model.ipynb      # Statistical forecasting model notebook
 │   │   ├── Gantt chart.ipynb          # Crop planning and rotation visualization
 │   │   ├── Overlap_price.ipynb        # Price overlap analysis notebook
-│   │   ├── forecast_price/            # Model forecasts organized by model type
-│   │   │   ├── ARIMA/                 # ARIMA model forecasts
-│   │   │   ├── LSTM/                  # LSTM model forecasts
-│   │   │   │   ├── cassava_forecast.txt
-│   │   │   │   ├── corn_forecast.txt
-│   │   │   │   ├── green_bean_forecast.txt
-│   │   │   │   └── soybean_forecast.txt
-│   │   │   └── Transformer/           # Transformer model forecasts
-│   │   │       ├── cassava_forecast.txt
-│   │   │       ├── corn_forecast.txt
-│   │   │       ├── green_bean_forecast.txt
-│   │   │       └── soybean_forecast.txt
 │   │   ├── error_record/              # Error metrics organized by model type
 │   │   │   ├── ARIMA/                 # ARIMA model error metrics
+│   │   │   │   ├── cassava_error_metrics.txt
+│   │   │   │   ├── corn_error_metrics.txt
+│   │   │   │   ├── green_bean_error_metrics.txt
+│   │   │   │   └── soybean_error_metrics.txt
 │   │   │   ├── LSTM/                  # LSTM model error metrics
 │   │   │   │   ├── cassava_error_metrics.txt
 │   │   │   │   ├── corn_error_metrics.txt
@@ -78,6 +74,22 @@ AI Crop Land-Used/
 │   │   │       ├── corn_error_metrics.txt
 │   │   │       ├── green_bean_error_metrics.txt
 │   │   │       └── soybean_error_metrics.txt
+│   │   ├── forecast_price/            # Model forecasts organized by model type
+│   │   │   ├── ARIMA/                 # ARIMA model forecasts
+│   │   │   │   ├── cassava_forecast.txt
+│   │   │   │   ├── corn_forecast.txt
+│   │   │   │   ├── green_bean_forecast.txt
+│   │   │   │   └── soybean_forecast.txt
+│   │   │   ├── LSTM/                  # LSTM model forecasts
+│   │   │   │   ├── cassava_forecast.txt
+│   │   │   │   ├── corn_forecast.txt
+│   │   │   │   ├── green_bean_forecast.txt
+│   │   │   │   └── soybean_forecast.txt
+│   │   │   └── Transformer/           # Transformer model forecasts
+│   │   │       ├── cassava_forecast.txt
+│   │   │       ├── corn_forecast.txt
+│   │   │       ├── green_bean_forecast.txt
+│   │   │       └── soybean_forecast.txt
 │   │   ├── image/
 │   │   │   ├── error/                 # Error visualizations by model type
 │   │   │   │   ├── ARIMA/
@@ -94,25 +106,24 @@ AI Crop Land-Used/
 │   │   │   ├── forecast/              # Forecast visualizations by model type
 │   │   │   │   ├── ARIMA/
 │   │   │   │   ├── LSTM/
-│   │   │   │   │   └── cassava_prices_forecast.png
+│   │   │   │   │   └── cassava.png    # Cassava forecast visualization
 │   │   │   │   └── Transformer/
 │   │   │   ├── gantt chart/           # Gantt chart visualizations
 │   │   │   │   ├── optimal.png        # Optimal crop rotation visualization
 │   │   │   │   └── optimize.png       # Optimized crop rotation visualization
 │   │   │   └── overlap/
 │   │   │       └── output.png         # Price overlap visualization
-│   │   ├── income_per_rai/
-│   │   │   ├── cassava_income.txt     # Cassava income calculations
-│   │   │   └── income_plot.ipynb      # Income visualization notebook
-│   │   └── util/
+│   │   └── util/                      # Model utility modules
 │   │       ├── __init__.py
 │   │       ├── data_path.py           # Data path utilities
 │   │       ├── lstm_cust_class.py     # Custom LSTM model class
 │   │       ├── parse_loc.py           # Location parsing utilities
-│   │       └── transformer_cust_class.py # Custom Transformer model class
+│   │       ├── transformer_cust_class.py # Custom Transformer model class
+│   │       └── __pycache__/           # Python cache files
 │   └── utils/
 │       ├── balance_price_calculation.py # Price balancing algorithms
-│       └── logger.py                  # Logging utilities
+│       ├── logger.py                  # Logging utilities
+│       └── __pycache__/               # Python cache files
 ```
 
 ## 🚀 Features
@@ -155,14 +166,27 @@ The project works with Thai agricultural price data:
    python -m venv .venv
    ```
 
+   Alternative using Conda:
+   ```bash
+   conda create -n crop-forecasting python=3.12
+   ```
+
 3. **Activate the environment**:
-   - Windows:
+   - Windows PowerShell:
    ```powershell
    .venv\Scripts\activate
+   ```
+   - Windows Command Prompt:
+   ```cmd
+   .venv\Scripts\activate.bat
    ```
    - Linux/Mac:
    ```bash
    source .venv/bin/activate
+   ```
+   - Conda (all platforms):
+   ```bash
+   conda activate crop-forecasting
    ```
 
 4. **Install dependencies**:
@@ -175,7 +199,12 @@ The project works with Thai agricultural price data:
    python -c "import torch; print(torch.__version__)"
    ```
 
-6. **Check GIL and Python status** (Optional):
+6. **Verify GPU support** (Optional):
+   ```bash
+   python -c "import torch; print('GPU Available:', torch.cuda.is_available()); print('GPU Device:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'None')"
+   ```
+
+7. **Check GIL and Python status** (Optional):
    ```bash
    python GIL-TEST.py
    ```
@@ -389,8 +418,35 @@ year,1,2,3,4,5,6,7,8,9,10,11,12
 
 For questions or collaboration opportunities, please open an issue or contact the project maintainers.
 
+## 🤝 Contributing
+
+Contributions to improve the project are welcome! Here's how you can contribute:
+
+1. **Fork the repository**
+2. **Create a feature branch**:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3. **Commit your changes**:
+   ```bash
+   git commit -m "Add feature: description of your changes"
+   ```
+4. **Push to your branch**:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+5. **Create a Pull Request**
+
+### Areas for Contribution
+- Additional crop price datasets
+- Improved model architectures
+- Enhanced visualization tools
+- Web interface improvements
+- Documentation translation
+- Testing and bug fixes
+
 ---
 
 *Built with ❤️ for sustainable agriculture and data-driven farming decisions*
 
-*Last updated: August 26, 2025*
+*Last updated: August 27, 2025*
