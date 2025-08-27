@@ -1,4 +1,4 @@
-ARIMA Forecast Results for Green_bean Prices (2024) 20250827_210155
+ARIMA Forecast Results for Green_bean Prices (2024) 20250827_212903
 ==================================================
 
 Forecast Data:
