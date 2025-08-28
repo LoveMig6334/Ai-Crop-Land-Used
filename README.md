@@ -16,9 +16,9 @@ This project aims to:
 
 ```
 AI Crop Land-Used/
-├── GIL-TEST.py                     # Python GIL status testing utility
-├── README.md                       # Project documentation
-├── requirements.txt                # Python dependencies
+├── GIL-TEST.py                        # Python GIL status testing utility
+├── README.md                          # Project documentation
+├── requirements.txt                   # Python dependencies
 ├── data/
 │   ├── crops_info/
 │   │   └── crops_info_data.txt        # Information about crops
@@ -44,8 +44,8 @@ AI Crop Land-Used/
 │       │   └── price_avg.csv          # Raw green beans price data (CSV)
 │       └── soybean/
 │           └── price_avg.csv          # Raw soybean price data (CSV)
-├── logs/                            # Application logs directory
-├── src/                             # Source code directory
+├── logs/                              # Application logs directory
+├── src/                               # Source code directory
 │   ├── app.py                         # Main web application module
 │   ├── app_cli.py                     # Command-line interface application
 │   ├── data preparation/              # Data preprocessing modules
