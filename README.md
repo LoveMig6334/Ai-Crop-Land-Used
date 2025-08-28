@@ -381,6 +381,9 @@ The models generate:
 
 **Sample Visualizations:**
 
+**Trend Graph Comparison:**
+![Model Comparison](src/model/image/analytical/20%20year%20trends.png)
+
 **Cassava Price Forecast:**
 ![Cassava Forecast](src/model/image/forecast/LSTM/cassava.png)
 
@@ -388,7 +391,7 @@ The models generate:
 ![Error Analysis](src/model/image/error/Transformer/soy_bean_error.png)
 
 **Model Comparison:**
-![Model Comparison](src/model/image/overlap/output.png)
+![Model Comparison](src\model\image\analytical\overlap.png)
 
 **Gantt Chart with non-optimized and optimized**
 ![Gantt Chart Optimal](src/model/image/gantt%20chart/optimal.png)
