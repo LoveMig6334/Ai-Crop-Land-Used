@@ -384,6 +384,15 @@ The models generate:
 **Trend Graph Comparison:**
 ![Model Comparison](src/model/image/analytical/20%20year%20trends.png)
 
+**5 Years Avg Trend Graph Comparison:**
+![Model Comparison](src/model/image/analytical/5%20year%20group%20trends.png)
+
+**5 Years Shifted Avg Trend Graph Comparison:**
+![Model Comparison](src/model/image/analytical/5%20year%20group-shifted%20trends.png)
+
+**5 Years Shifted Avg Trend GIF Comparison:**
+![Model Comparison](src/model/image/transitions/all_crops_transition.gif)
+
 **Cassava Price Forecast:**
 ![Cassava Forecast](src/model/image/forecast/LSTM/cassava.png)
 
