@@ -1,0 +1,68 @@
+LSTM Model Evaluation Metrics for Cassava - 20250829_235137
+============================================================
+
+Model Configuration:
+--------------------
+Training Period: 2004-2018
+Prediction Period: 2019
+Comparison Period: 2019-2024 (5-Year Average)
+
+2019 Metrics:
+--------------------
+Mean Absolute Error (MAE): 0.236743
+Mean Absolute Percentage Error (MAPE): 10.4051%
+Model Accuracy: 89.71%
+
+5-Year Average (2019-2024) Metrics:
+--------------------
+Mean Absolute Error (MAE): 0.183535
+Mean Absolute Percentage Error (MAPE): 6.7525%
+Model Accuracy: 93.26%
+
+Monthly Evaluation (2019):
+--------------------
+Month      Actual     Forecast   Error      Abs Error  % Error   
+Jan 2019   2.53       2.56       -0.0332    0.0332     1.31      %
+Feb 2019   2.42       2.64       -0.2159    0.2159     8.92      %
+Mar 2019   2.40       2.67       -0.2701    0.2701     11.25     %
+Apr 2019   2.39       2.63       -0.2441    0.2441     10.21     %
+May 2019   2.29       2.59       -0.3022    0.3022     13.20     %
+Jun 2019   2.20       2.52       -0.3162    0.3162     14.37     %
+Jul 2019   2.20       2.49       -0.2934    0.2934     13.34     %
+Aug 2019   2.20       2.48       -0.2791    0.2791     12.69     %
+Sep 2019   2.20       2.48       -0.2825    0.2825     12.84     %
+Oct 2019   2.24       2.47       -0.2329    0.2329     10.40     %
+Nov 2019   2.29       2.46       -0.1743    0.1743     7.61      %
+Dec 2019   2.26       2.46       -0.1972    0.1972     8.72      %
+
+Monthly Evaluation (5-Year Average):
+--------------------
+Month      5-Yr Avg   Forecast   Error      Abs Error  % Error   
+Jan        2.70       2.56       0.1401     0.1401     5.18      %
+Feb        2.72       2.64       0.0841     0.0841     3.09      %
+Mar        2.75       2.67       0.0833     0.0833     3.02      %
+Apr        2.77       2.63       0.1376     0.1376     4.96      %
+May        2.77       2.59       0.1828     0.1828     6.59      %
+Jun        2.73       2.52       0.2088     0.2088     7.66      %
+Jul        2.70       2.49       0.2099     0.2099     7.77      %
+Aug        2.70       2.48       0.2209     0.2209     8.18      %
+Sep        2.71       2.48       0.2325     0.2325     8.56      %
+Oct        2.69       2.47       0.2171     0.2171     8.07      %
+Nov        2.73       2.46       0.2674     0.2674     9.79      %
+Dec        2.68       2.46       0.2178     0.2178     8.14      %
+
+Area Under Curve Analysis (2019):
+--------------------
+Total Absolute Error Area: 2.7257
+Under-prediction Area: 0.0000
+Over-prediction Area: 2.7257
+Net Error Area: -2.7257
+Average Monthly Absolute Error: 0.2271
+
+Area Under Curve Analysis (5-Year Average):
+--------------------
+Total Absolute Error Area: 2.0234
+Under-prediction Area: 2.0234
+Over-prediction Area: 0.0000
+Net Error Area: 2.0234
+Average Monthly Absolute Error: 0.1686

@@ -1,0 +1,67 @@
+LSTM Forecast Results for Corn Prices (2019) 20250829_234425
+============================================================
+
+Model Configuration:
+--------------------
+Training Period: 2004-2018
+Prediction Period: 2019
+Comparison Period: 2019-2024 (5-Year Average)
+
+2019 Forecast Data:
+--------------------
+2019-01-01: 9.95
+2019-02-01: 10.06
+2019-03-01: 10.18
+2019-04-01: 10.23
+2019-05-01: 10.25
+2019-06-01: 10.29
+2019-07-01: 10.32
+2019-08-01: 10.35
+2019-09-01: 10.36
+2019-10-01: 10.38
+2019-11-01: 10.39
+2019-12-01: 10.40
+
+Comparison with 2019 Actual:
+--------------------
+Month      Forecast   Actual     Error     
+Jan        9.95       9.89       -0.06     
+Feb        10.06      9.49       -0.57     
+Mar        10.18      9.09       -1.09     
+Apr        10.23      8.92       -1.31     
+May        10.25      8.80       -1.45     
+Jun        10.29      8.99       -1.30     
+Jul        10.32      8.96       -1.36     
+Aug        10.35      9.11       -1.24     
+Sep        10.36      9.01       -1.35     
+Oct        10.38      8.83       -1.55     
+Nov        10.39      8.96       -1.43     
+Dec        10.40      8.70       -1.70     
+
+Comparison with 5-Year Average (2019-2024):
+--------------------
+Month      Forecast   5-Yr Avg   Error     
+Jan        9.95       10.33      0.37      
+Feb        10.06      10.37      0.31      
+Mar        10.18      10.40      0.21      
+Apr        10.23      10.45      0.22      
+May        10.25      10.58      0.33      
+Jun        10.29      10.94      0.64      
+Jul        10.32      10.74      0.42      
+Aug        10.35      10.66      0.32      
+Sep        10.36      10.51      0.14      
+Oct        10.38      10.26      -0.12     
+Nov        10.39      10.09      -0.30     
+Dec        10.40      10.34      -0.06     
+
+Overall Statistics (2019):
+--------------------
+Mean Absolute Error: 1.2013
+Mean Absolute Percentage Error: 13.4262%
+Model Accuracy: 86.74%
+
+Overall Statistics (5-Year Average):
+--------------------
+Mean Absolute Error: 0.2874
+Mean Absolute Percentage Error: 2.7266%
+Model Accuracy: 97.26%
