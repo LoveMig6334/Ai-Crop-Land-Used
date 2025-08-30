@@ -1,0 +1,67 @@
+LSTM Forecast Results for Soybean Prices (2019) 20250829_235339
+============================================================
+
+Model Configuration:
+--------------------
+Training Period: 2004-2018
+Prediction Period: 2019
+Comparison Period: 2019-2024 (5-Year Average)
+
+2019 Forecast Data:
+--------------------
+2019-01-01: 18.92
+2019-02-01: 18.92
+2019-03-01: 19.25
+2019-04-01: 19.18
+2019-05-01: 18.93
+2019-06-01: 18.66
+2019-07-01: 18.40
+2019-08-01: 18.18
+2019-09-01: 18.03
+2019-10-01: 17.93
+2019-11-01: 17.88
+2019-12-01: 17.87
+
+Comparison with 2019 Actual:
+--------------------
+Month      Forecast   Actual     Error     
+Jan        18.92      16.16      -2.76     
+Feb        18.92      16.96      -1.96     
+Mar        19.25      15.89      -3.36     
+Apr        19.18      17.44      -1.74     
+May        18.93      16.53      -2.40     
+Jun        18.66      15.62      -3.04     
+Jul        18.40      14.71      -3.69     
+Aug        18.18      13.80      -4.38     
+Sep        18.03      13.80      -4.23     
+Oct        17.93      14.30      -3.63     
+Nov        17.88      15.20      -2.68     
+Dec        17.87      17.35      -0.52     
+
+Comparison with 5-Year Average (2019-2024):
+--------------------
+Month      Forecast   5-Yr Avg   Error     
+Jan        18.92      18.94      0.02      
+Feb        18.92      19.20      0.28      
+Mar        19.25      19.19      -0.06     
+Apr        19.18      18.92      -0.26     
+May        18.93      19.05      0.11      
+Jun        18.66      18.31      -0.35     
+Jul        18.40      17.93      -0.46     
+Aug        18.18      17.97      -0.21     
+Sep        18.03      17.73      -0.30     
+Oct        17.93      17.46      -0.47     
+Nov        17.88      16.69      -1.19     
+Dec        17.87      17.51      -0.35     
+
+Overall Statistics (2019):
+--------------------
+Mean Absolute Error: 2.8655
+Mean Absolute Percentage Error: 18.9336%
+Model Accuracy: 81.69%
+
+Overall Statistics (5-Year Average):
+--------------------
+Mean Absolute Error: 0.3382
+Mean Absolute Percentage Error: 1.9152%
+Model Accuracy: 98.15%
