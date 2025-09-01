@@ -62,21 +62,9 @@ AI Crop Land-Used/
 │   ├── error_record/                  # Error metrics organized by model type
 │   │   ├── (5)-ARIMA/                 # 5-Year ARIMA model error metrics
 │   │   ├── (5)-LSTM/                  # 5-Year LSTM model error metrics
-│   │   │   ├── cassava_error_metrics.txt
-│   │   │   ├── corn_error_metrics.txt
-│   │   │   ├── green_bean_error_metrics.txt
-│   │   │   └── soybean_error_metrics.txt
 │   │   ├── (5)-Transformer/           # 5-Year Transformer model error metrics
 │   │   ├── ARIMA/                     # ARIMA model error metrics
-│   │   │   ├── cassava_error_metrics.txt
-│   │   │   ├── corn_error_metrics.txt
-│   │   │   ├── green_bean_error_metrics.txt
-│   │   │   └── soybean_error_metrics.txt
 │   │   ├── LSTM/                      # LSTM model error metrics
-│   │   │   ├── cassava_error_metrics.txt
-│   │   │   ├── corn_error_metrics.txt
-│   │   │   ├── green_bean_error_metrics.txt
-│   │   │   └── soybean_error_metrics.txt
 │   │   └── Transformer/               # Transformer model error metrics
 │   │       ├── cassava_error_metrics.txt
 │   │       ├── corn_error_metrics.txt
@@ -85,21 +73,9 @@ AI Crop Land-Used/
 │   ├── forecast_price/                # Model forecasts organized by model type
 │   │   ├── (5)-ARIMA/                 # 5-Year ARIMA model forecasts
 │   │   ├── (5)-LSTM/                  # 5-Year LSTM model forecasts
-│   │   │   ├── cassava_forecast.txt
-│   │   │   ├── corn_forecast.txt
-│   │   │   ├── green_bean_forecast.txt
-│   │   │   └── soybean_forecast.txt
 │   │   ├── (5)-Transformer/           # 5-Year Transformer model forecasts
 │   │   ├── ARIMA/                     # ARIMA model forecasts
-│   │   │   ├── cassava_forecast.txt
-│   │   │   ├── corn_forecast.txt
-│   │   │   ├── green_bean_forecast.txt
-│   │   │   └── soybean_forecast.txt
 │   │   ├── LSTM/                      # LSTM model forecasts
-│   │   │   ├── cassava_forecast.txt
-│   │   │   ├── corn_forecast.txt
-│   │   │   ├── green_bean_forecast.txt
-│   │   │   └── soybean_forecast.txt
 │   │   └── Transformer/               # Transformer model forecasts
 │   │       ├── cassava_forecast.txt
 │   │       ├── corn_forecast.txt
@@ -114,12 +90,10 @@ AI Crop Land-Used/
 │   ├── model/                         # Model-specific notebooks
 │   │   └── (0) 5-Year NRP LSTM.ipynb  # Neural Radiance Field LSTM model
 │   └── util/                          # Utility modules
-│       ├── __init__.py
 │       ├── data_path.py               # Data path utilities
 │       ├── lstm_cust_class.py         # Custom LSTM model class
 │       ├── parse_loc.py               # Location parsing utilities
 │       ├── transformer_cust_class.py  # Custom Transformer model class
-│       └── __pycache__/               # Python cache files
 ```
 
 ## 🚀 Features
