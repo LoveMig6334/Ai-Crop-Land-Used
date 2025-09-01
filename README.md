@@ -382,29 +382,29 @@ The models generate:
 **Sample Visualizations:**
 
 **Trend Graph Comparison:**
-![Model Comparison](src/model/image/analytical/20%20year%20trends.png)
+![Model Comparison](src/image/analytical/20%20year%20trends.png)
 
 **5 Years Avg Trend Graph Comparison:**
-![Model Comparison](src/model/image/analytical/5%20year%20group%20trends.png)
+![Model Comparison](src/image/analytical/5%20year%20group%20trends.png)
 
 **5 Years Shifted Avg Trend Graph Comparison:**
-![Model Comparison](src/model/image/analytical/5%20year%20group-shifted%20trends.png)
+![Model Comparison](src/image/analytical/5%20year%20group-shifted%20trends.png)
 
 **5 Years Shifted Avg Trend GIF Comparison:**
-![Model Comparison](src/model/image/transitions/all_crops_transition.gif)
+![Model Comparison](src/image/transitions/all_crops_transition.gif)
 
 **Cassava Price Forecast:**
-![Cassava Forecast](src/model/image/forecast/LSTM/cassava.png)
+![Cassava Forecast](src/image/forecast/LSTM/cassava.png)
 
 **Error Analysis:**
-![Error Analysis](src/model/image/error/Transformer/soy_bean_error.png)
+![Error Analysis](src/image/error/Transformer/soy_bean_error.png)
 
 **Model Comparison:**
 ![Model Comparison](src\model\image\analytical\overlap.png)
 
 **Gantt Chart with non-optimized and optimized**
-![Gantt Chart Optimal](src/model/image/gantt%20chart/optimal.png)
-![Gantt Chart Optimized](src/model/image/gantt%20chart/optimize.png)
+![Gantt Chart Optimal](src/image/gantt%20chart/optimal.png)
+![Gantt Chart Optimized](src/image/gantt%20chart/optimize.png)
 
 The output data files in `forecast_price/` contain detailed numerical predictions that can be used for further analysis or integrated into agricultural planning systems.
 
