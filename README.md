@@ -44,100 +44,81 @@ AI Crop Land-Used/
 │       │   └── price_avg.csv          # Raw green beans price data (CSV)
 │       └── soybean/
 │           └── price_avg.csv          # Raw soybean price data (CSV)
-├── logs/                              # Application logs directory
-├── src/                               # Source code directory
-│   ├── app.py                         # Main web application module
-│   ├── app_cli.py                     # Command-line interface application
+├── src/
+│   ├── (1) 5-Year ARIMA.ipynb         # 5-Year forecast using ARIMA model
+│   ├── (1) 5-Year LSTM.ipynb          # 5-Year forecast using LSTM model
+│   ├── (1) 5-Year Transformer.ipynb   # 5-Year forecast using Transformer model
+│   ├── (2) ARIMA Model.ipynb          # ARIMA-based forecasting model notebook
+│   ├── (2) LSTM Model.ipynb           # LSTM-based forecasting model notebook
+│   ├── (2) Transformer Model.ipynb    # Transformer-based forecasting model notebook
+│   ├── Data Analytical.ipynb          # Data analysis and visualization notebook
+│   ├── Error Analytical.ipynb         # Error analysis and evaluation notebook
+│   ├── Gantt chart.ipynb              # Crop planning and rotation visualization
+│   ├── Overlap_price.ipynb            # Price overlap analysis notebook
 │   ├── data preparation/              # Data preprocessing modules
 │   │   ├── data_cleanup.py            # Data cleaning utilities
 │   │   ├── data_plot.py               # Data visualization tools
 │   │   └── raw_data_path.py           # Raw data path utilities
-│   ├── model/
-│   │   ├── (1) LSTM Model.ipynb       # LSTM-based forecasting model notebook
-│   │   ├── (2) Transformer Model.ipynb # Transformer-based forecasting model notebook
-│   │   ├── (3) ARIMA Model.ipynb      # Statistical forecasting model notebook
-│   │   ├── Gantt chart.ipynb          # Crop planning and rotation visualization
-│   │   ├── Overlap_price.ipynb        # Price overlap analysis notebook
-│   │   ├── error_record/              # Error metrics organized by model type
-│   │   │   ├── ARIMA/                 # ARIMA model error metrics
-│   │   │   │   ├── cassava_error_metrics.txt
-│   │   │   │   ├── corn_error_metrics.txt
-│   │   │   │   ├── green_bean_error_metrics.txt
-│   │   │   │   └── soybean_error_metrics.txt
-│   │   │   ├── LSTM/                  # LSTM model error metrics
-│   │   │   │   ├── cassava_error_metrics.txt
-│   │   │   │   ├── corn_error_metrics.txt
-│   │   │   │   ├── green_bean_error_metrics.txt
-│   │   │   │   └── soybean_error_metrics.txt
-│   │   │   └── Transformer/           # Transformer model error metrics
-│   │   │       ├── cassava_error_metrics.txt
-│   │   │       ├── corn_error_metrics.txt
-│   │   │       ├── green_bean_error_metrics.txt
-│   │   │       └── soybean_error_metrics.txt
-│   │   ├── forecast_price/            # Model forecasts organized by model type
-│   │   │   ├── ARIMA/                 # ARIMA model forecasts
-│   │   │   │   ├── cassava_forecast.txt
-│   │   │   │   ├── corn_forecast.txt
-│   │   │   │   ├── green_bean_forecast.txt
-│   │   │   │   └── soybean_forecast.txt
-│   │   │   ├── LSTM/                  # LSTM model forecasts
-│   │   │   │   ├── cassava_forecast.txt
-│   │   │   │   ├── corn_forecast.txt
-│   │   │   │   ├── green_bean_forecast.txt
-│   │   │   │   └── soybean_forecast.txt
-│   │   │   └── Transformer/           # Transformer model forecasts
-│   │   │       ├── cassava_forecast.txt
-│   │   │       ├── corn_forecast.txt
-│   │   │       ├── green_bean_forecast.txt
-│   │   │       └── soybean_forecast.txt
-│   │   ├── image/
-│   │   │   ├── error/                 # Error visualizations by model type
-│   │   │   │   ├── ARIMA/
-│   │   │   │   │   ├── cassava_error.png
-│   │   │   │   │   ├── corn_error.png
-│   │   │   │   │   ├── green_bean_error.png
-│   │   │   │   │   └── soy_bean_error.png
-│   │   │   │   ├── LSTM/
-│   │   │   │   │   ├── cassava_error.png
-│   │   │   │   │   ├── corn_error.png
-│   │   │   │   │   ├── green_bean_error.png
-│   │   │   │   │   └── soy_bean_error.png
-│   │   │   │   └── Transformer/
-│   │   │   │       ├── cassava_error.png
-│   │   │   │       ├── corn_error.png
-│   │   │   │       ├── green_bean_error.png
-│   │   │   │       └── soy_bean_error.png
-│   │   │   ├── forecast/              # Forecast visualizations by model type
-│   │   │   │   ├── ARIMA/
-│   │   │   │   │   ├── cassava.png
-│   │   │   │   │   ├── corn.png
-│   │   │   │   │   ├── green_bean.png
-│   │   │   │   │   └── soy_bean.png
-│   │   │   │   ├── LSTM/
-│   │   │   │   │   ├── cassava.png
-│   │   │   │   │   ├── corn.png
-│   │   │   │   │   ├── green_bean.png
-│   │   │   │   │   └── soy_bean.png
-│   │   │   │   └── Transformer/
-│   │   │   │       ├── cassava.png
-│   │   │   │       ├── corn.png
-│   │   │   │       ├── green_bean.png
-│   │   │   │       └── soy_bean.png
-│   │   │   ├── gantt chart/           # Gantt chart visualizations
-│   │   │   │   ├── optimal.png        # Optimal crop rotation visualization
-│   │   │   │   └── optimize.png       # Optimized crop rotation visualization
-│   │   │   └── overlap/
-│   │   │       └── output.png         # Price overlap visualization
-│   │   └── util/                      # Model utility modules
-│   │       ├── __init__.py
-│   │       ├── data_path.py           # Data path utilities
-│   │       ├── lstm_cust_class.py     # Custom LSTM model class
-│   │       ├── parse_loc.py           # Location parsing utilities
-│   │       ├── transformer_cust_class.py # Custom Transformer model class
-│   │       └── __pycache__/           # Python cache files
-│   └── utils/
-│       ├── balance_price_calculation.py # Price balancing algorithms
-│       ├── logger.py                  # Logging utilities
+│   ├── error_record/                  # Error metrics organized by model type
+│   │   ├── (5)-ARIMA/                 # 5-Year ARIMA model error metrics
+│   │   ├── (5)-LSTM/                  # 5-Year LSTM model error metrics
+│   │   │   ├── cassava_error_metrics.txt
+│   │   │   ├── corn_error_metrics.txt
+│   │   │   ├── green_bean_error_metrics.txt
+│   │   │   └── soybean_error_metrics.txt
+│   │   ├── (5)-Transformer/           # 5-Year Transformer model error metrics
+│   │   ├── ARIMA/                     # ARIMA model error metrics
+│   │   │   ├── cassava_error_metrics.txt
+│   │   │   ├── corn_error_metrics.txt
+│   │   │   ├── green_bean_error_metrics.txt
+│   │   │   └── soybean_error_metrics.txt
+│   │   ├── LSTM/                      # LSTM model error metrics
+│   │   │   ├── cassava_error_metrics.txt
+│   │   │   ├── corn_error_metrics.txt
+│   │   │   ├── green_bean_error_metrics.txt
+│   │   │   └── soybean_error_metrics.txt
+│   │   └── Transformer/               # Transformer model error metrics
+│   │       ├── cassava_error_metrics.txt
+│   │       ├── corn_error_metrics.txt
+│   │       ├── green_bean_error_metrics.txt
+│   │       └── soybean_error_metrics.txt
+│   ├── forecast_price/                # Model forecasts organized by model type
+│   │   ├── (5)-ARIMA/                 # 5-Year ARIMA model forecasts
+│   │   ├── (5)-LSTM/                  # 5-Year LSTM model forecasts
+│   │   │   ├── cassava_forecast.txt
+│   │   │   ├── corn_forecast.txt
+│   │   │   ├── green_bean_forecast.txt
+│   │   │   └── soybean_forecast.txt
+│   │   ├── (5)-Transformer/           # 5-Year Transformer model forecasts
+│   │   ├── ARIMA/                     # ARIMA model forecasts
+│   │   │   ├── cassava_forecast.txt
+│   │   │   ├── corn_forecast.txt
+│   │   │   ├── green_bean_forecast.txt
+│   │   │   └── soybean_forecast.txt
+│   │   ├── LSTM/                      # LSTM model forecasts
+│   │   │   ├── cassava_forecast.txt
+│   │   │   ├── corn_forecast.txt
+│   │   │   ├── green_bean_forecast.txt
+│   │   │   └── soybean_forecast.txt
+│   │   └── Transformer/               # Transformer model forecasts
+│   │       ├── cassava_forecast.txt
+│   │       ├── corn_forecast.txt
+│   │       ├── green_bean_forecast.txt
+│   │       └── soybean_forecast.txt
+│   ├── image/                         # Visualizations directory
+│   │   ├── analytical/                # Data analysis visualizations
+│   │   ├── error/                     # Error visualizations by model type
+│   │   ├── forecast/                  # Forecast visualizations
+│   │   ├── gantt chart/               # Gantt chart visualizations
+│   │   └── transitions/               # Transition visualizations and GIFs
+│   ├── model/                         # Model-specific notebooks
+│   │   └── (0) 5-Year NRP LSTM.ipynb  # Neural Radiance Field LSTM model
+│   └── util/                          # Utility modules
+│       ├── __init__.py
+│       ├── data_path.py               # Data path utilities
+│       ├── lstm_cust_class.py         # Custom LSTM model class
+│       ├── parse_loc.py               # Location parsing utilities
+│       ├── transformer_cust_class.py  # Custom Transformer model class
 │       └── __pycache__/               # Python cache files
 ```
 
@@ -228,34 +209,57 @@ The project works with Thai agricultural price data:
 
 ### Price Forecasting
 
-1. **Open the Jupyter notebook for preferred model**:
+1. **Open the Jupyter notebook for standard forecasting models**:
    ```bash
-   jupyter notebook "src/model/(1) LSTM Model.ipynb"
+   jupyter notebook "src/(2) LSTM Model.ipynb"
    # or
-   jupyter notebook "src/model/(2) Transformer Model.ipynb"
+   jupyter notebook "src/(2) Transformer Model.ipynb"
    # or
-   jupyter notebook "src/model/(3) ARIMA Model.ipynb"
+   jupyter notebook "src/(2) ARIMA Model.ipynb"
    ```
 
-2. **Run the forecasting model**:
+2. **Open the Jupyter notebook for 5-Year forecasting models**:
+   ```bash
+   jupyter notebook "src/(1) 5-Year LSTM.ipynb"
+   # or
+   jupyter notebook "src/(1) 5-Year Transformer.ipynb"
+   # or
+   jupyter notebook "src/(1) 5-Year ARIMA.ipynb"
+   ```
+
+3. **Run the forecasting model**:
    - Execute all cells in the notebook
    - The model will train on historical data and generate predictions
    - Results will be saved as visualizations and text files in the `forecast_price` directory organized by model type
 
-3. **Compare model results**:
+4. **Compare model results**:
    ```bash
-   jupyter notebook "src/model/Overlap_price.ipynb"
+   jupyter notebook "src/Overlap_price.ipynb"
    ```
    - View overlapping predictions from different models
-   - Results will be saved in the `image/overlap` directory
+   - Results will be saved in the `image/analytical` directory
 
-4. **Analyze crop planting schedules**:
+5. **Analyze crop planting schedules**:
    ```bash
-   jupyter notebook "src/model/Gantt chart.ipynb"
+   jupyter notebook "src/Gantt chart.ipynb"
    ```
    - Visualize optimal planting and harvesting schedules
    - Compare optimized vs. non-optimized crop rotation patterns
    - Results will be saved in the `image/gantt chart` directory
+
+6. **Analyze data trends and patterns**:
+   ```bash
+   jupyter notebook "src/Data Analytical.ipynb"
+   ```
+   - Analyze historical price data and trends
+   - View statistical analysis and visualizations
+
+7. **Review model errors and performance**:
+   ```bash
+   jupyter notebook "src/Error Analytical.ipynb"
+   ```
+   - Compare error metrics across different models
+   - Analyze model performance by crop type
 
 ### Income Analysis
 
@@ -287,37 +291,43 @@ The project works with Thai agricultural price data:
 
 ### Key Components
 
-#### Data Cleaning (`data_cleanup.py`)
+#### Data Cleaning (`data_preparation/data_cleanup.py`)
 - Removes unwanted Thai language columns
 - Standardizes data format
 - Prepares data for analysis
 
-#### Data Visualization (`data_plot.py`)
+#### Data Visualization (`data_preparation/data_plot.py`)
 - Generates price trend plots
 - Handles Thai date format conversion
 - Provides statistical summaries
 
-#### Web Application (`app.py` and `app_cli.py`)
-- Interactive web interface for data exploration
-- Command-line interface for quick access
-- API endpoints for forecasting results
-- User-friendly visualization dashboard
+#### Raw Data Path Management (`data_preparation/raw_data_path.py`)
+- Manages paths to raw data files
+- Facilitates data import from various sources
+- Standardizes file access across the project
 
-#### Price Analysis (`balance_price_calculation.py`)
-- Algorithms for price equilibrium calculation
-- Seasonal price adjustment methods
-- Cross-crop price correlation analysis
+#### Data Path Utilities (`util/data_path.py`)
+- Centralized path management for processed data
+- Consistent path access across notebooks
+- Configuration-based path resolution
 
-#### Logger (`logger.py`)
-- Structured logging system
-- Error tracking and monitoring
-- Performance metrics collection
+#### Custom Model Classes
+**LSTM Custom Class** (`util/lstm_cust_class.py`)
+- Custom LSTM architecture implementation
+- Time-series specific neural network design
+- PyTorch-based deep learning components
+
+**Transformer Custom Class** (`util/transformer_cust_class.py`)
+- Self-attention based sequence model implementation
+- Advanced neural network architecture for time series
+- Custom layers and attention mechanisms
 
 #### Forecasting Models
-**LSTM Model** (`(1) LSTM Model.ipynb`)
+**Standard Models**
+**LSTM Model** (`(2) LSTM Model.ipynb`)
 - LSTM neural network implementation
 - Time series preprocessing with MinMaxScaler
-- 12-month sequence input for 12-month prediction
+- Standard forecasting period
 - PyTorch-based deep learning pipeline
 
 **Transformer Model** (`(2) Transformer Model.ipynb`)
@@ -326,36 +336,86 @@ The project works with Thai agricultural price data:
 - Parallelized computation for faster training
 - State-of-the-art neural network architecture
 
-**ARIMA Model** (`(3) ARIMA Model.ipynb`) 
+**ARIMA Model** (`(2) ARIMA Model.ipynb`) 
 - Statistical time series forecasting
 - Auto-regressive Integrated Moving Average
 - Traditional statistical approach for comparison
 
+**5-Year Forecast Models**
+**5-Year LSTM Model** (`(1) 5-Year LSTM.ipynb`)
+- Extended LSTM architecture for longer forecasting periods
+- Specialized for 5-year predictions
+- Optimized for long-term pattern recognition
+
+**5-Year Transformer Model** (`(1) 5-Year Transformer.ipynb`)
+- Extended transformer architecture for 5-year forecasts
+- Enhanced attention mechanisms for long-term dependencies
+- Optimized for capturing long-range patterns
+
+**5-Year ARIMA Model** (`(1) 5-Year ARIMA.ipynb`)
+- Extended statistical forecasting for 5-year periods
+- Parameter optimization for long-term predictions
+- Seasonal components for multi-year patterns
+
+**Advanced Model Experiments**
+**Neural Radiance Field LSTM** (`model/(0) 5-Year NRP LSTM.ipynb`)
+- Experimental model combining neural radiance fields with LSTM
+- Advanced approach for 5-year forecasting
+- Research-oriented implementation
+
 ## 🧠 Model Architecture
 
-The project implements three forecasting approaches:
+The project implements multiple forecasting approaches with both standard and 5-year prediction horizons:
+
+### Standard Forecasting Models (1-Year Horizon)
 
 **LSTM Model:**
 - **Input**: 12 months of historical price data
 - **Architecture**: LSTM (Long Short-Term Memory) neural network
 - **Output**: 12 months of future price predictions
-- **Framework**: PyTorch (v2.7.1)
+- **Framework**: PyTorch
 - **Preprocessing**: MinMaxScaler for data normalization
-- **Custom Implementation**: Uses `lstm_cust_class.py` for model definition
+- **Custom Implementation**: Uses `util/lstm_cust_class.py` for model definition
 
 **Transformer Model:**
 - **Input**: Historical price data sequence
 - **Architecture**: Self-attention mechanism with encoding layers
 - **Output**: Future price predictions with confidence intervals
-- **Framework**: PyTorch (v2.7.1)
+- **Framework**: PyTorch
 - **Advantages**: Better at capturing long-range dependencies in time series data
-- **Custom Implementation**: Uses `transformer_cust_class.py` for model definition
+- **Custom Implementation**: Uses `util/transformer_cust_class.py` for model definition
 
 **ARIMA Model:**
 - **Input**: Historical time series data
 - **Method**: Auto-Regressive Integrated Moving Average
 - **Components**: AR (auto-regression), I (differencing), MA (moving average)
 - **Libraries**: statsmodels, statsforecast
+
+### 5-Year Forecasting Models
+
+**5-Year LSTM Model:**
+- **Extended Architecture**: Specialized LSTM configuration for long-term forecasting
+- **Input**: Extended historical data sequences
+- **Output**: 60 months (5 years) of future price predictions
+- **Enhanced Features**: Additional regularization and optimization for long-term stability
+
+**5-Year Transformer Model:**
+- **Extended Architecture**: Enhanced transformer with multi-head attention for long sequences
+- **Input**: Extended historical sequences with additional context
+- **Output**: 60 months (5 years) of future price predictions
+- **Enhanced Features**: Specialized position encodings for long-term patterns
+
+**5-Year ARIMA Model:**
+- **Extended Parameters**: Optimized for long-term forecasting
+- **Seasonal Components**: Enhanced seasonal decomposition for multi-year cycles
+- **Output**: 60 months (5 years) of statistical forecasts
+
+**Neural Radiance Field LSTM (Experimental):**
+- **Advanced Architecture**: Combines neural radiance field concepts with LSTM
+- **Research Focus**: Experimental approach for enhanced 5-year predictions
+- **Enhanced Features**: Specialized techniques for handling long-term dependencies
+
+### Analysis Components
 
 **Overlap Analysis:**
 - Compares predictions from all three models
@@ -368,16 +428,28 @@ The project implements three forecasting approaches:
 - Identifies optimal timing for agricultural activities
 - Shows both optimized and non-optimized schedules for comparison
 
+**Data Analytics:**
+- Comprehensive analysis of historical price trends
+- Statistical analysis and decomposition of time series
+- Correlation analysis between different crops
+- Seasonality and trend component analysis
+
+**Error Analytics:**
+- Comparative analysis of model performance
+- Error metrics calculations and visualizations
+- Model accuracy evaluation by crop type
+- Confidence interval analysis
+
 ## 📈 Results
 
 The models generate:
-- Price forecasts for the next 12 months
+- Price forecasts for both 12-month and 5-year horizons
 - Visualization of predicted vs. actual prices
 - Performance metrics and validation results
-- Saved forecast plots in the `src/model/image` directory
-- Error analysis visualizations in `src/model/image/error`
+- Saved forecast plots in the `src/image/forecast` directory
+- Error analysis visualizations in `src/image/error`
 - Comparative analysis between different forecasting approaches
-- Income calculations per rai (Thai land measurement unit)
+- Transition visualizations showing price evolution over time
 
 **Sample Visualizations:**
 
@@ -410,19 +482,18 @@ The output data files in `forecast_price/` contain detailed numerical prediction
 
 ## 🔧 Technical Requirements
 
-- **Python**: 3.12+
+- **Python**: 3.8+
 - **PyTorch**: 2.7.1 (with CUDA 12.6 support)
 - **Key Libraries**:
-  - pandas: 2.3.1 (Data manipulation)
-  - numpy: 2.1.2 (Numerical computing)
-  - matplotlib: 3.10.3 (Visualization)
-  - scikit-learn: 1.7.1 (Data preprocessing)
-  - statsmodels: 0.14.5 (Statistical modeling)
-  - statsforecast: 2.0.2 (Forecasting algorithms)
-  - jupyter: 1.1.1 (Interactive development)
-  - fugue: 0.9.1 (Data processing)
-  - coreforecast: 0.0.16 (Forecasting utilities)
-  - Flask: 3.1.1 (Web application framework)
+  - pandas: 2.3.1 (Data manipulation and time series handling)
+  - numpy: 2.1.2 (Numerical computing and array operations)
+  - matplotlib: 3.10.3 (Data visualization and plotting)
+  - scikit-learn: 1.7.1 (Data preprocessing and model evaluation)
+  - statsmodels: 0.14.5 (Statistical modeling for ARIMA)
+  - statsforecast: 2.0.2 (Forecasting algorithms and utilities)
+  - jupyter: 1.1.1 (Interactive notebook development)
+  - coreforecast: 0.0.16 (Specialized forecasting utilities)
+  - Flask: 3.1.1 (Web application support)
 
 ## 📝 Data Format
 
@@ -476,4 +547,4 @@ Contributions to improve the project are welcome! Here's how you can contribute:
 
 *Built with ❤️ for sustainable agriculture and data-driven farming decisions*
 
-*Last updated: August 27, 2025*
+*Last updated: September 2, 2025*
