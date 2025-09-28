@@ -1,6 +1,7 @@
 import pathlib
 
-project_root = pathlib.Path(__file__).parent.parent.parent.parent.absolute()
+# From src/util/data_path.py, go up 2 levels to get to AI Crop Land-Used/ project root
+project_root = pathlib.Path(__file__).parent.parent.parent.absolute()
 data_path = project_root / "data" / "data_processed"
 
 cassava_path = data_path / "cassava"
