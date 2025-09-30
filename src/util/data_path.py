@@ -14,6 +14,28 @@ green_bean_price_avg = green_bean_path / "price_avg.csv"
 soybean_price_avg = soybean_path / "price_avg.csv"
 
 
+model_save = project_root / "model"
+
+error_record = model_save / "error_record"
+forecasted_record = model_save / "forecast_price"
+
+ARIMA_5_err = error_record / "(5)-ARIMA"
+LSTM_5_err = error_record / "(5)-LSTM"
+Transformer_5_err = error_record / "(5)-Transformer"
+
+ARIMA_err = error_record / "ARIMA"
+LSTM_err = error_record / "LSTM"
+Transformer_err = error_record / "Transformer"
+
+ARIMA_5_for = forecasted_record / "(5)-ARIMA"
+LSTM_5_for = forecasted_record / "(5)-LSTM"
+Transformer_5_for = forecasted_record / "(5)-Transformer"
+
+ARIMA_for = forecasted_record / "ARIMA"
+LSTM_for = forecasted_record / "LSTM"
+Transformer_for = forecasted_record / "Transformer"
+
+
 if __name__ == "__main__":
     print(cassava_path)
     print(corn_path)
