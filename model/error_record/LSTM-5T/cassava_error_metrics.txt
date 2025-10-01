@@ -1,0 +1,38 @@
+LSTM Model Evaluation Metrics for Cassava - 20251001_191432
+============================================================
+
+Overall Metrics:
+--------------------
+Mean Absolute Error (MAE): 0.403178
+Mean Absolute Percentage Error (MAPE): 13.4556%
+Model Accuracy: 86.86%
+
+Monthly Evaluation:
+--------------------
+Month      Actual     Forecast   Error      Abs Error  % Error   
+Jan 2024   3.65       3.25       0.4007     0.4007     10.98     %
+Feb 2024   3.65       2.89       0.7551     0.7551     20.69     %
+Mar 2024   3.57       2.78       0.7937     0.7937     22.23     %
+Apr 2024   3.24       2.89       0.3538     0.3538     10.92     %
+May 2024   3.19       3.08       0.1091     0.1091     3.42      %
+Jun 2024   3.09       3.21       -0.1227    0.1227     3.97      %
+Jul 2024   3.06       3.22       -0.1609    0.1609     5.26      %
+Aug 2024   2.95       3.16       -0.2066    0.2066     7.00      %
+Sep 2024   2.86       3.09       -0.2343    0.2343     8.19      %
+Oct 2024   2.65       3.07       -0.4219    0.4219     15.92     %
+Nov 2024   2.60       3.09       -0.4865    0.4865     18.71     %
+Dec 2024   2.32       3.11       -0.7928    0.7928     34.17     %
+
+Area Under Curve Analysis:
+--------------------
+Total Absolute Error Area: 4.2414
+Under-prediction Area: 2.2122
+Over-prediction Area: 2.0292
+Net Error Area: 0.1831
+Average Monthly Absolute Error: 0.3534
+Number of Transition Points: 1
+
+Transition Points:
+--------------------
+Transition 1: Between May 2024 and Jun 2024 at position 4.47
+   Direction: Under to Over prediction

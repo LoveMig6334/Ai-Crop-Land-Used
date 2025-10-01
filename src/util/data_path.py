@@ -36,6 +36,9 @@ ARIMA_for = forecasted_record / "ARIMA"
 LSTM_for = forecasted_record / "LSTM"
 Transformer_for = forecasted_record / "Transformer"
 
+LSTM_5T_for = forecasted_record / "LSTM-5T"
+LSTM_5T_err = error_record / "LSTM-5T"
+
 cassava_path_year_fix = fix_data_path / "cassava"
 corn_path_year_fix = fix_data_path / "corn"
 green_bean_year_fix = fix_data_path / "green_bean"

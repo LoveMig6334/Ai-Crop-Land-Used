@@ -1,0 +1,40 @@
+LSTM Model Evaluation Metrics for Corn - 20251001_191346
+============================================================
+
+Overall Metrics:
+--------------------
+Mean Absolute Error (MAE): 2.418175
+Mean Absolute Percentage Error (MAPE): 23.3604%
+Model Accuracy: 77.59%
+
+Monthly Evaluation:
+--------------------
+Month      Actual     Forecast   Error      Abs Error  % Error   
+Jan 2024   10.28      12.43      -2.1486    2.1486     20.90     %
+Feb 2024   10.32      13.94      -3.6208    3.6208     35.09     %
+Mar 2024   10.27      14.91      -4.6416    4.6416     45.20     %
+Apr 2024   10.14      14.15      -4.0126    4.0126     39.57     %
+May 2024   10.74      13.00      -2.2645    2.2645     21.08     %
+Jun 2024   12.14      11.98      0.1647     0.1647     1.36      %
+Jul 2024   12.45      11.44      1.0146     1.0146     8.15      %
+Aug 2024   12.08      11.49      0.5944     0.5944     4.92      %
+Sep 2024   10.81      11.89      -1.0829    1.0829     10.02     %
+Oct 2024   9.86       12.54      -2.6753    2.6753     27.13     %
+Nov 2024   9.77       13.31      -3.5361    3.5361     36.19     %
+Dec 2024   10.62      13.88      -3.2619    3.2619     30.71     %
+
+Area Under Curve Analysis:
+--------------------
+Total Absolute Error Area: 26.3128
+Under-prediction Area: 1.7738
+Over-prediction Area: 24.5391
+Net Error Area: -22.7653
+Average Monthly Absolute Error: 2.1927
+Number of Transition Points: 2
+
+Transition Points:
+--------------------
+Transition 1: Between May 2024 and Jun 2024 at position 4.93
+   Direction: Over to Under prediction
+Transition 2: Between Aug 2024 and Sep 2024 at position 7.35
+   Direction: Under to Over prediction
