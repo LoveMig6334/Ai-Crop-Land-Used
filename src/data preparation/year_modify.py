@@ -130,10 +130,8 @@ if __name__ == "__main__":
         success = modify_all_years()
 
         if success:
-            print("\n✅ All datasets have been successfully converted!")
+            print("All datasets have been successfully converted!")
         else:
-            print(
-                "\n❌ Some errors occurred during conversion. Check the messages above."
-            )
+            print("Some errors occurred during conversion. Check the messages above.")
     else:
         print("\nConversion cancelled.")
