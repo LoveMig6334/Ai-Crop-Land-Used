@@ -2,6 +2,7 @@ import pathlib
 
 project_root = pathlib.Path(__file__).parent.parent.parent.absolute()
 data_path = project_root / "data" / "data_processed"
+fix_data_path = project_root / "data" / "fix_year"
 
 cassava_path = data_path / "cassava"
 corn_path = data_path / "corn"
@@ -35,17 +36,26 @@ ARIMA_for = forecasted_record / "ARIMA"
 LSTM_for = forecasted_record / "LSTM"
 Transformer_for = forecasted_record / "Transformer"
 
+cassava_path_year_fix = fix_data_path / "cassava"
+corn_path_year_fix = fix_data_path / "corn"
+green_bean_year_fix = fix_data_path / "green_bean"
+soybean_path_year_fix = fix_data_path / "soybean"
+
+cassava_price_avg_year_fix = cassava_path_year_fix / "price_avg.csv"
+corn_price_avg_year_fix = corn_path_year_fix / "price_avg.csv"
+green_bean_price_avg_year_fix = green_bean_year_fix / "price_avg.csv"
+soybean_price_avg_year_fix = soybean_path_year_fix / "price_avg.csv"
 
 if __name__ == "__main__":
-    print(cassava_path)
-    print(corn_path)
-    print(green_bean_path)
-    print(soybean_path)
+    print(cassava_path_year_fix)
+    print(corn_path_year_fix)
+    print(green_bean_year_fix)
+    print(soybean_path_year_fix)
 
-    print(cassava_price_avg)
-    print(corn_price_avg)
-    print(green_bean_price_avg)
-    print(soybean_price_avg)
+    print(cassava_price_avg_year_fix)
+    print(corn_price_avg_year_fix)
+    print(green_bean_price_avg_year_fix)
+    print(soybean_price_avg_year_fix)
 
     print("Data paths initialized successfully.")
     print(f"Project root: {project_root}")
