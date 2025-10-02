@@ -1,4 +1,4 @@
-LSTM Rolling Window Forecast Results for Cassava Prices - 20251002_171734
+LSTM Rolling Window Forecast Results for Cassava Prices - 20251002_174735
 ================================================================================
 
 Rolling Window Configuration:
@@ -11,26 +11,26 @@ Prediction Years: [2024]
 
 Window 13 - Training: 2016-2023, Predicting: 2024
 --------------------------------------------------
-2024-01-01: 3.10
-2024-02-01: 3.10
-2024-03-01: 3.05
-2024-04-01: 2.93
-2024-05-01: 3.01
-2024-06-01: 2.72
-2024-07-01: 2.72
-2024-08-01: 2.63
-2024-09-01: 2.59
-2024-10-01: 2.50
-2024-11-01: 2.57
-2024-12-01: 2.54
+2024-01-01: 3.14
+2024-02-01: 3.26
+2024-03-01: 3.40
+2024-04-01: 3.45
+2024-05-01: 3.40
+2024-06-01: 3.27
+2024-07-01: 3.06
+2024-08-01: 2.92
+2024-09-01: 2.86
+2024-10-01: 2.98
+2024-11-01: 3.05
+2024-12-01: 3.06
 
 Window 13 Statistics:
-Mean: 2.79, Min: 2.50, Max: 3.10
+Mean: 3.15, Min: 2.86, Max: 3.45
 
 Overall Consolidated Statistics:
 ------------------------------
 Total Predictions: 12 months
-Overall Mean Price: 2.79
-Overall Min Price: 2.50
-Overall Max Price: 3.10
-Overall Standard Deviation: 0.23
+Overall Mean Price: 3.15
+Overall Min Price: 2.86
+Overall Max Price: 3.45
+Overall Standard Deviation: 0.20

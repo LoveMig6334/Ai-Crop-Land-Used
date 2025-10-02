@@ -1,4 +1,4 @@
-LSTM Rolling Window Model Evaluation for Cassava - 20251002_171734
+LSTM Rolling Window Model Evaluation for Cassava - 20251002_174736
 ================================================================================
 
 Rolling Window Configuration:
@@ -11,41 +11,41 @@ Model Architecture: 32 hidden units, 3 layers
 Overall Consolidated Metrics:
 ------------------------------
 Total Predictions: 12 months across 1 years
-Overall Mean Absolute Error (MAE): 0.318004
-Overall Mean Absolute Percentage Error (MAPE): 9.9774%
-Overall Model Accuracy: 89.64%
+Overall Mean Absolute Error (MAE): 0.267424
+Overall Mean Absolute Percentage Error (MAPE): 9.2214%
+Overall Model Accuracy: 91.29%
 
 Window-by-Window Performance:
 ----------------------------------------
 Window   Year   MAE          MAPE         Accuracy   Train Period   
 ---------------------------------------------------------------------------
-13       2024   0.318004     9.9774      % 89.64     % 2016-2023      
+13       2024   0.267424     9.2214      % 91.29     % 2016-2023      
 
 Cross-Window Statistics:
 -------------------------
-Average MAE across windows: 0.318004
+Average MAE across windows: 0.267424
 MAE Standard Deviation: 0.000000
-Best Window MAE: 0.318004 (Window 1)
-Worst Window MAE: 0.318004 (Window 1)
-Average MAPE across windows: 9.9774%
-Average Accuracy across windows: 89.64%
+Best Window MAE: 0.267424 (Window 1)
+Worst Window MAE: 0.267424 (Window 1)
+Average MAPE across windows: 9.2214%
+Average Accuracy across windows: 91.29%
 
 Consolidated Monthly Evaluation:
 ------------------------------
 Date         Actual     Forecast   Error      Abs Error  % Error   
 ---------------------------------------------------------------------------
-2024-01      3.65       3.10       0.5535     0.5535     15.16     %
-2024-02      3.65       3.10       0.5503     0.5503     15.08     %
-2024-03      3.57       3.05       0.5167     0.5167     14.47     %
-2024-04      3.24       2.93       0.3126     0.3126     9.65      %
-2024-05      3.19       3.01       0.1849     0.1849     5.80      %
-2024-06      3.09       2.72       0.3715     0.3715     12.02     %
-2024-07      3.06       2.72       0.3413     0.3413     11.15     %
-2024-08      2.95       2.63       0.3179     0.3179     10.78     %
-2024-09      2.86       2.59       0.2725     0.2725     9.53      %
-2024-10      2.65       2.50       0.1502     0.1502     5.67      %
-2024-11      2.60       2.57       0.0265     0.0265     1.02      %
-2024-12      2.32       2.54       -0.2181    0.2181     9.40      %
+2024-01      3.65       3.14       0.5129     0.5129     14.05     %
+2024-02      3.65       3.26       0.3851     0.3851     10.55     %
+2024-03      3.57       3.40       0.1687     0.1687     4.73      %
+2024-04      3.24       3.45       -0.2056    0.2056     6.34      %
+2024-05      3.19       3.40       -0.2052    0.2052     6.43      %
+2024-06      3.09       3.27       -0.1758    0.1758     5.69      %
+2024-07      3.06       3.06       -0.0036    0.0036     0.12      %
+2024-08      2.95       2.92       0.0288     0.0288     0.98      %
+2024-09      2.86       2.86       -0.0042    0.0042     0.15      %
+2024-10      2.65       2.98       -0.3335    0.3335     12.59     %
+2024-11      2.60       3.05       -0.4464    0.4464     17.17     %
+2024-12      2.32       3.06       -0.7393    0.7393     31.87     %
 
 Rolling Window Training Details:
 ------------------------------
