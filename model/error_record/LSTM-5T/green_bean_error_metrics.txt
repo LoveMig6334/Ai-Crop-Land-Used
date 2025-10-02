@@ -1,40 +1,42 @@
-LSTM Model Evaluation Metrics for Green_bean - 20251001_191615
+LSTM Model Evaluation Metrics for Green_bean - 20251002_143027
 ============================================================
 
 Overall Metrics:
 --------------------
-Mean Absolute Error (MAE): 2.386307
-Mean Absolute Percentage Error (MAPE): 9.1688%
-Model Accuracy: 90.85%
+Mean Absolute Error (MAE): 4.219444
+Mean Absolute Percentage Error (MAPE): 15.6197%
+Model Accuracy: 83.82%
 
 Monthly Evaluation:
 --------------------
 Month      Actual     Forecast   Error      Abs Error  % Error   
-Jan 2024   25.11      24.76      0.3463     0.3463     1.38      %
-Feb 2024   25.00      24.46      0.5368     0.5368     2.15      %
-Mar 2024   26.34      18.11      8.2326     8.2326     31.26     %
-Apr 2024   25.62      20.31      5.3123     5.3123     20.74     %
-May 2024   25.00      22.25      2.7534     2.7534     11.01     %
-Jun 2024   25.00      24.25      0.7489     0.7489     3.00      %
-Jul 2024   25.00      28.02      -3.0239    3.0239     12.10     %
-Aug 2024   27.50      31.12      -3.6188    3.6188     13.16     %
-Sep 2024   31.00      31.67      -0.6735    0.6735     2.17      %
-Oct 2024   30.00      28.69      1.3080     1.3080     4.36      %
-Nov 2024   24.00      22.24      1.7635     1.7635     7.35      %
-Dec 2024   23.28      22.96      0.3176     0.3176     1.36      %
+Jan 2024   25.11      20.64      4.4742     4.4742     17.82     %
+Feb 2024   25.00      20.25      4.7491     4.7491     19.00     %
+Mar 2024   26.34      21.26      5.0834     5.0834     19.30     %
+Apr 2024   25.62      21.60      4.0150     4.0150     15.67     %
+May 2024   25.00      24.84      0.1552     0.1552     0.62      %
+Jun 2024   25.00      28.42      -3.4242    3.4242     13.70     %
+Jul 2024   25.00      27.87      -2.8708    2.8708     11.48     %
+Aug 2024   27.50      20.35      7.1457     7.1457     25.98     %
+Sep 2024   31.00      22.81      8.1914     8.1914     26.42     %
+Oct 2024   30.00      22.06      7.9367     7.9367     26.46     %
+Nov 2024   24.00      23.00      0.9991     0.9991     4.16      %
+Dec 2024   23.28      24.87      -1.5885    1.5885     6.82      %
 
 Area Under Curve Analysis:
 --------------------
-Total Absolute Error Area: 28.3037
-Under-prediction Area: 20.9876
-Over-prediction Area: 7.3161
-Net Error Area: 13.6714
-Average Monthly Absolute Error: 2.3586
-Number of Transition Points: 2
+Total Absolute Error Area: 47.6020
+Under-prediction Area: 40.5128
+Over-prediction Area: 7.0892
+Net Error Area: 33.4236
+Average Monthly Absolute Error: 3.9668
+Number of Transition Points: 3
 
 Transition Points:
 --------------------
-Transition 1: Between Jun 2024 and Jul 2024 at position 5.20
+Transition 1: Between May 2024 and Jun 2024 at position 4.04
    Direction: Under to Over prediction
-Transition 2: Between Sep 2024 and Oct 2024 at position 8.34
+Transition 2: Between Jul 2024 and Aug 2024 at position 6.29
    Direction: Over to Under prediction
+Transition 3: Between Nov 2024 and Dec 2024 at position 10.39
+   Direction: Under to Over prediction
