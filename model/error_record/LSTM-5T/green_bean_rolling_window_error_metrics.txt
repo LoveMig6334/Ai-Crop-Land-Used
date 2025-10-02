@@ -1,0 +1,52 @@
+LSTM Rolling Window Model Evaluation for Green_bean - 20251002_170245
+================================================================================
+
+Rolling Window Configuration:
+------------------------------
+Window Size: 5 years
+Total Windows Processed: 1
+LSTM Parameters: SEQ_LEN=12, PRED_LEN=12, EPOCHS=300
+Model Architecture: 32 hidden units, 3 layers
+
+Overall Consolidated Metrics:
+------------------------------
+Total Predictions: 12 months across 1 years
+Overall Mean Absolute Error (MAE): 3.909819
+Overall Mean Absolute Percentage Error (MAPE): 15.5251%
+Overall Model Accuracy: 85.00%
+
+Window-by-Window Performance:
+----------------------------------------
+Window   Year   MAE          MAPE         Accuracy   Train Period   
+---------------------------------------------------------------------------
+16       2024   3.909819     15.5251     % 85.00     % 2019-2023      
+
+Cross-Window Statistics:
+-------------------------
+Average MAE across windows: 3.909819
+MAE Standard Deviation: 0.000000
+Best Window MAE: 3.909819 (Window 1)
+Worst Window MAE: 3.909819 (Window 1)
+Average MAPE across windows: 15.5251%
+Average Accuracy across windows: 85.00%
+
+Consolidated Monthly Evaluation:
+------------------------------
+Date         Actual     Forecast   Error      Abs Error  % Error   
+---------------------------------------------------------------------------
+2024-01      25.11      22.79      2.3186     2.3186     9.23      %
+2024-02      25.00      21.86      3.1358     3.1358     12.54     %
+2024-03      26.34      21.90      4.4413     4.4413     16.86     %
+2024-04      25.62      23.53      2.0933     2.0933     8.17      %
+2024-05      25.00      23.70      1.2967     1.2967     5.19      %
+2024-06      25.00      20.43      4.5696     4.5696     18.28     %
+2024-07      25.00      20.53      4.4707     4.4707     17.88     %
+2024-08      27.50      24.26      3.2380     3.2380     11.77     %
+2024-09      31.00      28.52      2.4798     2.4798     8.00      %
+2024-10      30.00      31.71      -1.7054    1.7054     5.68      %
+2024-11      24.00      32.25      -8.2515    8.2515     34.38     %
+2024-12      23.28      32.20      -8.9173    8.9173     38.30     %
+
+Rolling Window Training Details:
+------------------------------
+Window 16: Train on 2019-2023 (60 months) -> Predict 2024 (12 months)

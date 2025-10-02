@@ -1,0 +1,36 @@
+LSTM Rolling Window Forecast Results for Corn Prices - 20251002_172010
+================================================================================
+
+Rolling Window Configuration:
+------------------------------
+Window Size: 8 years
+Total Windows: 1
+First Training Period: 2016-2023
+Last Training Period: 2016-2023
+Prediction Years: [2024]
+
+Window 13 - Training: 2016-2023, Predicting: 2024
+--------------------------------------------------
+2024-01-01: 12.23
+2024-02-01: 12.53
+2024-03-01: 11.99
+2024-04-01: 12.26
+2024-05-01: 11.34
+2024-06-01: 11.47
+2024-07-01: 10.13
+2024-08-01: 9.65
+2024-09-01: 8.88
+2024-10-01: 8.47
+2024-11-01: 7.86
+2024-12-01: 8.09
+
+Window 13 Statistics:
+Mean: 10.41, Min: 7.86, Max: 12.53
+
+Overall Consolidated Statistics:
+------------------------------
+Total Predictions: 12 months
+Overall Mean Price: 10.41
+Overall Min Price: 7.86
+Overall Max Price: 12.53
+Overall Standard Deviation: 1.77

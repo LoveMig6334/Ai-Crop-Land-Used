@@ -1,0 +1,36 @@
+LSTM Rolling Window Forecast Results for Soybean Prices - 20251002_172119
+================================================================================
+
+Rolling Window Configuration:
+------------------------------
+Window Size: 8 years
+Total Windows: 1
+First Training Period: 2016-2023
+Last Training Period: 2016-2023
+Prediction Years: [2024]
+
+Window 13 - Training: 2016-2023, Predicting: 2024
+--------------------------------------------------
+2024-01-01: 21.62
+2024-02-01: 24.54
+2024-03-01: 26.43
+2024-04-01: 25.23
+2024-05-01: 22.87
+2024-06-01: 21.24
+2024-07-01: 20.95
+2024-08-01: 21.91
+2024-09-01: 23.15
+2024-10-01: 22.88
+2024-11-01: 19.90
+2024-12-01: 16.96
+
+Window 13 Statistics:
+Mean: 22.31, Min: 16.96, Max: 26.43
+
+Overall Consolidated Statistics:
+------------------------------
+Total Predictions: 12 months
+Overall Mean Price: 22.31
+Overall Min Price: 16.96
+Overall Max Price: 26.43
+Overall Standard Deviation: 2.52

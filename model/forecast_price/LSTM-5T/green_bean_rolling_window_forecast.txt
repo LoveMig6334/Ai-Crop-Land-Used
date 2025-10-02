@@ -1,0 +1,36 @@
+LSTM Rolling Window Forecast Results for Green_bean Prices - 20251002_170244
+================================================================================
+
+Rolling Window Configuration:
+------------------------------
+Window Size: 5 years
+Total Windows: 1
+First Training Period: 2019-2023
+Last Training Period: 2019-2023
+Prediction Years: [2024]
+
+Window 16 - Training: 2019-2023, Predicting: 2024
+--------------------------------------------------
+2024-01-01: 22.79
+2024-02-01: 21.86
+2024-03-01: 21.90
+2024-04-01: 23.53
+2024-05-01: 23.70
+2024-06-01: 20.43
+2024-07-01: 20.53
+2024-08-01: 24.26
+2024-09-01: 28.52
+2024-10-01: 31.71
+2024-11-01: 32.25
+2024-12-01: 32.20
+
+Window 16 Statistics:
+Mean: 25.31, Min: 20.43, Max: 32.25
+
+Overall Consolidated Statistics:
+------------------------------
+Total Predictions: 12 months
+Overall Mean Price: 25.31
+Overall Min Price: 20.43
+Overall Max Price: 32.25
+Overall Standard Deviation: 4.57
