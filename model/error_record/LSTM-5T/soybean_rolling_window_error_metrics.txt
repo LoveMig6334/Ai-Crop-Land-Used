@@ -1,4 +1,4 @@
-LSTM Rolling Window Model Evaluation for Soybean - 20251002_174557
+LSTM Rolling Window Model Evaluation for Soybean - 20251007_150012
 ================================================================================
 
 Rolling Window Configuration:
@@ -11,41 +11,41 @@ Model Architecture: 32 hidden units, 3 layers
 Overall Consolidated Metrics:
 ------------------------------
 Total Predictions: 12 months across 1 years
-Overall Mean Absolute Error (MAE): 4.256723
-Overall Mean Absolute Percentage Error (MAPE): 23.4363%
-Overall Model Accuracy: 76.80%
+Overall Mean Absolute Error (MAE): 4.045102
+Overall Mean Absolute Percentage Error (MAPE): 22.3028%
+Overall Model Accuracy: 77.95%
 
 Window-by-Window Performance:
 ----------------------------------------
 Window   Year   MAE          MAPE         Accuracy   Train Period   
 ---------------------------------------------------------------------------
-13       2024   4.256723     23.4363     % 76.80     % 2016-2023      
+13       2024   4.045102     22.3028     % 77.95     % 2016-2023      
 
 Cross-Window Statistics:
 -------------------------
-Average MAE across windows: 4.256723
+Average MAE across windows: 4.045102
 MAE Standard Deviation: 0.000000
-Best Window MAE: 4.256723 (Window 1)
-Worst Window MAE: 4.256723 (Window 1)
-Average MAPE across windows: 23.4363%
-Average Accuracy across windows: 76.80%
+Best Window MAE: 4.045102 (Window 1)
+Worst Window MAE: 4.045102 (Window 1)
+Average MAPE across windows: 22.3028%
+Average Accuracy across windows: 77.95%
 
 Consolidated Monthly Evaluation:
 ------------------------------
 Date         Actual     Forecast   Error      Abs Error  % Error   
 ---------------------------------------------------------------------------
-2024-01      19.45      23.94      -4.4917    4.4917     23.09     %
-2024-02      19.45      26.61      -7.1612    7.1612     36.82     %
-2024-03      19.45      27.01      -7.5575    7.5575     38.86     %
-2024-04      21.67      23.01      -1.3450    1.3450     6.21      %
-2024-05      19.78      21.23      -1.4518    1.4518     7.34      %
-2024-06      17.50      21.25      -3.7468    3.7468     21.41     %
-2024-07      17.38      21.94      -4.5551    4.5551     26.21     %
-2024-08      17.25      23.65      -6.3978    6.3978     37.09     %
-2024-09      17.13      23.89      -6.7563    6.7563     39.44     %
-2024-10      17.00      22.52      -5.5197    5.5197     32.47     %
-2024-11      17.00      18.02      -1.0202    1.0202     6.00      %
-2024-12      17.10      16.02      1.0776     1.0776     6.30      %
+2024-01      19.45      23.06      -3.6088    3.6088     18.55     %
+2024-02      19.45      25.60      -6.1480    6.1480     31.61     %
+2024-03      19.45      26.28      -6.8336    6.8336     35.13     %
+2024-04      21.67      23.32      -1.6522    1.6522     7.62      %
+2024-05      19.78      21.49      -1.7133    1.7133     8.66      %
+2024-06      17.50      21.54      -4.0411    4.0411     23.09     %
+2024-07      17.38      21.46      -4.0753    4.0753     23.45     %
+2024-08      17.25      23.76      -6.5097    6.5097     37.74     %
+2024-09      17.13      23.21      -6.0822    6.0822     35.51     %
+2024-10      17.00      21.88      -4.8844    4.8844     28.73     %
+2024-11      17.00      16.04      0.9606     0.9606     5.65      %
+2024-12      17.10      15.07      2.0320     2.0320     11.88     %
 
 Rolling Window Training Details:
 ------------------------------
