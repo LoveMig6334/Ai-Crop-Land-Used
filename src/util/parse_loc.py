@@ -1,3 +1,8 @@
+# DEPRECATED: This parser is no longer needed after Phase 5.
+# Forecast and error data are now saved as standard CSVs via src/util/output_io.py.
+# Load them with: pd.read_csv(path, parse_dates=["date"], index_col="date")
+# This file will be deleted in Phase 9 once all consumers are migrated.
+
 import pandas as pd
 
 
