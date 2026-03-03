@@ -1,26 +1,14 @@
-import pathlib
+# DEPRECATED: All paths have been consolidated into src/util/data_path.py.
+# This shim re-exports the canonical names for backwards compatibility.
+# Remove this file once all consumers have been updated to import from util.data_path.
 
-project_root = pathlib.Path(__file__).parent.parent.parent.parent.absolute()
-data_path = project_root / "data" / "raw"
-
-cassava_path = data_path / "cassava"
-corn_path = data_path / "corn"
-weather_path = data_path / "weather"
-
-cassava_price_avg = cassava_path / "price_avg.csv"
-cassava_price_low_high = cassava_path / "price_low_high.csv"
-
-corn_price_avg = corn_path / "price_avg.csv"
-corn_price_low_high = corn_path / "price_low_high.csv"
-
-
-if __name__ == "__main__":
-    print(cassava_path)
-    print(corn_path)
-    print(weather_path)
-
-    print(cassava_price_avg)
-    print(cassava_price_low_high)
-
-    print(corn_price_avg)
-    print(corn_price_low_high)
+from util.data_path import (
+    raw_data_path as data_path,
+    cassava_raw_path as cassava_path,
+    corn_raw_path as corn_path,
+    weather_raw_path as weather_path,
+    cassava_raw_price_avg as cassava_price_avg,
+    cassava_raw_price_low_high as cassava_price_low_high,
+    corn_raw_price_avg as corn_price_avg,
+    corn_raw_price_low_high as corn_price_low_high,
+)

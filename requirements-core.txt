@@ -1,0 +1,19 @@
+# Core ML dependencies
+# Install PyTorch separately with the appropriate variant:
+#   CUDA (GPU): pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
+#   CPU only:   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+torch
+torchvision
+torchaudio
+
+numpy
+pandas
+scikit-learn
+scipy
+matplotlib
+statsforecast
+statsmodels
+Flask
+PyYAML
+requests
+tqdm

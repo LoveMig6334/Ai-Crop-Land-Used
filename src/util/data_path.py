@@ -50,6 +50,20 @@ corn_price_avg_year_fix = corn_path_year_fix / "price_avg.csv"
 green_bean_price_avg_year_fix = green_bean_year_fix / "price_avg.csv"
 soybean_price_avg_year_fix = soybean_path_year_fix / "price_avg.csv"
 
+# Raw data paths (previously in src/data preparation/raw_data_path.py)
+raw_data_path = project_root / "data" / "raw"
+
+cassava_raw_path = raw_data_path / "cassava"
+corn_raw_path = raw_data_path / "corn"
+weather_raw_path = raw_data_path / "weather"
+
+cassava_raw_price_avg = cassava_raw_path / "price_avg.csv"
+cassava_raw_price_low_high = cassava_raw_path / "price_low_high.csv"
+
+corn_raw_price_avg = corn_raw_path / "price_avg.csv"
+corn_raw_price_low_high = corn_raw_path / "price_low_high.csv"
+
+
 if __name__ == "__main__":
     print(cassava_path_year_fix)
     print(corn_path_year_fix)

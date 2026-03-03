@@ -1,0 +1,7 @@
+-r requirements-core.txt
+
+# Development / notebook tools
+jupyter
+jupyterlab
+ipywidgets
+notebook
