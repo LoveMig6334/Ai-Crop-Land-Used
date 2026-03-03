@@ -1,2 +1,30 @@
+# IDE
 .vscode/
+
+# Python
 __pycache__/
+*.py[cod]
+*.pyo
+.ipynb_checkpoints/
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Model weights (regenerable)
+model/weights/*.pth
+
+# Generated outputs (regenerable)
+model/forecast_price/
+model/error_record/
+model/image/
+
+# Generated figures (regenerable)
+src/figs/
+src/image/
+figs/
+
+# Raw binary data (CSV equivalents exist)
+data/raw/**/*.xls
+data/raw/**/*.xlsx

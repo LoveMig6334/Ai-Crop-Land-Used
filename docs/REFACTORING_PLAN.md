@@ -224,11 +224,114 @@ forecast, actual, scaler = train_and_forecast(data_file)
 
 ---
 
+## Phase 0b — Move `figs/` to Project Root
+
+**Goal:** Relocate `src/figs/` to the project root so all generated output directories (`model/`, `figs/`, `data/`) live at the top level rather than scattered inside `src/`. Also fixes the path-level inconsistency where notebooks construct relative paths that break if Jupyter is launched from a directory other than `src/`.
+
+**Dependency:** Can be done standalone, before or after Phase 0. If Phase 0 runs first, set the `.gitignore` entry to `figs/` (root) instead of `src/figs/`.
+
+### Why `./figs/` is fragile
+
+`src/Data Analytical Trends.ipynb` constructs all save paths as `./figs/…` (relative strings). This resolves correctly only when the Jupyter kernel's working directory is `src/`. If the notebook is opened from the project root (e.g., `jupyter notebook` run at root), every `plt.savefig()` silently writes to a `figs/` folder at the root while the creation check looks in `src/figs/` — or raises `FileNotFoundError`. Using absolute paths from `data_path.py` eliminates this entirely.
+
+### Files to modify
+
+**`src/util/data_path.py`** — Add one line after `model_save`:
+```python
+figs_path = project_root / "figs"
+```
+This gives all consumers an absolute `Path` object that is correct regardless of working directory.
+
+**`src/Data Analytical Trends.ipynb`** — Three categories of changes:
+
+1. **Import block** (add to the first code cell, or create a new cell before `create_directories`):
+   ```python
+   import sys
+   from pathlib import Path
+   # Ensure util package is importable when kernel CWD is src/ or project root
+   _src = Path(__file__).parent if "__file__" in dir() else Path().resolve()
+   if str(_src) not in sys.path:
+       sys.path.insert(0, str(_src))
+   from util.data_path import figs_path
+   ```
+   > Note: Jupyter notebooks do not have `__file__`. The fallback `Path().resolve()` is the kernel CWD. Because the notebook lives in `src/`, and Jupyter is normally launched from `src/`, this resolves correctly. The import of `util.data_path` then uses `__file__` internally, giving the true absolute path.
+
+2. **`create_directories()` / `create_crop_directories()` calls** (cells 5 and 19):
+   ```python
+   # BEFORE
+   directories = ["./figs", "./reports"]
+
+   # AFTER
+   directories = [figs_path, Path("./reports")]
+   ```
+
+3. **All `fig_path` assignments** (cells 8 and 19 — 10 total `savefig` calls):
+   ```python
+   # BEFORE
+   fig_path = f"./figs/{basename}_monthly_trend.png"
+
+   # AFTER
+   fig_path = figs_path / f"{basename}_monthly_trend.png"
+   ```
+   ```python
+   # BEFORE (crop-level)
+   crop_figs_dir = Path(f"./figs/{crop_name}")
+
+   # AFTER
+   crop_figs_dir = figs_path / crop_name
+   ```
+   `plt.savefig()` accepts `pathlib.Path` objects directly — no `str()` cast needed.
+
+4. **Print / display strings** (cells 10, 11, 19, 21, 22) — update human-readable messages from `./figs/` to `figs/` (root-relative display):
+   ```python
+   # BEFORE
+   print(f"• Figures saved to: ./figs/")
+   # AFTER
+   print(f"• Figures saved to: {figs_path}")
+   ```
+
+### Files to move
+
+```
+src/figs/  →  figs/          (move entire directory)
+```
+Subdirectory structure is preserved:
+```
+figs/
+├── cassava/
+├── corn/
+├── green_bean/
+├── soybean/
+├── price_avg_correlation_heatmap.png
+├── price_avg_monthly_trend.png
+├── price_avg_smoothed_trend.png
+├── price_avg_yearly_trend.png
+└── price_avg_yoy_change.png
+```
+
+### `.gitignore` impact
+
+If Phase 0 has not yet run: add `figs/` to `.gitignore` (root-level entry).
+If Phase 0 already ran with `src/figs/`: change that entry to `figs/`.
+
+### Verification
+
+```python
+# Run in a notebook cell or python -c after the move:
+from util.data_path import figs_path
+assert figs_path.exists(), f"figs_path not found: {figs_path}"
+assert figs_path.parent.name != "src", "figs is still inside src/ — move incomplete"
+print("OK:", figs_path)
+```
+Then open `src/Data Analytical Trends.ipynb`, run all cells, and confirm images appear in root `figs/` (not `src/figs/`).
+
+---
+
 ## Recommended Session Breakdown
 
 | Session | Phases | Theme |
 |---|---|---|
-| 1 | 0 + 1 + 8 | Housekeeping — no ML logic touched |
+| 1 | 0 + 0b + 1 + 8 | Housekeeping — no ML logic touched |
 | 2 | 2 + 3 | Class consolidation + config |
 | 3 | 4 + 5 | Reproducibility + output format |
 | 4 | 6 | Training script extraction (largest effort) |
@@ -248,3 +351,4 @@ forecast, actual, scaler = train_and_forecast(data_file)
 | `config.yaml` | To be created in Phase 3 |
 | `src/util/output_io.py` | To be created in Phase 5 |
 | `src/train/train_lstm.py` | To be created in Phase 6 |
+| `figs/` | Root-level visualization output (moved from `src/figs/` in Phase 0b) |

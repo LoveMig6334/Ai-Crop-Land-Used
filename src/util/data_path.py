@@ -16,6 +16,7 @@ soybean_price_avg = soybean_path / "price_avg.csv"
 
 
 model_save = project_root / "model"
+figs_path = project_root / "figs"
 
 error_record = model_save / "error_record"
 forecasted_record = model_save / "forecast_price"
