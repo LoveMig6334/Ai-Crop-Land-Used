@@ -9,11 +9,10 @@ from util.config import CFG
 
 
 def load_and_prepare(data_file: Path) -> tuple:
-    """Load wide-format CSV and prepare train/test splits.
+    """Load long-format CSV and prepare train/test splits.
 
-    Reads a wide CSV with Buddhist Era years (columns: year, 1-12),
-    melts to long format, converts BE → Gregorian dates, splits on
-    CFG["train_cutoff_year"], and scales with MinMaxScaler.
+    Reads a long CSV (columns: date, price) produced by migrate_to_long_format.py,
+    splits on CFG["train_cutoff_year"], and scales with MinMaxScaler.
 
     Returns:
         train  : DataFrame, columns ['price', 'scaled'], DatetimeIndex
@@ -24,17 +23,7 @@ def load_and_prepare(data_file: Path) -> tuple:
     """
     cutoff = CFG["train_cutoff_year"]
 
-    wide = pd.read_csv(data_file)
-    long = wide.melt(id_vars="year", var_name="month", value_name="price").sort_values(
-        ["year", "month"]
-    )
-    long["date"] = pd.to_datetime(
-        (long["year"] - 543).astype(str)
-        + "-"
-        + long["month"].astype(str).str.zfill(2)
-        + "-01"
-    )
-    long = long.set_index("date").sort_index()
+    long = pd.read_csv(data_file, index_col="date", parse_dates=True)[["price"]]
 
     train = long[long.index.year <= cutoff]["price"].to_frame()
     future = long[long.index.year == cutoff + 1]["price"].to_frame()

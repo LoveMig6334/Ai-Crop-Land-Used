@@ -41,6 +41,12 @@ Transformer_for = forecasted_record / "Transformer"
 LSTM_5T_for = forecasted_record / "LSTM-5T"
 LSTM_5T_err = error_record / "LSTM-5T"
 
+long_format_path = project_root / "data" / "long_format"
+cassava_long     = long_format_path / "cassava"    / "price_avg.csv"
+corn_long        = long_format_path / "corn"       / "price_avg.csv"
+green_bean_long  = long_format_path / "green_bean" / "price_avg.csv"
+soybean_long     = long_format_path / "soybean"    / "price_avg.csv"
+
 cassava_path_year_fix = fix_data_path / "cassava"
 corn_path_year_fix = fix_data_path / "corn"
 green_bean_year_fix = fix_data_path / "green_bean"
