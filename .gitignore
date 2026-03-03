@@ -18,12 +18,9 @@ model/weights/*.pth
 # Generated outputs (regenerable)
 model/forecast_price/
 model/error_record/
-model/image/
 
 # Generated figures (regenerable)
-src/figs/
-src/image/
-figs/
+fig/
 
 # Raw binary data (CSV equivalents exist)
 data/raw/**/*.xls

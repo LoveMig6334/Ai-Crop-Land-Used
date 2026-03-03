@@ -54,7 +54,7 @@ python -m src.train.train_arima --crop green_bean
    - Forecasts: `model/forecast_price/{MODEL_TYPE}/`
    - Error metrics: `model/error_record/{MODEL_TYPE}/`
    - Weights: `model/weights/`
-   - Visualizations: `figs/`
+   - Visualizations: `fig/` (centralized)
 
 ### Critical Path Management
 **Always use `src/util/data_path.py` for file paths** — never hardcode paths.
@@ -72,7 +72,15 @@ Key path variables:
 - `LSTM_5T_for`, `LSTM_5T_err` — rolling-window (3-Layer LSTM) forecast/error directories
 - `LSTM_err`, `Transformer_err`, `ARIMA_err` — standard error metrics directories
 - `weights_path` — `model/weights/` (saved `.pth` files)
-- `figs_path` — root `figs/`
+- `fig_root` — `fig/` (centralized figure root)
+- `fig_model_forecast` — `fig/model/forecast/` (per-model forecast plots)
+- `fig_model_error` — `fig/model/error/` (per-model error plots; `views/` for cross-model comparisons)
+- `fig_analysis_image` — `fig/analysis/image/` (analytical charts; also aliased as `figs_path`)
+- `fig_analysis_trans` — `fig/analysis/transitions/` (GIF animations)
+- `fig_analysis_trends` — `fig/analysis/trends/` (long-term trend plots)
+- `fig_analysis_overlap` — `fig/analysis/overlap/` (normalized price overlap)
+- `fig_final_lstm3` — `fig/final/lstm-3layer/` (3-layer LSTM per-crop forecasts)
+- `fig_final_gantt` — `fig/final/gantt chart/` (Gantt schedule charts)
 
 ### Output Helpers (`src/util/output_io.py`)
 - `save_forecast_csv(forecast, dir, crop_name)` → `{dir}/{crop_name}_forecast.csv`
@@ -114,7 +122,18 @@ src/
   tools/             Diagnostic utilities (gil_test.py, machine_check.py)
   data preparation/  Data cleaning scripts
   reports/           Analysis reports (Markdown / CSV)
-  image/             Forecast / error / analytical plots
+fig/
+  model/
+    forecast/        Per-model forecast plots (LSTM/, ARIMA/, Transformer/)
+    error/           Per-model error plots; views/ for cross-model comparisons
+  analysis/
+    image/           Analytical charts per crop + combined
+    transitions/     GIF price animations
+    trends/          Long-term trend plots
+    overlap/         Normalized price overlap chart
+  final/
+    lstm-3layer/     3-layer LSTM per-crop forecast figures
+    gantt chart/     Gantt schedule charts (optimize.png, optimal.png)
 ```
 
 ## Data Format
