@@ -16,8 +16,20 @@ soybean_price_avg = soybean_path / "price_avg.csv"
 
 
 model_save = project_root / "model"
-figs_path = project_root / "figs"
 weights_path = project_root / "model" / "weights"
+
+# Centralized fig/ directory tree
+fig_root             = project_root / "fig"
+fig_model_forecast   = fig_root / "model" / "forecast"
+fig_model_error      = fig_root / "model" / "error"
+fig_analysis_image   = fig_root / "analysis" / "image"
+fig_analysis_trans   = fig_root / "analysis" / "transitions"
+fig_analysis_trends  = fig_root / "analysis" / "trends"
+fig_analysis_overlap = fig_root / "analysis" / "overlap"
+fig_final_lstm3      = fig_root / "final" / "lstm-3layer"
+fig_final_gantt      = fig_root / "final" / "gantt chart"
+
+figs_path = fig_analysis_image  # was: project_root / "figs"
 
 error_record = model_save / "error_record"
 forecasted_record = model_save / "forecast_price"
