@@ -155,17 +155,17 @@ if __name__ == "__main__":
     import argparse
 
     from util.data_path import (
-        cassava_price_avg,
-        corn_price_avg,
-        green_bean_price_avg,
-        soybean_price_avg,
+        cassava_long,
+        corn_long,
+        green_bean_long,
+        soybean_long,
     )
 
     crops = {
-        "cassava": cassava_price_avg,
-        "corn": corn_price_avg,
-        "green_bean": green_bean_price_avg,
-        "soybean": soybean_price_avg,
+        "cassava": cassava_long,
+        "corn": corn_long,
+        "green_bean": green_bean_long,
+        "soybean": soybean_long,
     }
 
     p = argparse.ArgumentParser(description="Fit ARIMA and forecast crop prices.")
