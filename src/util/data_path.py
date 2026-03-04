@@ -29,7 +29,8 @@ fig_analysis_overlap = fig_root / "analysis" / "overlap"
 fig_final_lstm3      = fig_root / "final" / "lstm-3layer"
 fig_final_gantt      = fig_root / "final" / "gantt chart"
 
-figs_path = fig_analysis_image  # was: project_root / "figs"
+figs_path    = fig_analysis_image        # was: project_root / "figs"
+reports_path = project_root / "reports"
 
 error_record = model_save / "error_record"
 forecasted_record = model_save / "forecast_price"
