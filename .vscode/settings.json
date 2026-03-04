@@ -1,4 +1,33 @@
 {
   "cSpell.ignoreRegExpList": ["[\u0E00-\u0E7F]+"],
-  "cSpell.words": ["gantt"]
+  "cSpell.words": [
+    "ARIMA",
+    "arma",
+    "CUDA",
+    "gantt",
+    "Hyperparameters",
+    "ipynb",
+    "ipywidgets",
+    "jupyterlab",
+    "LSTM",
+    "MAPE",
+    "matplotlib",
+    "numpy",
+    "preds",
+    "pycache",
+    "pywin",
+    "pywinpty",
+    "pyyaml",
+    "RMSE",
+    "scikit",
+    "scipy",
+    "scriptable",
+    "statsforecast",
+    "statsmodels",
+    "targ",
+    "torchaudio",
+    "torchvision",
+    "tqdm",
+    "venv"
+  ]
 }
