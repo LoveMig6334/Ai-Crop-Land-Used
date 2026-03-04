@@ -81,6 +81,7 @@ Key path variables:
 - `fig_analysis_overlap` — `fig/analysis/overlap/` (normalized price overlap)
 - `fig_final_lstm3` — `fig/final/lstm-3layer/` (3-layer LSTM per-crop forecasts)
 - `fig_final_gantt` — `fig/final/gantt chart/` (Gantt schedule charts)
+- `reports_path` — `reports/` (project root; per-crop Markdown summaries + `crop_analysis_index.csv`)
 
 ### Output Helpers (`src/util/output_io.py`)
 - `save_forecast_csv(forecast, dir, crop_name)` → `{dir}/{crop_name}_forecast.csv`
@@ -121,7 +122,7 @@ src/
     data_utils.py    load_and_prepare(data_file) → (train, future, series, scaler, long)
   tools/             Diagnostic utilities (gil_test.py, machine_check.py)
   data preparation/  Data cleaning scripts
-  reports/           Analysis reports (Markdown / CSV)
+reports/             Analysis reports (Markdown / CSV) — per-crop summaries + crop_analysis_index.csv
 fig/
   model/
     forecast/        Per-model forecast plots (LSTM/, ARIMA/, Transformer/)
