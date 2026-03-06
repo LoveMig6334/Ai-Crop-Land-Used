@@ -1,172 +1,62 @@
-# Claude Code LSP Troubleshooting on Windows
-
-## Summary
-
-Claude Code's LSP tool has two bugs on Windows that prevent TypeScript intelligence from working. This document records the full debugging journey, the root causes found, the workaround applied, and a draft bug report.
-
----
+# LSP Troubleshooting Guide (Windows / Claude Code)
 
 ## Environment
 
-- **OS**: Windows 11
-- **Shell**: Git Bash (MSYS2)
-- **Node manager**: mise
-- **Project**: Next.js 15, TypeScript 5.9.3
-- **LSP server**: `typescript-language-server` v5.1.3
-- **Claude Code model**: claude-sonnet-4-6
+- **OS**: Windows 11, **Shell**: Git Bash (MSYS2), **Node manager**: mise
+
+### Platform Requirement — mise only
+
+Claude Code uses `uv_spawn` to launch LSP servers, which requires a real `.exe`. Only **mise** creates proper `.exe` shims on Windows. npm global (`.cmd`) and Volta (bash shims) do not work.
 
 ---
+
+# Part 1 — TypeScript LSP
 
 ## Root Causes
 
-### Bug 1 — Claude Code passes `rootUri: null` on LSP initialize
+### Bug 1 — `rootUri: null`
 
-When Claude Code's LSP tool spawns `typescript-language-server`, it sends an LSP `initialize` request with `rootUri: null`. Without a workspace root, the server cannot locate:
-
-- The project's `tsconfig.json`
-- The project's `node_modules/typescript`
-
-This causes the server to exit immediately with:
+Claude Code sends `rootUri: null` in the LSP `initialize` request. Without a workspace root, `typescript-language-server` cannot locate `tsconfig.json` or `node_modules/typescript` and exits immediately:
 
 ```
-Request initialize failed with message: Could not find a valid TypeScript installation.
-Please ensure that the "typescript" dependency is installed in the workspace
-or that a valid `tsserver.path` is specified. Exiting.
+Could not find a valid TypeScript installation. Exiting.
 ```
 
-**Verified with a manual LSP initialize test:**
+### Bug 2 — No `textDocument/didOpen`
 
-```js
-// rootUri: null → server crashes
-params: { rootUri: null, ... }
-// → error: "Could not find a valid TypeScript installation"
+Claude Code only opens the single queried file. Cross-file operations (`findReferences`, `goToDefinition`) return empty results without all workspace files indexed.
 
-// rootUri: correct path → server works
-params: { rootUri: 'file:///C:/Users/.../cdsc', ... }
-// → success, finds TypeScript 5.9.3 from workspace node_modules
-```
+### TypeScript co-location in mise
 
-**Expected behavior**: Claude Code should derive `rootUri` from the `filePath` parameter passed to the LSP tool by walking up to find `package.json` or `tsconfig.json`.
-
----
-
-### Bug 2 — Claude Code does not pre-open workspace files
-
-Even after fixing `rootUri`, only the single file passed to the LSP tool is opened via `textDocument/didOpen`. The TypeScript server needs all project files opened (or a valid `tsconfig.json` traversal) to answer cross-file queries like `findReferences` and `goToDefinition`.
-
-**Symptom**: `workspaceSymbol` returned only 24 symbols from `lib/types.ts` instead of 651 symbols from the full workspace.
-
-**Expected behavior**: After sending `initialized`, Claude Code should send `textDocument/didOpen` for all relevant workspace files, or rely on the server's `tsconfig.json`-based discovery (which requires `rootUri`).
-
----
-
-## Platform Issue — Windows Binary Resolution
-
-### Why `uv_spawn` fails with npm/Volta shims
-
-Claude Code uses Node.js's `child_process.spawn` (libuv `uv_spawn`) to launch the LSP server. On Windows, this requires a real `.exe` file. Package managers that install only `.cmd` or bash script shims do not work:
-
-| Package manager | Binary type | Works with `uv_spawn`? |
-|---|---|---|
-| npm global | `.cmd` batch file | No |
-| Volta | bash script shim | No |
-| mise | `.exe` shim | Yes |
-
-**mise** is the only tested package manager on Windows that creates proper `.exe` shims compatible with Claude Code's LSP spawning mechanism.
-
----
-
-## Debugging Timeline
-
-### Session 1 — npm global install
-
-```
-Error: ENOENT: no such file or directory, uv_spawn 'typescript-language-server'
-```
-
-`typescript-language-server` was installed via npm, which creates `.cmd` files. `uv_spawn` cannot execute `.cmd` files without `shell: true`.
-
-**Action**: Switched to Volta.
-
----
-
-### Session 2 — Volta
-
-```
-Error: ENOENT: no such file or directory, uv_spawn 'typescript-language-server'
-```
-
-Volta creates bash script shims (not `.exe`) when configured via Git Bash on Windows. Volta also was not itself on the PATH, making the shims non-functional.
-
-**Action**: Switched to mise.
-
----
-
-### Session 3 — mise (first attempt)
-
-mise creates proper `.exe` shims. The binary was found. New error:
-
-```
-Request initialize failed with message: Could not find a valid TypeScript installation.
-```
-
-This confirmed **Bug 1** — `rootUri: null`. TypeScript IS installed in the project (`node_modules/typescript/lib/tsserver.js`), but the server cannot find it without `rootUri`.
-
----
-
-### Session 4 — TypeScript co-location in mise
-
-The mise installation for `typescript-language-server` lives at:
-
-```
-C:\Users\thatt\AppData\Local\mise\installs\npm-typescript-language-server\5.1.3\
-```
-
-This is a **separate** directory from the mise Node.js installation:
-
-```
-C:\Users\thatt\AppData\Local\mise\installs\node\24.14.0\
-```
-
-When `rootUri` is null, `typescript-language-server` looks for TypeScript in its own `node_modules/` as a fallback. Installing TypeScript globally (`npm install -g typescript` or `mise install npm:typescript`) puts it in a different tree — not accessible as a fallback.
-
-**Fix**: Install TypeScript directly into the typescript-language-server's mise `node_modules`:
+When `rootUri` is null, the server looks for TypeScript in its own `node_modules/` as a fallback. Re-install TypeScript alongside the server to enable this fallback:
 
 ```bash
 npm install --prefix "C:\Users\thatt\AppData\Local\mise\installs\npm-typescript-language-server\5.1.3" typescript typescript-language-server
 ```
 
-> **Note**: Running this with just `typescript` (not both packages) wipes `typescript-language-server` from `node_modules`. Always include both.
-
-**Result**: Server initializes without crashing. But `findReferences` and cross-file operations still returned no results (Bug 2).
+> Always include both packages — installing only `typescript` wipes `typescript-language-server` from that `node_modules`.
 
 ---
 
-### Session 5 — LSP Proxy (workaround for both bugs)
+## Workaround — Proxy (`cli.mjs`)
 
-Since Claude Code cannot be modified directly, a stdio proxy was created by wrapping `cli.mjs` (the typescript-language-server entry point).
+Replace `cli.mjs` with a proxy that injects `rootUri` and pre-opens all workspace files.
 
-**How it works**:
-
-1. Renames `cli.mjs` → `cli.original.mjs`
-2. Installs a new `cli.mjs` that:
-   - Intercepts the LSP `initialize` request from Claude Code
-   - Injects `rootUri` derived from `process.cwd()`
-   - Forwards the modified request to `cli.original.mjs` (the real server)
-   - After `initialized`, sends `textDocument/didOpen` for all `.ts`/`.tsx` files in the workspace
-   - Pipes all other messages through unchanged
-
-**Proxy location**:
+**Location**:
 ```
 C:\Users\thatt\AppData\Local\mise\installs\npm-typescript-language-server\5.1.3\node_modules\typescript-language-server\lib\cli.mjs
 ```
 
-**Original server**:
-```
-...lib\cli.original.mjs
+**Setup**:
+```bash
+# 1. Backup original
+mv ".../lib/cli.mjs" ".../lib/cli.original.mjs"
+
+# 2. Write proxy (see code below), then validate
+node --check ".../lib/cli.mjs"
 ```
 
-**Final proxy code** (`cli.mjs`):
+**Proxy code**:
 
 ```js
 #!/usr/bin/env node
@@ -255,201 +145,66 @@ server.on('error', e => { process.stderr.write('proxy error: ' + e.message + '\n
 
 ---
 
-### Final LSP Capability Results (after workaround)
+## Checklist for mise Updates (TypeScript)
 
-| Operation | Result |
-|---|---|
-| `hover` | Fully working — returns type info |
-| `documentSymbol` | Fully working — lists all symbols in file |
-| `workspaceSymbol` | Fully working — 651 symbols across workspace |
-| `findReferences` | Fully working — 9 references across 5 files |
-| `goToDefinition` | Fully working |
-| `goToImplementation` | Working (no impl for interfaces, expected) |
-| `prepareCallHierarchy` | Working (N/A for type declarations) |
-
----
-
-## Additional Finding — TypeScript Diagnostics
-
-Once the LSP was fully operational, the system automatically surfaced TypeScript diagnostics:
-
-```
-app/admin/(protected)/events/EventsManager.tsx:63  — 'FormEvent' is deprecated [6385]
-app/admin/login/page.tsx:16                        — 'FormEvent' is deprecated [6385]
-app/components/ApplicationForm.tsx:41              — 'FormEvent' is deprecated [6385]
-```
-
----
-
-## Bug Report Draft
-
-**Title**: LSP tool passes `rootUri: null` on Windows, preventing TypeScript Language Server from initializing
-
-**Affected**: Claude Code on Windows (all versions tested)
-
-**Steps to reproduce**:
-1. Install `typescript-language-server` and ensure it is accessible as an `.exe` via mise
-2. Open a TypeScript project in Claude Code
-3. Use any LSP operation (hover, findReferences, etc.)
-4. Observe the error or empty results
-
-**Root cause**:
-The LSP tool calls `typescript-language-server --stdio` and sends an LSP `initialize` request with `rootUri: null`. The TypeScript Language Server requires `rootUri` to locate the project's TypeScript installation and `tsconfig.json`. Without it, the server exits immediately.
-
-**Expected behavior**:
-Claude Code should derive `rootUri` from the `filePath` argument passed to the LSP tool by walking up the directory tree to find a `package.json` or `tsconfig.json`.
-
-**Secondary issue**:
-Even with a valid `rootUri`, Claude Code only sends `textDocument/didOpen` for the single queried file. Cross-file operations (`findReferences`, `goToDefinition`) require the server to have indexed the full workspace. Claude Code should either send `didOpen` for all workspace files after `initialized`, or rely on the server's own tsconfig-based discovery.
-
-**Platform note**:
-On Windows, `uv_spawn` cannot execute `.cmd` or bash script shims. The LSP binary must be a real `.exe`. Only mise (among npm, Volta, mise) produces compatible `.exe` shims on Windows.
-
-**Workaround**:
-A stdio proxy (`cli.mjs`) wraps the real server entry point to inject `rootUri` and pre-open all workspace files. See proxy code above.
-
-**Report here**: https://github.com/anthropics/claude-code/issues
-
----
-
-## Checklist for Future mise Updates
-
-When `typescript-language-server` is updated via mise, the proxy and co-located TypeScript will be wiped. Re-apply:
+When `typescript-language-server` is updated via mise, the proxy and co-located TypeScript are wiped. Re-apply:
 
 ```bash
 # 1. Re-install TypeScript alongside typescript-language-server
 npm install --prefix "C:\Users\thatt\AppData\Local\mise\installs\npm-typescript-language-server\<VERSION>" typescript typescript-language-server
 
-# 2. Rename original entry point
+# 2. Backup original
 mv ".../lib/cli.mjs" ".../lib/cli.original.mjs"
 
-# 3. Place the proxy as the new cli.mjs (see proxy code above)
+# 3. Write proxy as cli.mjs (see code above), then validate
+node --check ".../lib/cli.mjs"
 ```
 
 ---
 
----
-
-# Python / Pyright LSP Fix
-
-## Environment
-
-- **OS**: Windows 11
-- **Shell**: Git Bash (MSYS2)
-- **Node manager**: mise
-- **Project**: Python 3.12, ML project (LSTM/Transformer/ARIMA)
-- **LSP server**: `pyright-langserver` v1.1.408 (via `mise install npm:pyright`)
-- **Claude Code model**: claude-sonnet-4-6
-
----
+# Part 2 — Python / Pyright LSP
 
 ## Root Causes
 
-### Bug 1 — `pyright-lsp` plugin lspServers config not loaded
+### Bug 1 — Plugin `lspServers` config not loaded
 
-Claude Code has a `pyright-lsp@claude-plugins-official` plugin enabled in `~/.claude/settings.json`. The plugin's `lspServers` config lives only in:
+The `pyright-lsp` plugin's `lspServers` config is inside the marketplace directory and is never read by Claude Code. Result: `pyright-langserver` is never spawned — all LSP operations silently return `[]`.
 
-```
-~/.claude/plugins/marketplaces/claude-plugins-official/.claude-plugin/marketplace.json
-```
+**Fix**: Add `lspServers` directly to `~/.claude/settings.json`.
 
-Claude Code logs:
+### Bug 2 — Malformed `rootUri` and `workspaceFolders`
 
-```
-[lspRecommendation] Skipping string path lspServers (not readable from marketplace)
-```
-
-The plugin cache at `~/.claude/plugins/cache/claude-plugins-official/pyright-lsp/1.0.0/` has no `.claude-plugin/plugin.json`, so Claude Code never spawns `pyright-langserver` at all — all LSP operations silently return empty results.
-
-**Fix**: Add `lspServers` directly to `~/.claude/settings.json`:
-
-```json
-"lspServers": {
-  "pyright": {
-    "command": "pyright-langserver",
-    "args": ["--stdio"],
-    "extensionToLanguage": {
-      ".py": "python",
-      ".pyi": "python"
-    }
-  }
-}
-```
-
----
-
-### Bug 2 — Claude Code sends malformed `rootUri` and `workspaceFolders`
-
-Claude Code sends this in the LSP `initialize` request:
-
+Claude Code sends:
 ```
 rootUri: "file://C:\Users\thatt\Documents\Coding Project\Science Projects\AI Crop Land-Used"
 ```
 
-Three problems with this URI:
-1. Uses `file://` (2 slashes) instead of `file:///` (3 slashes) for a local path
-2. Uses **backslashes** instead of forward slashes
-3. **Spaces are not percent-encoded** (should be `%20`)
+Three problems:
+1. `file://` (2 slashes) instead of `file:///` (3 slashes)
+2. Backslashes instead of forward slashes
+3. Spaces not percent-encoded (should be `%20`)
 
-Pyright cannot use this malformed URI to locate `pyrightconfig.json`. It falls back to default settings (no `extraPaths`), so cross-file imports fail.
+Pyright cannot find `pyrightconfig.json` → falls back to default settings → `extraPaths` not applied → cross-file imports fail. `workspaceFolders` has the same malformed URI and is read preferentially, so fixing only `rootUri` is insufficient.
 
-`workspaceFolders` has the same malformed URI. Pyright reads `workspaceFolders` preferentially over `rootUri` for config discovery, so fixing only `rootUri` is insufficient.
+**Fix**: Proxy overrides both fields using `pathToFileURL()`.
 
-**Fix**: In the proxy, always override both fields using Node's `pathToFileURL()`:
+### Bug 3 — No `textDocument/didOpen`
 
-```js
-const rootUri = pathToFileURL(resolve(process.cwd())).href;
-// → "file:///C:/Users/thatt/Documents/Coding%20Project/..."
-
-msg.params.rootUri = rootUri;
-msg.params.rootPath = cwd;
-msg.params.workspaceFolders = [{ uri: rootUri, name: 'workspace' }];
-```
-
----
-
-### Bug 3 — Claude Code never sends `textDocument/didOpen`
-
-Same as the TypeScript bug. Claude Code sends `initialized` but no `textDocument/didOpen` for workspace files. Pyright has nothing in memory → `documentSymbol`, `hover`, `goToDefinition` all return empty.
+Same as TypeScript: Claude Code sends `initialized` but no `didOpen` for workspace files. Pyright has nothing in memory → `hover`, `goToDefinition`, `findReferences` all return empty.
 
 **Fix**: Proxy sends `textDocument/didOpen` for all `.py` files after `initialized`.
 
 ---
 
-### Additional: Proxy regex corrupted by shell escaping
-
-When writing the proxy via bash heredoc or `node -e` with string concatenation, the regex `/Content-Length:\s*(\d+)/i` got written to disk as `/Content-Length:[^d]*(d+)/i` — `\s` became `[^d]` and `\d` became `d`. This caused the proxy to silently drop all LSP messages (Content-Length never matched), making it appear as if the server hung forever.
-
-**Fix**: Always validate the proxy file with `node --check` after writing. Use `Buffer`-based CRLF (`Buffer.from([0x0d, 0x0a])`) and `String.fromCharCode(10)` for newlines to avoid all escape sequence issues.
-
----
-
-## Debugging Observations
-
-| Symptom | Meaning |
-|---|---|
-| LSP operations return `[]` instantly | Server not spawned at all (plugin config not loaded) |
-| LSP operation hangs forever | Proxy running but `initialize` never forwarded (broken regex) |
-| `"server is starting"` error | Proxy started, but `initialize` handshake not complete |
-| `"server is running"` error | Server died, Claude Code in exponential backoff before restart |
-| `goToDefinition` returns "No definition found" | Server running but `pyrightconfig.json` not found (malformed rootUri) |
-| `hover` returns `Unknown` type | Import not resolved — `extraPaths` not applied |
-
-**Important**: Every time you kill the pyright process externally, Claude Code enters a long exponential backoff before restarting. The only reliable reset is to restart Claude Code (close + reopen).
-
-**Confirmed from proxy log**: Claude Code sent `file://C:\Users\...` (before fix) and proxy replaced it with `file:///C:/Users/thatt/Documents/Coding%20Project/...` (after fix).
-
----
-
-## Files Changed
+## Setup — Files to Configure
 
 ### 1. `~/.claude/settings.json`
 
-Added `lspServers` block so Claude Code spawns `pyright-langserver`:
+Add the `lspServers` block so Claude Code spawns `pyright-langserver`:
 
 ```json
 {
-  "enabledPlugins": { ... },
+  "enabledPlugins": { "...": true },
   "lspServers": {
     "pyright": {
       "command": "pyright-langserver",
@@ -477,31 +232,37 @@ Added `lspServers` block so Claude Code spawns `pyright-langserver`:
 ```
 
 Notes:
-- `venvPath` + `venv` must be split (venvPath = parent dir, venv = folder name)
-- `extraPaths` uses **absolute path** — relative `"src"` does not resolve correctly when rootUri is malformed
-- `stubPath` points to Pylance's bundled stubs for richer pandas/sklearn/matplotlib types
+- `venvPath` = parent directory of the venv folder; `venv` = the folder name (must be split)
+- `extraPaths` must be **absolute** — relative paths do not resolve correctly when `rootUri` is malformed
+- `stubPath` points to Pylance's bundled stubs for richer pandas/sklearn/matplotlib types; update when Pylance is updated
 
-### 3. Pyright proxy — `langserver.index.js`
+### 3. Proxy — `langserver.index.js`
 
 **Location**:
 ```
 C:\Users\thatt\AppData\Local\mise\installs\npm-pyright\1.1.408\node_modules\pyright\langserver.index.js
 ```
 
-**Original backed up to**:
-```
-...node_modules\pyright\langserver.index.original.js
+**Setup**:
+```bash
+# 1. Backup original
+cp ".../node_modules/pyright/langserver.index.js" \
+   ".../node_modules/pyright/langserver.index.original.js"
+
+# 2. Write proxy (see code below), then validate
+node --check ".../node_modules/pyright/langserver.index.js"
 ```
 
-**Full proxy script**:
+> **Warning**: Always validate with `node --check` after writing. If the proxy is written via bash heredoc or string concatenation, regex escape sequences (`\s`, `\d`) can be corrupted silently — this causes the proxy to drop all LSP messages, making the server appear hung.
+
+**Proxy code**:
 
 ```js
 #!/usr/bin/env node
 'use strict';
-// LSP proxy for Pyright -- fixes two Claude Code bugs on Windows:
-//   Bug 1: rootUri:null -> injected from process.cwd()
+// LSP proxy for Pyright -- fixes Claude Code bugs on Windows:
+//   Bug 1: malformed/null rootUri -> injected from process.cwd()
 //   Bug 2: no textDocument/didOpen -> pre-open all .py files
-// See lsp-troubleshooting.md
 
 const { spawn } = require('child_process');
 const { join, resolve } = require('path');
@@ -597,38 +358,38 @@ server.on('error', e => { process.stderr.write('proxy error: ' + e.message); pro
 
 ---
 
-## Final LSP Capability Results (Python/Pyright)
+## Diagnostic Symptoms
 
-| Operation | Result |
+| Symptom | Meaning |
 |---|---|
-| `documentSymbol` | Fully working — all classes/methods/variables in any file |
-| `hover` | Fully working — correct type info including cross-file types |
-| `goToDefinition` (same file) | Fully working |
-| `goToDefinition` (cross-file) | Fully working — e.g. `LSTMRegressor` in `train_lstm.py` → `lstm_model.py:4` |
-| `findReferences` (cross-workspace) | Fully working — found `LSTMRegressor` in 7 references across 5 files |
+| LSP operations return `[]` instantly | Server not spawned — `lspServers` not in `settings.json` |
+| LSP operation hangs forever | Proxy running but `initialize` never forwarded (broken regex in proxy) |
+| `"server is starting"` error | Proxy started but `initialize` handshake not complete |
+| `"server is running"` error | Server died; Claude Code in exponential backoff — restart Claude Code |
+| `goToDefinition` returns "No definition found" | Server running but `pyrightconfig.json` not found (malformed `rootUri`) |
+| `hover` returns `Unknown` type | Import not resolved — `extraPaths` not applied |
+
+> Every time the pyright process is killed externally, Claude Code enters a long exponential backoff. The only reliable reset is to restart Claude Code (close + reopen).
 
 ---
 
-## Checklist for Future mise Updates (Pyright)
+## Checklist for mise Updates (Pyright)
 
-When `pyright` is updated via mise, the proxy will be wiped. Re-apply:
+When `pyright` is updated via mise, the proxy is wiped. Re-apply:
 
 ```bash
 # 1. Find new version path
 ls ~/.local/share/mise/installs/npm-pyright/
 
-# 2. Backup original entry point
+# 2. Backup original
 cp ".../node_modules/pyright/langserver.index.js" \
    ".../node_modules/pyright/langserver.index.original.js"
 
-# 3. Write the proxy as the new langserver.index.js
-#    (see full proxy script above)
-
-# 4. Validate syntax before use
+# 3. Write proxy as langserver.index.js (see code above), then validate
 node --check ".../node_modules/pyright/langserver.index.js"
 
-# 5. Update pyrightconfig.json stubPath if Pylance was also updated
-#    Update venvPath if project was moved
+# 4. Update pyrightconfig.json stubPath if Pylance was updated
+# 5. Update venvPath/extraPaths if project was moved
 ```
 
 Also update `lspServers` in `~/.claude/settings.json` if the `pyright-langserver` command path changes.
