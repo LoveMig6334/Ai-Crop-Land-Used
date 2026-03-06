@@ -3,6 +3,6 @@
   "pythonVersion": "3.12",
   "venvPath": "c:\\Users\\thatt\\Documents\\Coding Project\\Science Projects\\AI Crop Land-Used",
   "venv": ".venv",
-  "extraPaths": ["src"],
+  "extraPaths": ["c:\\Users\\thatt\\Documents\\Coding Project\\Science Projects\\AI Crop Land-Used\\src"],
   "stubPath": "c:\\Users\\thatt\\.vscode\\extensions\\ms-python.vscode-pylance-2026.1.1\\dist\\bundled\\stubs"
 }

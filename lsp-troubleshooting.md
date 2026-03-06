@@ -325,3 +325,310 @@ mv ".../lib/cli.mjs" ".../lib/cli.original.mjs"
 
 # 3. Place the proxy as the new cli.mjs (see proxy code above)
 ```
+
+---
+
+---
+
+# Python / Pyright LSP Fix
+
+## Environment
+
+- **OS**: Windows 11
+- **Shell**: Git Bash (MSYS2)
+- **Node manager**: mise
+- **Project**: Python 3.12, ML project (LSTM/Transformer/ARIMA)
+- **LSP server**: `pyright-langserver` v1.1.408 (via `mise install npm:pyright`)
+- **Claude Code model**: claude-sonnet-4-6
+
+---
+
+## Root Causes
+
+### Bug 1 — `pyright-lsp` plugin lspServers config not loaded
+
+Claude Code has a `pyright-lsp@claude-plugins-official` plugin enabled in `~/.claude/settings.json`. The plugin's `lspServers` config lives only in:
+
+```
+~/.claude/plugins/marketplaces/claude-plugins-official/.claude-plugin/marketplace.json
+```
+
+Claude Code logs:
+
+```
+[lspRecommendation] Skipping string path lspServers (not readable from marketplace)
+```
+
+The plugin cache at `~/.claude/plugins/cache/claude-plugins-official/pyright-lsp/1.0.0/` has no `.claude-plugin/plugin.json`, so Claude Code never spawns `pyright-langserver` at all — all LSP operations silently return empty results.
+
+**Fix**: Add `lspServers` directly to `~/.claude/settings.json`:
+
+```json
+"lspServers": {
+  "pyright": {
+    "command": "pyright-langserver",
+    "args": ["--stdio"],
+    "extensionToLanguage": {
+      ".py": "python",
+      ".pyi": "python"
+    }
+  }
+}
+```
+
+---
+
+### Bug 2 — Claude Code sends malformed `rootUri` and `workspaceFolders`
+
+Claude Code sends this in the LSP `initialize` request:
+
+```
+rootUri: "file://C:\Users\thatt\Documents\Coding Project\Science Projects\AI Crop Land-Used"
+```
+
+Three problems with this URI:
+1. Uses `file://` (2 slashes) instead of `file:///` (3 slashes) for a local path
+2. Uses **backslashes** instead of forward slashes
+3. **Spaces are not percent-encoded** (should be `%20`)
+
+Pyright cannot use this malformed URI to locate `pyrightconfig.json`. It falls back to default settings (no `extraPaths`), so cross-file imports fail.
+
+`workspaceFolders` has the same malformed URI. Pyright reads `workspaceFolders` preferentially over `rootUri` for config discovery, so fixing only `rootUri` is insufficient.
+
+**Fix**: In the proxy, always override both fields using Node's `pathToFileURL()`:
+
+```js
+const rootUri = pathToFileURL(resolve(process.cwd())).href;
+// → "file:///C:/Users/thatt/Documents/Coding%20Project/..."
+
+msg.params.rootUri = rootUri;
+msg.params.rootPath = cwd;
+msg.params.workspaceFolders = [{ uri: rootUri, name: 'workspace' }];
+```
+
+---
+
+### Bug 3 — Claude Code never sends `textDocument/didOpen`
+
+Same as the TypeScript bug. Claude Code sends `initialized` but no `textDocument/didOpen` for workspace files. Pyright has nothing in memory → `documentSymbol`, `hover`, `goToDefinition` all return empty.
+
+**Fix**: Proxy sends `textDocument/didOpen` for all `.py` files after `initialized`.
+
+---
+
+### Additional: Proxy regex corrupted by shell escaping
+
+When writing the proxy via bash heredoc or `node -e` with string concatenation, the regex `/Content-Length:\s*(\d+)/i` got written to disk as `/Content-Length:[^d]*(d+)/i` — `\s` became `[^d]` and `\d` became `d`. This caused the proxy to silently drop all LSP messages (Content-Length never matched), making it appear as if the server hung forever.
+
+**Fix**: Always validate the proxy file with `node --check` after writing. Use `Buffer`-based CRLF (`Buffer.from([0x0d, 0x0a])`) and `String.fromCharCode(10)` for newlines to avoid all escape sequence issues.
+
+---
+
+## Debugging Observations
+
+| Symptom | Meaning |
+|---|---|
+| LSP operations return `[]` instantly | Server not spawned at all (plugin config not loaded) |
+| LSP operation hangs forever | Proxy running but `initialize` never forwarded (broken regex) |
+| `"server is starting"` error | Proxy started, but `initialize` handshake not complete |
+| `"server is running"` error | Server died, Claude Code in exponential backoff before restart |
+| `goToDefinition` returns "No definition found" | Server running but `pyrightconfig.json` not found (malformed rootUri) |
+| `hover` returns `Unknown` type | Import not resolved — `extraPaths` not applied |
+
+**Important**: Every time you kill the pyright process externally, Claude Code enters a long exponential backoff before restarting. The only reliable reset is to restart Claude Code (close + reopen).
+
+**Confirmed from proxy log**: Claude Code sent `file://C:\Users\...` (before fix) and proxy replaced it with `file:///C:/Users/thatt/Documents/Coding%20Project/...` (after fix).
+
+---
+
+## Files Changed
+
+### 1. `~/.claude/settings.json`
+
+Added `lspServers` block so Claude Code spawns `pyright-langserver`:
+
+```json
+{
+  "enabledPlugins": { ... },
+  "lspServers": {
+    "pyright": {
+      "command": "pyright-langserver",
+      "args": ["--stdio"],
+      "extensionToLanguage": {
+        ".py": "python",
+        ".pyi": "python"
+      }
+    }
+  }
+}
+```
+
+### 2. `pyrightconfig.json` (project root)
+
+```json
+{
+  "include": ["src"],
+  "pythonVersion": "3.12",
+  "venvPath": "c:\\Users\\thatt\\Documents\\Coding Project\\Science Projects\\AI Crop Land-Used",
+  "venv": ".venv",
+  "extraPaths": ["c:\\Users\\thatt\\Documents\\Coding Project\\Science Projects\\AI Crop Land-Used\\src"],
+  "stubPath": "c:\\Users\\thatt\\.vscode\\extensions\\ms-python.vscode-pylance-2026.1.1\\dist\\bundled\\stubs"
+}
+```
+
+Notes:
+- `venvPath` + `venv` must be split (venvPath = parent dir, venv = folder name)
+- `extraPaths` uses **absolute path** — relative `"src"` does not resolve correctly when rootUri is malformed
+- `stubPath` points to Pylance's bundled stubs for richer pandas/sklearn/matplotlib types
+
+### 3. Pyright proxy — `langserver.index.js`
+
+**Location**:
+```
+C:\Users\thatt\AppData\Local\mise\installs\npm-pyright\1.1.408\node_modules\pyright\langserver.index.js
+```
+
+**Original backed up to**:
+```
+...node_modules\pyright\langserver.index.original.js
+```
+
+**Full proxy script**:
+
+```js
+#!/usr/bin/env node
+'use strict';
+// LSP proxy for Pyright -- fixes two Claude Code bugs on Windows:
+//   Bug 1: rootUri:null -> injected from process.cwd()
+//   Bug 2: no textDocument/didOpen -> pre-open all .py files
+// See lsp-troubleshooting.md
+
+const { spawn } = require('child_process');
+const { join, resolve } = require('path');
+const { readdirSync, readFileSync, statSync, appendFileSync } = require('fs');
+const { pathToFileURL } = require('url');
+
+const LOG = 'c:/Users/thatt/pyright-proxy.log';
+const NL = String.fromCharCode(10);
+function log(msg) { try { appendFileSync(LOG, new Date().toISOString() + ' ' + msg + NL); } catch {} }
+log('proxy started cwd=' + process.cwd());
+
+const realServer = join(__dirname, 'langserver.index.original.js');
+const cwd = resolve(process.cwd());
+const rootUri = pathToFileURL(cwd).href;
+const SEP = Buffer.from([0x0d, 0x0a, 0x0d, 0x0a]);
+const CRLF = Buffer.from([0x0d, 0x0a]);
+
+const IGNORE = new Set(['__pycache__', '.venv', 'venv', '.git', 'node_modules', '.mypy_cache', '.pytest_cache', 'dist', 'build']);
+
+function getAllPyFiles(dir) {
+  const results = [];
+  let entries;
+  try { entries = readdirSync(dir); } catch { return results; }
+  for (const entry of entries) {
+    if (IGNORE.has(entry)) continue;
+    const full = join(dir, entry);
+    try {
+      const stat = statSync(full);
+      if (stat.isDirectory()) results.push(...getAllPyFiles(full));
+      else if (entry.endsWith('.py')) results.push(full);
+    } catch {}
+  }
+  return results;
+}
+
+const server = spawn(process.execPath, [realServer, ...process.argv.slice(2)], {
+  env: process.env, windowsHide: true, stdio: ['pipe', 'pipe', 'inherit'],
+});
+server.stdout.pipe(process.stdout);
+
+function sendToServer(msg) {
+  const body = Buffer.from(JSON.stringify(msg), 'utf8');
+  const header = Buffer.from('Content-Length: ' + body.length, 'ascii');
+  server.stdin.write(Buffer.concat([header, CRLF, CRLF, body]));
+}
+
+function preOpenAllFiles() {
+  const files = getAllPyFiles(cwd);
+  log('preOpenAllFiles: ' + files.length + ' .py files');
+  for (const file of files) {
+    try {
+      const text = readFileSync(file, 'utf8');
+      const uri = pathToFileURL(file).href;
+      sendToServer({ jsonrpc: '2.0', method: 'textDocument/didOpen', params: { textDocument: { uri, languageId: 'python', version: 1, text } } });
+    } catch {}
+  }
+}
+
+let buf = Buffer.alloc(0);
+process.stdin.on('data', chunk => {
+  buf = Buffer.concat([buf, chunk]);
+  while (true) {
+    const sep = buf.indexOf(SEP);
+    if (sep === -1) break;
+    const hdr = buf.slice(0, sep).toString('ascii');
+    const m = hdr.match(/Content-Length:\s*(\d+)/i);
+    if (!m) { buf = buf.slice(sep + 4); continue; }
+    const cl = parseInt(m[1], 10);
+    const start = sep + 4;
+    if (buf.length < start + cl) break;
+    const body = buf.slice(start, start + cl).toString('utf8');
+    buf = buf.slice(start + cl);
+    let msg;
+    try { msg = JSON.parse(body); } catch { continue; }
+    log('recv ' + msg.method + (msg.id ? ' id=' + msg.id : ''));
+    if (msg.method === 'initialize') {
+      log('initialize rootUri(before)=' + (msg.params && msg.params.rootUri));
+      if (msg.params) {
+        msg.params.rootUri = rootUri;
+        msg.params.rootPath = cwd;
+        msg.params.workspaceFolders = [{ uri: rootUri, name: 'workspace' }];
+      }
+      log('initialize rootUri(after)=' + rootUri);
+    }
+    sendToServer(msg);
+    if (msg.method === 'initialized') preOpenAllFiles();
+  }
+});
+process.stdin.on('end', () => server.stdin.end());
+server.on('exit', code => { log('server exit ' + code); process.exit(code ?? 0); });
+server.on('error', e => { process.stderr.write('proxy error: ' + e.message); process.exit(1); });
+```
+
+---
+
+## Final LSP Capability Results (Python/Pyright)
+
+| Operation | Result |
+|---|---|
+| `documentSymbol` | Fully working — all classes/methods/variables in any file |
+| `hover` | Fully working — correct type info including cross-file types |
+| `goToDefinition` (same file) | Fully working |
+| `goToDefinition` (cross-file) | Fully working — e.g. `LSTMRegressor` in `train_lstm.py` → `lstm_model.py:4` |
+| `findReferences` (cross-workspace) | Fully working — found `LSTMRegressor` in 7 references across 5 files |
+
+---
+
+## Checklist for Future mise Updates (Pyright)
+
+When `pyright` is updated via mise, the proxy will be wiped. Re-apply:
+
+```bash
+# 1. Find new version path
+ls ~/.local/share/mise/installs/npm-pyright/
+
+# 2. Backup original entry point
+cp ".../node_modules/pyright/langserver.index.js" \
+   ".../node_modules/pyright/langserver.index.original.js"
+
+# 3. Write the proxy as the new langserver.index.js
+#    (see full proxy script above)
+
+# 4. Validate syntax before use
+node --check ".../node_modules/pyright/langserver.index.js"
+
+# 5. Update pyrightconfig.json stubPath if Pylance was also updated
+#    Update venvPath if project was moved
+```
+
+Also update `lspServers` in `~/.claude/settings.json` if the `pyright-langserver` command path changes.
