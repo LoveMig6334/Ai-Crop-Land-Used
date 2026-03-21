@@ -2,6 +2,7 @@
   "python.defaultInterpreterPath": "c:\\Users\\thatt\\Documents\\Coding Project\\Science Projects\\AI Crop Land-Used\\.venv\\Scripts\\python.exe",
   "cSpell.ignoreRegExpList": ["[\u0E00-\u0E7F]+"],
   "cSpell.words": [
+    "actuals",
     "ARIMA",
     "arma",
     "CUDA",
