@@ -37,7 +37,7 @@ def train_and_forecast(
     data_file = Path(data_file)
     crop_name = data_file.parent.name
 
-    train, future, series, scaler, long = load_and_prepare(data_file)
+    _, future, series, scaler, long = load_and_prepare(data_file)
 
     SEQ_LEN = CFG["data"]["seq_len"]
     PRED_LEN = CFG["data"]["pred_len"]
@@ -62,6 +62,7 @@ def train_and_forecast(
         print(f"Loaded weights from {weight_file.name}")
     else:
         EPOCHS = CFG["transformer"]["epochs"]
+        loss = torch.tensor(0.0)
         for epoch in range(1, EPOCHS + 1):
             for xb, yb in loader:
                 optimizer.zero_grad()

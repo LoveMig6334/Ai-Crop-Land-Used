@@ -7,7 +7,6 @@ from sklearn.metrics import mean_absolute_error
 from statsforecast import StatsForecast
 from statsforecast.models import ARIMA, AutoARIMA
 
-from util.config import CFG
 from util.data_path import ARIMA_err, ARIMA_for, weights_path
 from util.data_utils import load_and_prepare
 from util.output_io import save_error_csv, save_forecast_csv, save_summary_csv
@@ -62,7 +61,7 @@ def train_and_forecast(
     data_file = Path(data_file)
     crop_name = data_file.parent.name
 
-    train, future, series, scaler, long = load_and_prepare(data_file)
+    train, future, _, _, long = load_and_prepare(data_file)
 
     y_train = train["price"].asfreq("MS")
     y_test = future["price"].asfreq("MS")
@@ -80,7 +79,7 @@ def train_and_forecast(
         season_order = tuple(saved["seasonal_order"])
         print(f"Loaded ARIMA order from {order_file.name}: {order} x {season_order}")
         sf = StatsForecast(
-            models=[ARIMA(order=order, season_order=season_order)],
+            models=[ARIMA(order=order, seasonal_order=season_order)],
             freq="MS",
         )
         sf_forecasts = sf.fit_predict(df=sf_data, h=12)
@@ -116,7 +115,7 @@ def train_and_forecast(
         else:
             print("Could not extract ARIMA order; sidecar not written.")
 
-    arima_series = sf_forecasts.set_index("ds")[arima_col]
+    arima_series = sf_forecasts.to_pandas().set_index("ds")[arima_col]  # type: ignore[union-attr]
     forecast = arima_series.rename("forecast_price")
 
     save_forecast_csv(forecast, ARIMA_for, crop_name)
