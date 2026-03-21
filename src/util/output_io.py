@@ -40,7 +40,7 @@ def save_error_csv(error_df: pd.DataFrame, output_dir: Path, crop_name: str) -> 
     output_dir.mkdir(parents=True, exist_ok=True)
     path = output_dir / f"{crop_name}_error_metrics.csv"
     out = error_df[["actual", "forecast", "error", "abs_error", "abs_pct_error"]].copy()
-    out.index = out.index.strftime("%Y-%m-%d")
+    out.index = pd.DatetimeIndex(out.index).strftime("%Y-%m-%d")
     out.index.name = "date"
     out.to_csv(path)
     print(f"Error metrics saved to: {path}")

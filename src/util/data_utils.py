@@ -24,6 +24,7 @@ def load_and_prepare(data_file: Path) -> tuple:
     cutoff = CFG["train_cutoff_year"]
 
     long = pd.read_csv(data_file, index_col="date", parse_dates=True)[["price"]]
+    assert isinstance(long.index, pd.DatetimeIndex)
 
     train = long[long.index.year <= cutoff]["price"].to_frame()
     future = long[long.index.year == cutoff + 1]["price"].to_frame()
