@@ -55,7 +55,7 @@ df = pd.read_csv(cassava_long, index_col="date", parse_dates=True)[["price"]]
 - `cassava_price_avg`, `corn_price_avg`, `green_bean_price_avg`, `soybean_price_avg` — wide-format (legacy)
 - `LSTM_for`, `Transformer_for`, `ARIMA_for` — forecast output dirs
 - `LSTM_err`, `Transformer_err`, `ARIMA_err` — error metrics dirs
-- `LSTM_5T_for`, `LSTM_5T_err` — rolling-window 3-Layer LSTM forecast/error dirs
+- `LSTM_3L_for`, `LSTM_3L_err` — rolling-window 3-Layer LSTM forecast/error dirs
 - `weights_path` — `model/weights/`
 - `fig_root` — `fig/`
 - `fig_model_forecast` — `fig/model/forecast/`

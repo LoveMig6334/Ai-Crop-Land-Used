@@ -35,24 +35,16 @@ reports_path = project_root / "reports"
 error_record = model_save / "error_record"
 forecasted_record = model_save / "forecast_price"
 
-ARIMA_5_err = error_record / "(5)-ARIMA"
-LSTM_5_err = error_record / "(5)-LSTM"
-Transformer_5_err = error_record / "(5)-Transformer"
-
 ARIMA_err = error_record / "ARIMA"
 LSTM_err = error_record / "LSTM"
 Transformer_err = error_record / "Transformer"
-
-ARIMA_5_for = forecasted_record / "(5)-ARIMA"
-LSTM_5_for = forecasted_record / "(5)-LSTM"
-Transformer_5_for = forecasted_record / "(5)-Transformer"
 
 ARIMA_for = forecasted_record / "ARIMA"
 LSTM_for = forecasted_record / "LSTM"
 Transformer_for = forecasted_record / "Transformer"
 
-LSTM_5T_for = forecasted_record / "LSTM-5T"
-LSTM_5T_err = error_record / "LSTM-5T"
+LSTM_3L_for = forecasted_record / "LSTM-3L"
+LSTM_3L_err = error_record / "LSTM-3L"
 
 long_format_path = project_root / "data" / "long_format"
 cassava_long     = long_format_path / "cassava"    / "price_avg.csv"
