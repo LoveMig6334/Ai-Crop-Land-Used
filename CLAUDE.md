@@ -52,7 +52,6 @@ df = pd.read_csv(cassava_long, index_col="date", parse_dates=True)[["price"]]
 
 ### Key Path Variables
 - `cassava_long`, `corn_long`, `green_bean_long`, `soybean_long` — long-format CSVs (primary)
-- `cassava_price_avg`, `corn_price_avg`, `green_bean_price_avg`, `soybean_price_avg` — wide-format (legacy)
 - `LSTM_for`, `Transformer_for`, `ARIMA_for` — forecast output dirs
 - `LSTM_err`, `Transformer_err`, `ARIMA_err` — error metrics dirs
 - `LSTM_3L_for`, `LSTM_3L_err` — rolling-window 3-Layer LSTM forecast/error dirs
