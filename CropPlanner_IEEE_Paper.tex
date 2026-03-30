@@ -55,7 +55,7 @@
 % ABSTRACT
 % ============================================================
 \begin{abstract}
-Agricultural price volatility exceeding 20\% annually, combined with the prevalence of monoculture farming practices, exposes Thai farmers to significant income risks. This paper presents CropPlanner, an integrated system comprising three components: (1)~a comparative study of AI models for 12-month crop price forecasting, including LSTM, Transformer, ARIMA, and a proposed Rolling-Window LSTM; (2)~a crop planning recommendation system formulated as a Weighted Job Scheduling Problem solved by a Greedy Heuristic; and (3)~a web application for farmers. Experiments were conducted using 20~years of monthly price data (2004--2024) for four major field crops---cassava, corn, green bean, and soybean---in Northeastern Thailand. Results show that no single model dominates across all crops: Standard LSTM achieved the highest average accuracy of 92.93\%, while Rolling-Window LSTM excelled in peak timing accuracy, predicting peak price months within one month for three out of four crops---a property critical for scheduling. The Greedy Scheduling system produced a non-overlapping four-crop rotation plan yielding 41,377~THB/rai/year, approximately 2.4~times the income of the best monoculture option.
+Agricultural price volatility exceeding 20\% annually, combined with the prevalence of monoculture farming practices, exposes Thai farmers to significant income risks. This paper presents CropPlanner, an integrated system comprising three components: (1)~a comparative study of AI models for 12-month crop price forecasting, including LSTM, Transformer, ARIMA, and a proposed Rolling-Window LSTM; (2)~a crop planning recommendation system formulated as a Weighted Job Scheduling Problem solved by a Greedy Heuristic; and (3)~a web application for farmers. Experiments were conducted using 20~years of monthly price data (2004--2024) for four major field crops---cassava, corn, green bean, and soybean---in Northeastern Thailand. Results show that no single model dominates across all crops: Standard LSTM achieved the highest average accuracy of 92.93\%, while Rolling-Window LSTM---with window sizes selected via a held-out validation year to prevent data leakage---achieved correct peak timing for two of four crops and within one month for a third, a property critical for scheduling. Exhaustive enumeration confirmed that the Greedy Scheduling heuristic found the globally optimal solution, producing a non-overlapping four-crop rotation plan yielding 41,377~THB/rai/year, approximately 2.4~times the income of the best monoculture option.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -453,7 +453,7 @@ Analysis of the standard LSTM revealed three issues: (1)~off-peak prediction---t
 
 To address these issues, we propose the Rolling-Window LSTM. The dataset is divided into rolling windows of 5--10~years (crop-dependent, selected via validation), each shifted by 1~year. A~3-layer LSTM (hidden size~32, 300~epochs) is trained on each window independently. Predictions from all windows are then consolidated into a final forecast for the target year.
 
-Window sizes were selected via validation-set evaluation. For each crop, we swept window sizes from 5 to 10~years and selected the size yielding the lowest MAPE on the 2023 validation year. Table~\ref{tab:window_selection} presents the validation results. The final models were then retrained on the combined training and validation data (2004--2023) using the selected window sizes and evaluated on the held-out test year (2024). By learning from multiple shorter windows, the model captures recurring seasonal patterns more accurately---particularly the location of peak prices, which is critical for the downstream scheduling system.
+Window sizes were selected via validation-set evaluation. For each crop, we swept window sizes from 5 to 10~years and selected the size yielding the lowest MAPE on the 2023 validation year. Table~\ref{tab:window_selection} presents the validation results. Cassava achieved the best validation MAPE with an 8-year window (31.25\%), corn with a 6-year window (11.43\%), while green bean and soybean performed best with 5-year windows (12.67\% and 15.62\%, respectively). The final models were then retrained on the combined training and validation data (2004--2023) using these selected window sizes and evaluated on the held-out test year (2024). By learning from multiple shorter windows, the model captures recurring seasonal patterns more accurately---particularly the location of peak prices, which is critical for the downstream scheduling system.
 
 \begin{table}[htbp]
   \centering
@@ -463,14 +463,14 @@ Window sizes were selected via validation-set evaluation. For each crop, we swep
     \toprule
     \textbf{Crop} & \textbf{5yr} & \textbf{6yr} & \textbf{7yr} & \textbf{8yr} & \textbf{9yr} & \textbf{10yr} \\
     \midrule
-    Cassava    & X.XX & X.XX & \textbf{X.XX} & X.XX & X.XX & X.XX \\
-    Corn       & X.XX & X.XX & X.XX & \textbf{X.XX} & X.XX & X.XX \\
-    Green Bean & X.XX & X.XX & X.XX & \textbf{X.XX} & X.XX & X.XX \\
-    Soybean    & X.XX & X.XX & X.XX & \textbf{X.XX} & X.XX & X.XX \\
+    Cassava    & 35.09 & 31.31 & 33.15 & \textbf{31.25} & 31.53 & 32.03 \\
+    Corn       & 13.08 & \textbf{11.43} & 14.23 & 11.44 & 13.60 & 20.27 \\
+    Green Bean & \textbf{12.67} & 13.34 & 16.20 & 14.39 & 14.96 & 21.47 \\
+    Soybean    & \textbf{15.62} & 20.48 & 19.15 & 23.72 & 25.07 & 21.73 \\
     \bottomrule
   \end{tabular}
   \vspace{2pt}
-  \raggedright\scriptsize\textit{Note:} Bold values indicate the selected window size per crop (lowest validation MAPE). Placeholder values (X.XX) to be filled after running the validation sweep.
+  \raggedright\scriptsize\textit{Note:} Bold values indicate the selected window size per crop (lowest validation MAPE).
 \end{table}
 
 \begin{figure}[htbp]
@@ -767,12 +767,12 @@ Tables~\ref{tab:mape} and~\ref{tab:accuracy} present MAPE and Accuracy results f
     \toprule
     \textbf{Crop} & \textbf{LSTM} & \textbf{Trans.} & \textbf{ARIMA} & \textbf{RW-LSTM} \\
     \midrule
-    Cassava    & \textbf{4.81}  & 9.32  & 24.71 & 5.43  \\
-    Corn       & \textbf{6.43}  & 15.09 & 8.10  & 12.06 \\
-    Green Bean & 7.20           & 6.34  & 6.08  & \textbf{5.23} \\
-    Soybean    & 9.44           & \textbf{5.71} & 6.99 & 6.15 \\
+    Cassava    & \textbf{4.81}  & 9.32  & 24.71 & 23.18 \\
+    Corn       & \textbf{6.43}  & 15.09 & 8.10  & 13.32 \\
+    Green Bean & 7.20           & 6.34  & \textbf{6.08}  & 9.36  \\
+    Soybean    & 9.44           & \textbf{5.71} & 6.99 & 22.38 \\
     \midrule
-    \textbf{Average} & \textbf{7.07} & 9.12 & 11.47 & 7.22 \\
+    \textbf{Average} & \textbf{7.07} & 9.12 & 11.47 & 17.06 \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -785,17 +785,17 @@ Tables~\ref{tab:mape} and~\ref{tab:accuracy} present MAPE and Accuracy results f
     \toprule
     \textbf{Crop} & \textbf{LSTM} & \textbf{Trans.} & \textbf{ARIMA} & \textbf{RW-LSTM} \\
     \midrule
-    Cassava    & \textbf{95.33} & 89.99 & 77.74 & 94.57 \\
-    Corn       & \textbf{93.29} & 84.29 & 92.03 & 87.95 \\
-    Green Bean & 92.51          & 93.50 & 93.45 & \textbf{94.77} \\
-    Soybean    & 90.57          & \textbf{94.18} & 92.82 & 93.85 \\
+    Cassava    & \textbf{95.33} & 89.99 & 77.74 & 75.80 \\
+    Corn       & \textbf{93.29} & 84.29 & 92.03 & 87.02 \\
+    Green Bean & 92.51          & \textbf{93.50} & 93.45 & 90.69 \\
+    Soybean    & 90.57          & \textbf{94.18} & 92.82 & 77.90 \\
     \midrule
-    \textbf{Average} & \textbf{92.93} & 90.49 & 89.01 & 92.79 \\
+    \textbf{Average} & \textbf{92.93} & 90.49 & 89.01 & 82.85 \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-No single model dominates across all crops. Standard LSTM achieves the highest average forecast accuracy (92.93\%) and performs best for cassava and corn. Rolling-Window LSTM leads for green bean (94.77\%), while Transformer excels for soybean (94.18\%). ARIMA performs notably poorly for cassava (77.74\%) due to structural breaks violating stationarity assumptions.
+No single model dominates across all crops. Standard LSTM achieves the highest average forecast accuracy (92.93\%) and performs best for cassava and corn. Transformer excels for green bean (93.50\%) and soybean (94.18\%). ARIMA performs notably poorly for cassava (77.74\%) due to structural breaks violating stationarity assumptions. Rolling-Window LSTM, with window sizes selected via validation rather than test-set feedback, achieves a lower average accuracy (82.85\%) than the other models. This demonstrates the effect of proper hyperparameter selection: the original window sizes, which were tuned using test-year feedback, produced artificially inflated accuracy figures.
 
 \begin{figure}[htbp]
   \centering
@@ -861,7 +861,7 @@ No single model dominates across all crops. Standard LSTM achieves the highest a
 
 \subsubsection{Peak Timing Accuracy}
 
-While Rolling-Window LSTM has a slightly higher average MAPE than Standard LSTM, its key advantage is peak timing accuracy (Table~\ref{tab:peak}).
+While Rolling-Window LSTM has a higher average MAPE than Standard LSTM with proper validation-based window selection, its key advantage is peak timing accuracy (Table~\ref{tab:peak}).
 
 \begin{table}[htbp]
   \centering
@@ -871,15 +871,15 @@ While Rolling-Window LSTM has a slightly higher average MAPE than Standard LSTM,
     \toprule
     \textbf{Crop} & \textbf{Actual} & \textbf{Pred.} & $\boldsymbol{\Delta}$\textbf{Mo.} & $\boldsymbol{\Delta}$\textbf{Price} & \textbf{Rating} \\
     \midrule
-    Cassava    & Jan & Feb & 1 & 3.93\% & Excellent \\
-    Corn       & Jul & Apr & 3 & 7.52\% & Good \\
-    Green Bean & Sep & Aug & 1 & 5.56\% & Excellent \\
-    Soybean    & Apr & Mar & 1 & 3.46\% & Excellent \\
+    Cassava    & Jan & Jan & 0 & 29.57\% & Excellent \\
+    Corn       & Jul & Feb & 5 & 9.12\%  & Poor \\
+    Green Bean & Sep & Sep & 0 & 10.24\% & Excellent \\
+    Soybean    & Apr & Mar & 1 & 20.44\% & Excellent \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-Three of four crops have peak predictions within one month of actual values---critical for the scheduling system where peak position determines harvest dates.
+Two of four crops (cassava and green bean) have exact peak month predictions, and soybean is within one month. Corn's peak prediction is five months off, reflecting the difficulty of capturing its mid-year price spike with a short (6-year) window. Despite lower overall MAPE compared to the test-tuned configuration, the validated model retains strong peak timing for three of four crops---critical for the scheduling system where peak position determines harvest dates.
 
 \subsection{Crop Planning Results}
 
@@ -1083,15 +1083,15 @@ The income model assumes deterministic yields, but actual farm output varies due
     \toprule
     \textbf{Yield Factor} & \textbf{4-Crop (THB/rai/yr)} & \textbf{vs.\ Best Mono} \\
     \midrule
-    1.1 ($+$10\%) & X,XXX  & $\times$X.XX \\
+    1.1 ($+$10\%) & 45,515 & $\times$2.42 \\
     1.0 (baseline) & 41,377 & $\times$2.42 \\
-    0.9 ($-$10\%)  & X,XXX  & $\times$X.XX \\
-    0.8 ($-$20\%)  & X,XXX  & $\times$X.XX \\
-    0.7 ($-$30\%)  & X,XXX  & $\times$X.XX \\
+    0.9 ($-$10\%)  & 37,239 & $\times$2.42 \\
+    0.8 ($-$20\%)  & 33,102 & $\times$2.42 \\
+    0.7 ($-$30\%)  & 28,964 & $\times$2.42 \\
     \bottomrule
   \end{tabular}
   \vspace{2pt}
-  \raggedright\scriptsize\textit{Note:} Placeholder values (X,XXX) to be filled after running the sensitivity analysis. Because Income~$=$~Yield~$\times$~Price, uniform scaling preserves the rotation-to-monoculture ratio.
+  \raggedright\scriptsize\textit{Note:} Because Income~$=$~Yield~$\times$~Price, uniform scaling preserves the rotation-to-monoculture ratio ($\times$2.42) across all yield factors.
 \end{table}
 
 Even at a 30\% yield reduction---representative of a severe drought year---the four-crop rotation retains a significant income advantage over monoculture, demonstrating the structural benefit of temporal diversification. Because both rotation and monoculture incomes scale proportionally with yield, the relative advantage ($\times$2.42) is invariant to uniform yield shocks. Differential yield shocks---where one crop fails but others survive---would alter this ratio and represent a scenario where rotation provides risk diversification beyond income maximization. However, these figures remain upper-bound estimates as production costs, post-harvest losses, and price-yield correlations are not modeled.
@@ -1127,11 +1127,11 @@ The application was deployed on Vercel with the Next.js backend serving REST~API
 
 The finding that no single model is best for all crops is attributable to the limited dataset ($\sim$252 data points) and differing price dynamics. LSTM, with fewer parameters, avoids overfitting and performs best for cassava and corn. Transformer's self-attention captures complex seasonal patterns for soybean. ARIMA fails for cassava (MAPE = 24.71\%) due to structural breaks violating stationarity, but remains competitive for crops with regular trends.
 
-It should also be noted that the comparison across models is not entirely symmetric. ARIMA uses AutoARIMA to fit a single model on the full training history and produces a recursive 12-month forecast, whereas Rolling-Window LSTM trains on multiple overlapping windows that include more recent data closer to the test period. This structural difference may partly favor RW-LSTM in capturing recent price dynamics.
+It should also be noted that the comparison across models is not entirely symmetric. ARIMA uses AutoARIMA to fit a single model on the full training history and produces a recursive 12-month forecast, whereas Rolling-Window LSTM trains on multiple overlapping windows. With validation-based window selection, RW-LSTM's average MAPE (17.06\%) is notably higher than other models, indicating that its original performance was inflated by test-set feedback in the window size selection process. This underscores the importance of rigorous train--validation--test separation even for seemingly minor hyperparameters.
 
 \subsection{Peak Timing Over Overall MAPE}
 
-Rolling-Window LSTM's average MAPE (7.22\%) is slightly higher than Standard LSTM (7.07\%) because it must generalize across multiple windows. However, its superior peak timing accuracy (3/4~crops $\leq$1~month off) makes it the preferred choice for scheduling, where an incorrect peak shifts the entire Gantt chart. In production, an ensemble approach selecting the best model per crop would be ideal.
+With validation-based window selection, Rolling-Window LSTM's average MAPE (17.06\%) is substantially higher than Standard LSTM (7.07\%), reflecting the cost of proper hyperparameter selection without test-set feedback. However, its peak timing accuracy remains strong for three of four crops (cassava and green bean exact, soybean $\leq$1~month off), making it a viable choice for scheduling where peak position is more important than pointwise accuracy. Corn's 5-month peak error (Jul~$\rightarrow$~Feb) suggests the 6-year validated window is too short to capture its mid-year dynamics. In production, an ensemble approach selecting the best model per crop would be ideal.
 
 \subsection{Greedy Scheduling: Verification and Scalability}
 
@@ -1161,9 +1161,9 @@ Future directions include: (1)~ensemble model selection per crop to leverage eac
 
 This paper presented CropPlanner, an integrated system for AI-driven crop planning that bridges the gap between price forecasting research and actionable agricultural recommendations. Three contributions were made:
 
-First, a comparative study of four forecasting models revealed that no single model dominates across all metrics. Standard LSTM achieved the highest average accuracy (92.93\%), while Rolling-Window LSTM exhibited superior peak timing accuracy---predicting peaks within one month for three of four crops. This finding underscores the importance of selecting evaluation metrics aligned with the downstream application.
+First, a comparative study of four forecasting models revealed that no single model dominates across all metrics. Standard LSTM achieved the highest average accuracy (92.93\%), while Rolling-Window LSTM---with window sizes validated on a held-out year to prevent data leakage---retained accurate peak timing for three of four crops. This finding underscores the importance of both proper experimental methodology and selecting evaluation metrics aligned with the downstream application.
 
-Second, the Greedy Scheduling algorithm produced a non-overlapping four-crop rotation yielding 41,377~THB/rai/year---approximately 2.4~times the best monoculture income---demonstrating the economic value of integrating forecasting with schedule optimization.
+Second, the Greedy Scheduling algorithm produced a non-overlapping four-crop rotation yielding 41,377~THB/rai/year---approximately 2.4~times the best monoculture income. Exhaustive enumeration of all 24~permutations confirmed this is the globally optimal solution, and sensitivity analysis demonstrated robustness to yield variability.
 
 Third, the CropPlanner web application enables farmers to plan up to 12~months ahead through intuitive visualizations, delivering AI-powered insights without requiring technical expertise.
 
