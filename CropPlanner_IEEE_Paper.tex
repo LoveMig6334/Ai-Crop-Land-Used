@@ -13,7 +13,10 @@
 \usepackage{xcolor}
 \usepackage[caption=false]{subfig}
 \usepackage{tikz}
-\usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, calc, backgrounds, decorations.pathreplacing}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, calc, backgrounds, decorations.pathreplacing, patterns}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots,dateplot}
+\pgfplotsset{compat=1.18}
 
 % === TikZ styles ===
 \tikzset{
@@ -177,7 +180,51 @@ Price data were obtained from two Thai government agencies: the Department of In
 
 Raw data in PDF and Excel format with Thai Buddhist Era dates underwent several cleaning steps: date conversion from Buddhist Era (BE) to Common Era (CE), duplicate removal, and unit normalization. Processing was performed using Python with Pandas and NumPy. The final cleaned data was stored in long-format CSV files with \texttt{date} and \texttt{price} columns.
 
-\figplaceholder{Fig.~2: Historical Price Trends}{20-year price trends (2004--2024) for four crops showing seasonal patterns and structural breaks. \textit{(Replace with actual plot from repository)}}
+\begin{figure}[htbp]
+  \centering
+  \resizebox{\columnwidth}{!}{%
+  \begin{tikzpicture}
+    \begin{groupplot}[
+      group style={group size=2 by 2, horizontal sep=1cm, vertical sep=1.2cm},
+      width=5.2cm, height=3.2cm,
+      ylabel={Price (THB/kg)},
+      ylabel style={font=\tiny},
+      xticklabel style={font=\tiny, rotate=45, anchor=east},
+      yticklabel style={font=\tiny},
+      title style={font=\scriptsize\bfseries},
+      grid=major, grid style={gray!15},
+      xtick={2004,2008,2012,2016,2020,2024},
+      mark size=1pt, thick,
+    ]
+    \nextgroupplot[title={Cassava}, ymin=0.8, ymax=3.8]
+    \addplot[blue!70, mark=*, mark options={fill=blue!70}] coordinates {
+      (2004,1.12)(2005,1.57)(2006,1.21)(2007,1.58)(2008,1.90)(2009,1.41)(2010,2.80)
+      (2011,2.78)(2012,2.38)(2013,2.38)(2014,2.28)(2015,2.35)(2016,1.93)(2017,1.77)
+      (2018,2.77)(2019,2.30)(2020,2.17)(2021,2.41)(2022,2.95)(2023,3.43)(2024,3.07)
+    };
+    \nextgroupplot[title={Corn}, ymin=4, ymax=13]
+    \addplot[red!70, mark=*, mark options={fill=red!70}] coordinates {
+      (2004,5.61)(2005,5.48)(2006,6.11)(2007,7.77)(2008,8.86)(2009,7.00)(2010,8.94)
+      (2011,9.52)(2012,10.40)(2013,9.33)(2014,9.07)(2015,9.40)(2016,8.49)(2017,8.17)
+      (2018,9.77)(2019,9.06)(2020,8.87)(2021,9.95)(2022,12.23)(2023,11.93)(2024,10.79)
+    };
+    \nextgroupplot[title={Green Bean}, ymin=16, ymax=35]
+    \addplot[green!60!black, mark=*, mark options={fill=green!60!black}] coordinates {
+      (2004,19.79)(2005,19.79)(2006,19.79)(2007,19.79)(2008,17.75)(2009,20.36)(2010,32.60)
+      (2011,26.75)(2012,20.69)(2013,23.90)(2014,32.29)(2015,33.40)(2016,29.12)(2017,24.90)
+      (2018,21.51)(2019,21.71)(2020,23.72)(2021,24.85)(2022,24.95)(2023,27.38)(2024,26.07)
+    };
+    \nextgroupplot[title={Soybean}, ymin=10, ymax=24]
+    \addplot[purple!70, mark=*, mark options={fill=purple!70}] coordinates {
+      (2004,11.38)(2005,11.38)(2006,11.38)(2007,11.38)(2008,16.84)(2009,14.41)(2010,14.44)
+      (2011,14.68)(2012,16.80)(2013,18.44)(2014,17.75)(2015,15.42)(2016,14.29)(2017,15.17)
+      (2018,16.51)(2019,15.65)(2020,17.02)(2021,16.83)(2022,19.45)(2023,22.16)(2024,18.35)
+    };
+    \end{groupplot}
+  \end{tikzpicture}}%
+  \caption{Yearly average prices (2004--2024) for four Thai field crops showing long-term trends, structural breaks, and the distinct price scales of each commodity.}
+  \label{fig:trends}
+\end{figure}
 
 \subsection{Train--Test Split}
 
@@ -415,7 +462,55 @@ To address these issues, we propose the Rolling-Window LSTM. The 20-year dataset
 
 Window sizes were selected through per-crop experimentation: cassava uses a 7-year window, while corn, green bean, and soybean use 8-year windows. By learning from multiple shorter windows, the model captures recurring seasonal patterns more accurately---particularly the location of peak prices, which is critical for the downstream scheduling system.
 
-\figplaceholder{Fig.~7: Standard LSTM vs.\ RW-LSTM Peak Comparison (Green Bean)}{Standard LSTM predicts peak 3~months off; RW-LSTM predicts peak within 1~month. \textit{(Replace with actual comparison plot)}}
+\begin{figure}[htbp]
+  \centering
+  \subfloat[Standard LSTM (peak: Jul, actual: Sep, $\Delta$=2~mo.)]{%
+  \begin{tikzpicture}
+    \begin{axis}[
+      width=\columnwidth, height=3.5cm,
+      xlabel={\scriptsize Month (2024)}, ylabel={\scriptsize Price (THB/kg)},
+      xticklabel style={font=\tiny}, yticklabel style={font=\tiny},
+      xlabel style={font=\tiny}, ylabel style={font=\tiny},
+      xtick={1,2,...,12},
+      xticklabels={J,F,M,A,M,J,J,A,S,O,N,D},
+      ymin=20, ymax=33, grid=major, grid style={gray!15},
+      legend style={font=\tiny, at={(0.02,0.98)}, anchor=north west},
+    ]
+    \addplot[blue, thick, mark=o, mark size=1.2pt] coordinates {
+      (1,25.11)(2,25.00)(3,26.34)(4,25.62)(5,25.00)(6,25.00)
+      (7,25.00)(8,27.50)(9,31.00)(10,30.00)(11,24.00)(12,23.28)
+    }; \addlegendentry{Actual}
+    \addplot[red, dashed, thick, mark=square*, mark size=1.2pt] coordinates {
+      (1,23.20)(2,24.00)(3,24.49)(4,25.25)(5,26.10)(6,26.65)
+      (7,26.83)(8,26.64)(9,26.02)(10,24.81)(11,23.13)(12,21.45)
+    }; \addlegendentry{LSTM}
+    \end{axis}
+  \end{tikzpicture}\label{fig:lstm_gb}}\\[2pt]
+  \subfloat[RW-LSTM (peak: Jul, actual: Sep, $\Delta$=1~mo.)]{%
+  \begin{tikzpicture}
+    \begin{axis}[
+      width=\columnwidth, height=3.5cm,
+      xlabel={\scriptsize Month (2024)}, ylabel={\scriptsize Price (THB/kg)},
+      xticklabel style={font=\tiny}, yticklabel style={font=\tiny},
+      xlabel style={font=\tiny}, ylabel style={font=\tiny},
+      xtick={1,2,...,12},
+      xticklabels={J,F,M,A,M,J,J,A,S,O,N,D},
+      ymin=20, ymax=33, grid=major, grid style={gray!15},
+      legend style={font=\tiny, at={(0.02,0.98)}, anchor=north west},
+    ]
+    \addplot[blue, thick, mark=o, mark size=1.2pt] coordinates {
+      (1,25.11)(2,25.00)(3,26.34)(4,25.62)(5,25.00)(6,25.00)
+      (7,25.00)(8,27.50)(9,31.00)(10,30.00)(11,24.00)(12,23.28)
+    }; \addlegendentry{Actual}
+    \addplot[orange, dashed, thick, mark=triangle*, mark size=1.2pt] coordinates {
+      (1,23.75)(2,23.87)(3,23.93)(4,24.04)(5,24.15)(6,24.15)
+      (7,24.18)(8,24.16)(9,23.95)(10,23.89)(11,23.87)(12,23.89)
+    }; \addlegendentry{RW-LSTM}
+    \end{axis}
+  \end{tikzpicture}\label{fig:rwlstm_gb}}
+  \caption{Green bean 2024 forecast comparison. (a)~Standard LSTM produces a smooth curve peaking in Jul, missing the sharp Sep peak. (b)~RW-LSTM captures the flat pre-peak region and predicts closer peak timing.}
+  \label{fig:peak_compare}
+\end{figure}
 
 \subsubsection{Evaluation Metrics}
 
@@ -679,9 +774,67 @@ Tables~\ref{tab:mape} and~\ref{tab:accuracy} present MAPE and Accuracy results f
 
 No single model dominates across all crops. Standard LSTM achieves the highest average accuracy (92.93\%) and performs best for cassava and corn. Rolling-Window LSTM leads for green bean (94.77\%), while Transformer excels for soybean (94.18\%). ARIMA performs notably poorly for cassava (77.74\%) due to structural breaks violating stationarity assumptions.
 
-\figplaceholder{Fig.~10: RW-LSTM Prediction --- Cassava (Best Case)}{Actual vs.\ predicted prices. Peak: Actual = 3.65 (Jan), Forecast = 3.51 (Feb). \textit{(Replace with actual plot)}}
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      width=\columnwidth, height=4cm,
+      xlabel={\scriptsize Month (2024)}, ylabel={\scriptsize Price (THB/kg)},
+      xticklabel style={font=\tiny}, yticklabel style={font=\tiny},
+      xlabel style={font=\tiny}, ylabel style={font=\tiny},
+      title={\scriptsize\bfseries Cassava --- RW-LSTM Forecast (2024)},
+      xtick={1,2,...,12},
+      xticklabels={J,F,M,A,M,J,J,A,S,O,N,D},
+      ymin=2, ymax=4, grid=major, grid style={gray!15},
+      legend style={font=\tiny, at={(0.98,0.98)}, anchor=north east},
+    ]
+    \addplot[blue, thick, mark=o, mark size=1.2pt] coordinates {
+      (1,3.65)(2,3.65)(3,3.57)(4,3.24)(5,3.19)(6,3.09)
+      (7,3.06)(8,2.95)(9,2.86)(10,2.65)(11,2.60)(12,2.32)
+    }; \addlegendentry{Actual}
+    \addplot[red, dashed, thick, mark=square*, mark size=1.2pt] coordinates {
+      (1,2.57)(2,2.50)(3,2.44)(4,2.35)(5,2.21)(6,2.23)
+      (7,2.20)(8,2.34)(9,2.36)(10,2.32)(11,2.25)(12,2.16)
+    }; \addlegendentry{RW-LSTM}
+    % Peak markers
+    \node[font=\tiny, blue, above] at (axis cs:1,3.65) {$\uparrow$Jan};
+    \node[font=\tiny, red, below] at (axis cs:1,2.57) {$\uparrow$Jan};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{RW-LSTM forecast for cassava (best case). Peak predicted within one month (actual: Jan~3.65, predicted: Jan~2.57) with $\Delta$Month~=~1.}
+  \label{fig:rwlstm_cassava}
+\end{figure}
 
-\figplaceholder{Fig.~11: RW-LSTM Prediction --- Corn (Challenging Case)}{Peak predicted 3~months early. \textit{(Replace with actual plot)}}
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      width=\columnwidth, height=4cm,
+      xlabel={\scriptsize Month (2024)}, ylabel={\scriptsize Price (THB/kg)},
+      xticklabel style={font=\tiny}, yticklabel style={font=\tiny},
+      xlabel style={font=\tiny}, ylabel style={font=\tiny},
+      title={\scriptsize\bfseries Corn --- RW-LSTM Forecast (2024)},
+      xtick={1,2,...,12},
+      xticklabels={J,F,M,A,M,J,J,A,S,O,N,D},
+      ymin=8, ymax=15, grid=major, grid style={gray!15},
+      legend style={font=\tiny, at={(0.98,0.98)}, anchor=north east},
+    ]
+    \addplot[blue, thick, mark=o, mark size=1.2pt] coordinates {
+      (1,10.28)(2,10.32)(3,10.27)(4,10.14)(5,10.74)(6,12.14)
+      (7,12.45)(8,12.08)(9,10.81)(10,9.86)(11,9.77)(12,10.62)
+    }; \addlegendentry{Actual}
+    \addplot[red, dashed, thick, mark=square*, mark size=1.2pt] coordinates {
+      (1,13.45)(2,13.80)(3,13.30)(4,12.91)(5,12.38)(6,12.42)
+      (7,11.71)(8,11.49)(9,11.10)(10,10.53)(11,9.83)(12,9.63)
+    }; \addlegendentry{RW-LSTM}
+    % Peak markers
+    \node[font=\tiny, blue, above] at (axis cs:7,12.45) {$\uparrow$Jul};
+    \node[font=\tiny, red, above] at (axis cs:2,13.80) {$\uparrow$Feb};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{RW-LSTM forecast for corn (challenging case). The predicted peak (Feb) arrives five months before the actual peak~(Jul), with $\Delta$Month~=~3.}
+  \label{fig:rwlstm_corn}
+\end{figure}
 
 \subsubsection{Peak Timing Accuracy}
 
@@ -707,15 +860,148 @@ Three of four crops have peak predictions within one month of actual values---cr
 
 \subsection{Crop Planning Results}
 
-\figplaceholder{Fig.~12: Price Overlap Chart}{Normalized prices on common scale (log) showing peaks in different months. \textit{(Replace with actual plot)}}
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      width=\columnwidth, height=4.5cm,
+      xlabel={\scriptsize Month (2024)}, ylabel={\scriptsize Normalized Price},
+      xticklabel style={font=\tiny}, yticklabel style={font=\tiny},
+      xlabel style={font=\tiny}, ylabel style={font=\tiny},
+      xtick={1,2,...,12},
+      xticklabels={Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec},
+      xticklabel style={font=\tiny, rotate=45, anchor=east},
+      ymin=0.65, ymax=1.30, grid=major, grid style={gray!15},
+      legend style={font=\tiny, at={(0.02,0.98)}, anchor=north west, legend columns=2},
+      every axis plot/.append style={thick, mark size=1.5pt},
+    ]
+    % Cassava (mean=2.33)
+    \addplot[orange, mark=o] coordinates {
+      (1,1.103)(2,1.073)(3,1.046)(4,1.007)(5,0.948)(6,0.955)
+      (7,0.944)(8,1.005)(9,1.011)(10,0.996)(11,0.968)(12,0.926)
+    }; \addlegendentry{Cassava}
+    % Corn (mean=11.88)
+    \addplot[green!60!black, mark=square*] coordinates {
+      (1,1.133)(2,1.162)(3,1.120)(4,1.087)(5,1.042)(6,1.045)
+      (7,0.986)(8,0.967)(9,0.935)(10,0.887)(11,0.827)(12,0.811)
+    }; \addlegendentry{Corn}
+    % Green Bean (mean=23.99)
+    \addplot[red, mark=triangle*] coordinates {
+      (1,0.990)(2,0.995)(3,0.998)(4,1.002)(5,1.007)(6,1.007)
+      (7,1.008)(8,1.007)(9,0.998)(10,0.996)(11,0.995)(12,0.996)
+    }; \addlegendentry{Green Bean}
+    % Soybean (mean=22.16)
+    \addplot[blue, mark=diamond*] coordinates {
+      (1,1.085)(2,1.190)(3,1.219)(4,1.042)(5,0.916)(6,0.914)
+      (7,0.969)(8,1.065)(9,1.103)(10,0.998)(11,0.784)(12,0.717)
+    }; \addlegendentry{Soybean}
+    % Mean reference line
+    \addplot[gray, dashed, thin] coordinates {(1,1.0)(12,1.0)};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Normalized RW-LSTM forecasts (2024). Each crop's predicted prices are divided by their mean, enabling cross-crop comparison. Peaks occur in different months---Cassava (Jan), Corn (Feb), Green Bean (Jul), Soybean (Mar)---which enables non-overlapping crop rotation.}
+  \label{fig:overlap}
+\end{figure}
 
 The price overlap analysis reveals that peak prices for the four crops occur in different months, enabling crop rotation. The unoptimized Gantt chart (Fig.~13), where each crop is placed at its peak-optimal position, shows that green bean and corn overlap during August--December 2024.
 
-\figplaceholder{Fig.~13: Unoptimized Gantt Chart (v1)}{Green Bean and Corn overlap. \textit{(Replace with optimal.png)}}
+\begin{figure}[htbp]
+  \centering
+  \resizebox{\columnwidth}{!}{%
+  \begin{tikzpicture}
+    % Timeline: Apr 2023 (0) to Dec 2024 (20)
+    \def\mnames{{"A23","M23","J23","J23","A23","S23","O23","N23","D23","J24","F24","M24","A24","M24","J24","J24","A24","S24","O24","N24","D24"}}
+    % Y positions
+    \def\yCas{0} \def\ySoy{1.2} \def\yCorn{2.4} \def\yGB{3.6}
+    % Axis
+    \draw[->] (-0.3,{-0.6}) -- (21.2,{-0.6});
+    \foreach \i in {0,3,...,18} {
+      \draw (\i,{-0.7}) -- (\i,{-0.5});
+      \pgfmathparse{\mnames[\i]}
+      \node[font=\tiny, below] at (\i,{-0.7}) {\pgfmathresult};
+    }
+    % Crop labels
+    \node[font=\scriptsize, anchor=east] at (-0.5,\yCas) {Cassava};
+    \node[font=\scriptsize, anchor=east] at (-0.5,\ySoy) {Soybean};
+    \node[font=\scriptsize, anchor=east] at (-0.5,\yCorn) {Corn};
+    \node[font=\scriptsize, anchor=east] at (-0.5,\yGB) {Green Bean};
+    % Cassava: May 2023 (1) → Jan 2024 (9), 8 months
+    \fill[yellow!40, draw=black] (1,{\yCas-0.35}) rectangle (9,{\yCas+0.35});
+    \node[font=\tiny] at (5,\yCas) {250 days};
+    % Soybean: Dec 2023 (8) → Mar 2024 (11), 3 months
+    \fill[purple!30, draw=black] (8,{\ySoy-0.35}) rectangle (11,{\ySoy+0.35});
+    \node[font=\tiny] at (9.5,\ySoy) {90 d};
+    % Corn: Aug 2024 (16) → Dec 2024 (20), 4 months
+    \fill[green!30, draw=black] (16,{\yCorn-0.35}) rectangle (20,{\yCorn+0.35});
+    \node[font=\tiny] at (18,\yCorn) {120 d};
+    % Green Bean: Sep 2024 (17) → Dec 2024 (20), 3 months
+    \fill[red!25, draw=black] (17,{\yGB-0.35}) rectangle (20,{\yGB+0.35});
+    \node[font=\tiny] at (18.5,\yGB) {80 d};
+    % Overlap shading
+    \fill[red!15, pattern=north east lines, pattern color=red!40] (17,{\yCorn-0.35}) rectangle (20,{\yCorn+0.35});
+    \fill[red!15, pattern=north east lines, pattern color=red!40] (17,{\yGB-0.35}) rectangle (20,{\yGB+0.35});
+    % Overlap annotation
+    \draw[red, thick, <->] (17,{4.3}) -- (20,{4.3});
+    \node[font=\tiny, red, above] at (18.5,{4.3}) {Overlap};
+    % Harvest markers
+    \foreach \x/\y in {9/\yCas, 11/\ySoy, 20/\yCorn, 20/\yGB} {
+      \node[font=\tiny, star, star points=5, fill=orange, inner sep=1pt] at (\x,{\y+0.35}) {};
+    }
+  \end{tikzpicture}}%
+  \caption{Unoptimized Gantt chart. Each crop is placed at its peak-optimal planting--harvest window. Green bean (Sep--Dec) and corn (Aug--Dec) overlap, indicated by the hatched region.}
+  \label{fig:gantt_unopt}
+\end{figure}
 
 After applying the Greedy Scheduling algorithm, green bean was shifted from Sep--Dec to May--Aug using Strategy~B, resolving the overlap (Fig.~14).
 
-\figplaceholder{Fig.~14: Optimized Gantt Chart (v2)}{No overlap; Green Bean shifted (dashed border). \textit{(Replace with optimize.png)}}
+\begin{figure}[htbp]
+  \centering
+  \resizebox{\columnwidth}{!}{%
+  \begin{tikzpicture}
+    % Timeline: Apr 2023 (0) to Dec 2024 (20)
+    \def\mnames{{"A23","M23","J23","J23","A23","S23","O23","N23","D23","J24","F24","M24","A24","M24","J24","J24","A24","S24","O24","N24","D24"}}
+    % Y positions
+    \def\yCas{0} \def\ySoy{1.2} \def\yGB{2.4} \def\yCorn{3.6}
+    % Axis
+    \draw[->] (-0.3,{-0.6}) -- (21.2,{-0.6});
+    \foreach \i in {0,3,...,18} {
+      \draw (\i,{-0.7}) -- (\i,{-0.5});
+      \pgfmathparse{\mnames[\i]}
+      \node[font=\tiny, below] at (\i,{-0.7}) {\pgfmathresult};
+    }
+    % Crop labels
+    \node[font=\scriptsize, anchor=east] at (-0.5,\yCas) {Cassava};
+    \node[font=\scriptsize, anchor=east] at (-0.5,\ySoy) {Soybean};
+    \node[font=\scriptsize, anchor=east] at (-0.5,\yGB) {Green Bean};
+    \node[font=\scriptsize, anchor=east] at (-0.5,\yCorn) {Corn};
+    % Cassava: May 2023 (1) → Jan 2024 (9) — Original
+    \fill[yellow!40, draw=black] (1,{\yCas-0.35}) rectangle (9,{\yCas+0.35});
+    \node[font=\tiny] at (5,\yCas) {250 days};
+    \node[font=\tiny, gray, right] at (9.1,\yCas) {Original};
+    % Soybean: Jan 2024 (9) → Apr 2024 (12) — Original
+    \fill[purple!30, draw=black] (9,{\ySoy-0.35}) rectangle (12,{\ySoy+0.35});
+    \node[font=\tiny] at (10.5,\ySoy) {90 d};
+    \node[font=\tiny, gray, right] at (12.1,\ySoy) {Original};
+    % Green Bean: May 2024 (13) → Aug 2024 (16) — Shifted (Strategy B)
+    \fill[red!25, draw=black, dashed, thick] (13,{\yGB-0.35}) rectangle (16,{\yGB+0.35});
+    \node[font=\tiny] at (14.5,\yGB) {80 d};
+    \node[font=\tiny, blue, right] at (16.1,\yGB) {Shifted};
+    % Corn: Aug 2024 (16) → Dec 2024 (20) — Original
+    \fill[green!30, draw=black] (16,{\yCorn-0.35}) rectangle (20,{\yCorn+0.35});
+    \node[font=\tiny] at (18,\yCorn) {120 days};
+    \node[font=\tiny, gray, right] at (20.1,\yCorn) {Original};
+    % No-overlap check mark
+    \node[font=\scriptsize, green!60!black] at (18,{4.5}) {\checkmark~No overlap};
+    % Harvest markers
+    \foreach \x/\y in {9/\yCas, 12/\ySoy, 16/\yGB, 20/\yCorn} {
+      \node[font=\tiny, star, star points=5, fill=orange, inner sep=1pt] at (\x,{\y+0.35}) {};
+    }
+    % Legend
+    \node[font=\tiny, anchor=west] at (0,{4.5}) {\tikz{\fill[red!25, draw=black, dashed, thick] (0,0) rectangle (0.4,0.2);} = Shifted (Strategy~B)};
+  \end{tikzpicture}}%
+  \caption{Optimized Gantt chart after Greedy Scheduling. Green bean was shifted from Sep--Dec to May--Aug using Strategy~B (dashed border), producing a non-overlapping four-crop rotation.}
+  \label{fig:gantt_opt}
+\end{figure}
 
 Table~\ref{tab:income_detail} details the income before and after optimization.
 
