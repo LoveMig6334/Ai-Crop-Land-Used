@@ -55,7 +55,7 @@
 % ABSTRACT
 % ============================================================
 \begin{abstract}
-Agricultural price volatility exceeding 20\% annually, combined with the prevalence of monoculture farming practices, exposes Thai farmers to significant income risks. This paper presents CropPlanner, an integrated system comprising three components: (1)~a comparative study of AI models for 12-month crop price forecasting, including LSTM, Transformer, ARIMA, and a proposed Rolling-Window LSTM; (2)~a crop planning recommendation system formulated as a Weighted Job Scheduling Problem solved by a Greedy Heuristic; and (3)~a web application for farmers. Experiments were conducted using 20~years of monthly price data (2004--2024) for four major field crops---cassava, corn, green bean, and soybean---in Northeastern Thailand. Results show that no single model dominates across all crops: Standard LSTM achieved the highest average accuracy of 92.93\%, while Rolling-Window LSTM---with window sizes selected via a held-out validation year to prevent data leakage---achieved correct peak timing for two of four crops and within one month for a third, a property critical for scheduling. Exhaustive enumeration confirmed that the Greedy Scheduling heuristic found the globally optimal solution, producing a non-overlapping four-crop rotation plan yielding 41,377~THB/rai/year, approximately 2.4~times the income of the best monoculture option.
+Agricultural price volatility exceeding 20\% annually, combined with the prevalence of monoculture farming practices, exposes Thai farmers to significant income risks. This paper presents CropPlanner, an integrated system comprising three components: (1)~a comparative study of AI models for 12-month crop price forecasting, including LSTM, Transformer, ARIMA, and a proposed Rolling-Window LSTM; (2)~a crop planning recommendation system formulated as a Weighted Job Scheduling Problem solved by a Greedy Heuristic; and (3)~a web application for farmers. Experiments were conducted using 20~years of monthly price data (2004--2024) for four major field crops---cassava, corn, green bean, and soybean---in Northeastern Thailand. Results show that no single model dominates across all crops: Standard LSTM achieved the highest average accuracy of 92.93\%, while Rolling-Window LSTM---with window sizes selected via a held-out validation year to prevent data leakage---achieved correct peak timing for two of four crops and within one month for a third, a property critical for scheduling. Exhaustive enumeration over all $4! = 24$ permutations identified the optimal non-overlapping four-crop rotation plan yielding 39,211~THB/rai/year, approximately 1.9~times the income of the best monoculture option, while revealing that the greedy heuristic is suboptimal by 14.8\%.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -497,7 +497,7 @@ Window sizes were selected via validation-set evaluation. For each crop, we swep
     }; \addlegendentry{LSTM}
     \end{axis}
   \end{tikzpicture}\label{fig:lstm_gb}}\\[2pt]
-  \subfloat[RW-LSTM (peak: Aug, actual: Sep, $\Delta$=1~mo.)]{%
+  \subfloat[RW-LSTM (peak: Sep, actual: Sep, $\Delta$=0~mo.)]{%
   \begin{tikzpicture}
     \begin{axis}[
       width=\columnwidth, height=3.5cm,
@@ -514,12 +514,12 @@ Window sizes were selected via validation-set evaluation. For each crop, we swep
       (7,25.00)(8,27.50)(9,31.00)(10,30.00)(11,24.00)(12,23.28)
     }; \addlegendentry{Actual}
     \addplot[orange, dashed, thick, mark=triangle*, mark size=1.2pt] coordinates {
-      (1,23.75)(2,23.87)(3,23.93)(4,24.04)(5,24.15)(6,24.15)
-      (7,24.18)(8,24.16)(9,23.95)(10,23.89)(11,23.87)(12,23.89)
+      (1,24.29)(2,23.47)(3,21.97)(4,21.56)(5,22.50)(6,23.64)
+      (7,25.28)(8,26.27)(9,27.83)(10,27.46)(11,27.35)(12,27.19)
     }; \addlegendentry{RW-LSTM}
     \end{axis}
   \end{tikzpicture}\label{fig:rwlstm_gb}}
-  \caption{Green bean 2024 forecast comparison. (a)~Standard LSTM produces a smooth curve peaking in Jul, missing the sharp Sep peak. (b)~RW-LSTM captures the flat pre-peak region and predicts closer peak timing.}
+  \caption{Green bean 2024 forecast comparison. (a)~Standard LSTM produces a smooth curve peaking in Jul, missing the sharp Sep peak. (b)~RW-LSTM correctly predicts peak timing in Sep ($\Delta$=0~mo.) with the validated 5-year window.}
   \label{fig:peak_compare}
 \end{figure}
 
@@ -824,7 +824,7 @@ No single model dominates across all crops. Standard LSTM achieves the highest a
     \node[font=\tiny, red, below] at (axis cs:1,2.57) {$\uparrow$Jan};
     \end{axis}
   \end{tikzpicture}
-  \caption{RW-LSTM forecast for cassava (best case). Peak predicted within one month (actual: Jan, predicted: Feb) with $\Delta$Month~=~1.}
+  \caption{RW-LSTM forecast for cassava (best case). Peak correctly predicted in Jan (actual: Jan, predicted: Jan) with $\Delta$Month~=~0.}
   \label{fig:rwlstm_cassava}
 \end{figure}
 
@@ -847,15 +847,15 @@ No single model dominates across all crops. Standard LSTM achieves the highest a
       (7,12.45)(8,12.08)(9,10.81)(10,9.86)(11,9.77)(12,10.62)
     }; \addlegendentry{Actual}
     \addplot[red, dashed, thick, mark=square*, mark size=1.2pt] coordinates {
-      (1,13.45)(2,13.80)(3,13.30)(4,12.91)(5,12.38)(6,12.42)
-      (7,11.71)(8,11.49)(9,11.10)(10,10.53)(11,9.83)(12,9.63)
+      (1,13.30)(2,13.58)(3,12.70)(4,12.72)(5,12.80)(6,12.71)
+      (7,11.58)(8,11.45)(9,10.79)(10,10.61)(11,9.67)(12,10.09)
     }; \addlegendentry{RW-LSTM}
     % Peak markers
     \node[font=\tiny, blue, above] at (axis cs:7,12.45) {$\uparrow$Jul};
-    \node[font=\tiny, red, above] at (axis cs:2,13.80) {$\uparrow$Feb};
+    \node[font=\tiny, red, above] at (axis cs:2,13.58) {$\uparrow$Feb};
     \end{axis}
   \end{tikzpicture}
-  \caption{RW-LSTM forecast for corn (challenging case). The predicted peak (Apr) arrives three months before the actual peak~(Jul), with $\Delta$Month~=~3.}
+  \caption{RW-LSTM forecast for corn (challenging case). The predicted peak (Feb) arrives five months before the actual peak~(Jul), with $\Delta$Month~=~5.}
   \label{fig:rwlstm_corn}
 \end{figure}
 
@@ -900,33 +900,33 @@ Two of four crops (cassava and green bean) have exact peak month predictions, an
     ]
     % Cassava (mean=2.33)
     \addplot[orange, mark=o] coordinates {
-      (1,1.103)(2,1.073)(3,1.046)(4,1.007)(5,0.948)(6,0.955)
-      (7,0.944)(8,1.005)(9,1.011)(10,0.996)(11,0.968)(12,0.926)
+      (1,1.105)(2,1.075)(3,1.048)(4,1.008)(5,0.949)(6,0.957)
+      (7,0.946)(8,1.006)(9,1.012)(10,0.998)(11,0.969)(12,0.927)
     }; \addlegendentry{Cassava}
-    % Corn (mean=11.88)
+    % Corn (mean=11.83)
     \addplot[green!60!black, mark=square*] coordinates {
-      (1,1.133)(2,1.162)(3,1.120)(4,1.087)(5,1.042)(6,1.045)
-      (7,0.986)(8,0.967)(9,0.935)(10,0.887)(11,0.827)(12,0.811)
+      (1,1.124)(2,1.148)(3,1.073)(4,1.075)(5,1.081)(6,1.074)
+      (7,0.979)(8,0.968)(9,0.912)(10,0.896)(11,0.817)(12,0.853)
     }; \addlegendentry{Corn}
-    % Green Bean (mean=23.99)
+    % Green Bean (mean=24.90)
     \addplot[red, mark=triangle*] coordinates {
-      (1,0.990)(2,0.995)(3,0.998)(4,1.002)(5,1.007)(6,1.007)
-      (7,1.008)(8,1.007)(9,0.998)(10,0.996)(11,0.995)(12,0.996)
+      (1,0.975)(2,0.942)(3,0.882)(4,0.866)(5,0.904)(6,0.949)
+      (7,1.015)(8,1.055)(9,1.118)(10,1.103)(11,1.098)(12,1.092)
     }; \addlegendentry{Green Bean}
-    % Soybean (mean=22.16)
+    % Soybean (mean=21.96)
     \addplot[blue, mark=diamond*] coordinates {
-      (1,1.085)(2,1.190)(3,1.219)(4,1.042)(5,0.916)(6,0.914)
-      (7,0.969)(8,1.065)(9,1.103)(10,0.998)(11,0.784)(12,0.717)
+      (1,1.128)(2,1.187)(3,1.188)(4,0.955)(5,0.948)(6,0.994)
+      (7,0.984)(8,1.101)(9,1.063)(10,0.988)(11,0.704)(12,0.761)
     }; \addlegendentry{Soybean}
     % Mean reference line
     \addplot[gray, dashed, thin] coordinates {(1,1.0)(12,1.0)};
     \end{axis}
   \end{tikzpicture}
-  \caption{Normalized RW-LSTM forecasts (2024). Each crop's predicted prices are divided by their mean, enabling cross-crop comparison. Peaks occur in different months---Cassava (Jan), Corn (Feb), Green Bean (Jul), Soybean (Mar)---which enables non-overlapping crop rotation.}
+  \caption{Normalized RW-LSTM forecasts (2024). Each crop's predicted prices are divided by their mean, enabling cross-crop comparison. Peaks occur in different months---Cassava (Jan), Corn (Feb), Soybean (Mar), Green Bean (Sep)---which enables non-overlapping crop rotation.}
   \label{fig:overlap}
 \end{figure}
 
-The price overlap analysis reveals that peak prices for the four crops occur in different months, enabling crop rotation. The unoptimized Gantt chart (Fig.~\ref{fig:gantt_unopt}), where each crop is placed at its peak-optimal position, shows that green bean and corn overlap during August--December 2024.
+The price overlap analysis reveals that peak prices for the four crops occur in different months, enabling crop rotation. The unoptimized Gantt chart (Fig.~\ref{fig:gantt_unopt}), where each crop is placed at its peak-optimal position, shows that cassava, corn, and soybean overlap during October 2023--March 2024 due to their long growing periods extending into the previous year.
 
 \begin{figure}[htbp]
   \centering
@@ -946,34 +946,35 @@ The price overlap analysis reveals that peak prices for the four crops occur in 
     \node[font=\scriptsize, anchor=east] at (-0.5,\ySoy) {Soybean};
     \node[font=\scriptsize, anchor=east] at (-0.5,\yCorn) {Corn};
     \node[font=\scriptsize, anchor=east] at (-0.5,\yGB) {Green Bean};
-    % Cassava: May 2023 (1) → Jan 2024 (9), 8 months
-    \fill[yellow!40, draw=black] (1,{\yCas-0.35}) rectangle (9,{\yCas+0.35});
-    \node[font=\tiny] at (5,\yCas) {250 days};
+    % Cassava: Apr 2023 (0) → Jan 2024 (9), ~8.3 months
+    \fill[yellow!40, draw=black] (0,{\yCas-0.35}) rectangle (9,{\yCas+0.35});
+    \node[font=\tiny] at (4.5,\yCas) {250 days};
+    % Corn: Oct 2023 (6) → Feb 2024 (10), 4 months
+    \fill[green!30, draw=black] (6,{\yCorn-0.35}) rectangle (10,{\yCorn+0.35});
+    \node[font=\tiny] at (8,\yCorn) {120 d};
     % Soybean: Dec 2023 (8) → Mar 2024 (11), 3 months
     \fill[purple!30, draw=black] (8,{\ySoy-0.35}) rectangle (11,{\ySoy+0.35});
     \node[font=\tiny] at (9.5,\ySoy) {90 d};
-    % Corn: Aug 2024 (16) → Dec 2024 (20), 4 months
-    \fill[green!30, draw=black] (16,{\yCorn-0.35}) rectangle (20,{\yCorn+0.35});
-    \node[font=\tiny] at (18,\yCorn) {120 d};
-    % Green Bean: Sep 2024 (17) → Dec 2024 (20), 3 months
-    \fill[red!25, draw=black] (17,{\yGB-0.35}) rectangle (20,{\yGB+0.35});
-    \node[font=\tiny] at (18.5,\yGB) {80 d};
-    % Overlap shading
-    \fill[red!15, pattern=north east lines, pattern color=red!40] (17,{\yCorn-0.35}) rectangle (20,{\yCorn+0.35});
-    \fill[red!15, pattern=north east lines, pattern color=red!40] (17,{\yGB-0.35}) rectangle (20,{\yGB+0.35});
+    % Green Bean: Jun 2024 (14.5) → Sep 2024 (17), ~2.7 months
+    \fill[red!25, draw=black] (14.5,{\yGB-0.35}) rectangle (17,{\yGB+0.35});
+    \node[font=\tiny] at (15.75,\yGB) {80 d};
+    % Overlap shading (Cassava-Corn overlap: Oct23-Jan24, Cassava-Soy overlap: Dec23-Jan24, Corn-Soy overlap: Dec23-Feb24)
+    \fill[red!15, pattern=north east lines, pattern color=red!40] (6,{\yCas-0.35}) rectangle (9,{\yCas+0.35});
+    \fill[red!15, pattern=north east lines, pattern color=red!40] (6,{\yCorn-0.35}) rectangle (10,{\yCorn+0.35});
+    \fill[red!15, pattern=north east lines, pattern color=red!40] (8,{\ySoy-0.35}) rectangle (11,{\ySoy+0.35});
     % Overlap annotation
-    \draw[red, thick, <->] (17,{4.3}) -- (20,{4.3});
-    \node[font=\tiny, red, above] at (18.5,{4.3}) {Overlap};
+    \draw[red, thick, <->] (6,{4.3}) -- (11,{4.3});
+    \node[font=\tiny, red, above] at (8.5,{4.3}) {Overlap};
     % Harvest markers
-    \foreach \x/\y in {9/\yCas, 11/\ySoy, 20/\yCorn, 20/\yGB} {
+    \foreach \x/\y in {9/\yCas, 10/\yCorn, 11/\ySoy, 17/\yGB} {
       \node[font=\tiny, star, star points=5, fill=orange, inner sep=1pt] at (\x,{\y+0.35}) {};
     }
   \end{tikzpicture}}%
-  \caption{Unoptimized Gantt chart. Each crop is placed at its peak-optimal planting--harvest window. Green bean (Sep--Dec) and corn (Aug--Dec) overlap, indicated by the hatched region.}
+  \caption{Unoptimized Gantt chart. Each crop is placed at its peak-optimal planting--harvest window. Cassava, corn, and soybean overlap during Oct 2023--Mar 2024, indicated by hatched regions.}
   \label{fig:gantt_unopt}
 \end{figure}
 
-After applying the Greedy Scheduling algorithm, green bean was shifted from Sep--Dec to May--Aug using Strategy~B, resolving the overlap (Fig.~\ref{fig:gantt_opt}).
+After applying exhaustive enumeration with the optimal ordering (Cassava~$\rightarrow$~Soybean~$\rightarrow$~Green Bean~$\rightarrow$~Corn), all four crops were scheduled without overlap (Fig.~\ref{fig:gantt_opt}). Corn and soybean were shifted to available gaps using Strategy~B.
 
 \begin{figure}[htbp]
   \centering
@@ -981,7 +982,7 @@ After applying the Greedy Scheduling algorithm, green bean was shifted from Sep-
   \begin{tikzpicture}
     % Timeline: Apr 2023 (0) to Dec 2024 (20)
     % Y positions
-    \def\yCas{0} \def\ySoy{1.2} \def\yGB{2.4} \def\yCorn{3.6}
+    \def\yCas{0} \def\yCorn{1.2} \def\yGB{2.4} \def\ySoy{3.6}
     % Axis
     \draw[->] (-0.3,{-0.6}) -- (21.2,{-0.6});
     \foreach \i/\m in {0/Apr23, 3/Jul23, 6/Oct23, 9/Jan24, 12/Apr24, 15/Jul24, 18/Oct24} {
@@ -990,35 +991,35 @@ After applying the Greedy Scheduling algorithm, green bean was shifted from Sep-
     }
     % Crop labels
     \node[font=\scriptsize, anchor=east] at (-0.5,\yCas) {Cassava};
-    \node[font=\scriptsize, anchor=east] at (-0.5,\ySoy) {Soybean};
-    \node[font=\scriptsize, anchor=east] at (-0.5,\yGB) {Green Bean};
     \node[font=\scriptsize, anchor=east] at (-0.5,\yCorn) {Corn};
-    % Cassava: May 2023 (1) → Jan 2024 (9) — Original
-    \fill[yellow!40, draw=black] (1,{\yCas-0.35}) rectangle (9,{\yCas+0.35});
-    \node[font=\tiny] at (5,\yCas) {250 days};
+    \node[font=\scriptsize, anchor=east] at (-0.5,\yGB) {Green Bean};
+    \node[font=\scriptsize, anchor=east] at (-0.5,\ySoy) {Soybean};
+    % Cassava: Apr 2023 (0) → Jan 2024 (9) — Original
+    \fill[yellow!40, draw=black] (0,{\yCas-0.35}) rectangle (9,{\yCas+0.35});
+    \node[font=\tiny] at (4.5,\yCas) {250 days};
     \node[font=\tiny, gray, right] at (9.1,\yCas) {Original};
-    % Soybean: Jan 2024 (9) → Apr 2024 (12) — Original
-    \fill[purple!30, draw=black] (9,{\ySoy-0.35}) rectangle (12,{\ySoy+0.35});
-    \node[font=\tiny] at (10.5,\ySoy) {90 d};
-    \node[font=\tiny, gray, right] at (12.1,\ySoy) {Original};
-    % Green Bean: May 2024 (13) → Aug 2024 (16) — Shifted (Strategy B)
-    \fill[red!25, draw=black, dashed, thick] (13,{\yGB-0.35}) rectangle (16,{\yGB+0.35});
-    \node[font=\tiny] at (14.5,\yGB) {80 d};
-    \node[font=\tiny, blue, right] at (16.1,\yGB) {Shifted};
-    % Corn: Aug 2024 (16) → Dec 2024 (20) — Original
-    \fill[green!30, draw=black] (16,{\yCorn-0.35}) rectangle (20,{\yCorn+0.35});
-    \node[font=\tiny] at (18,\yCorn) {120 days};
-    \node[font=\tiny, gray, right] at (20.1,\yCorn) {Original};
+    % Corn: Feb 2024 (10.5) → Jun 2024 (14.5) — Shifted (Strategy B)
+    \fill[green!30, draw=black, dashed, thick] (10.5,{\yCorn-0.35}) rectangle (14.5,{\yCorn+0.35});
+    \node[font=\tiny] at (12.5,\yCorn) {120 d};
+    \node[font=\tiny, blue, right] at (14.6,\yCorn) {Shifted};
+    % Green Bean: Jun 2024 (14.5) → Sep 2024 (17) — Original
+    \fill[red!25, draw=black] (14.5,{\yGB-0.35}) rectangle (17,{\yGB+0.35});
+    \node[font=\tiny] at (15.75,\yGB) {80 d};
+    \node[font=\tiny, gray, right] at (17.1,\yGB) {Original};
+    % Soybean: Oct 2024 (18) → Dec 2024 (20.7) — Shifted (Strategy B)
+    \fill[purple!30, draw=black, dashed, thick] (18,{\ySoy-0.35}) rectangle (20.7,{\ySoy+0.35});
+    \node[font=\tiny] at (19.35,\ySoy) {90 d};
+    \node[font=\tiny, blue, right] at (20.8,\ySoy) {Shifted};
     % No-overlap check mark
     \node[font=\scriptsize, green!60!black] at (18,{4.5}) {\checkmark~No overlap};
     % Harvest markers
-    \foreach \x/\y in {9/\yCas, 12/\ySoy, 16/\yGB, 20/\yCorn} {
+    \foreach \x/\y in {9/\yCas, 14.5/\yCorn, 17/\yGB, 20.7/\ySoy} {
       \node[font=\tiny, star, star points=5, fill=orange, inner sep=1pt] at (\x,{\y+0.35}) {};
     }
     % Legend
-    \node[font=\tiny, anchor=west] at (0,{4.5}) {\tikz{\fill[red!25, draw=black, dashed, thick] (0,0) rectangle (0.4,0.2);} = Shifted (Strategy~B)};
+    \node[font=\tiny, anchor=west] at (0,{4.5}) {\tikz{\fill[green!30, draw=black, dashed, thick] (0,0) rectangle (0.4,0.2);} = Shifted (Strategy~B)};
   \end{tikzpicture}}%
-  \caption{Optimized Gantt chart after Greedy Scheduling. Green bean was shifted from Sep--Dec to May--Aug using Strategy~B (dashed border), producing a non-overlapping four-crop rotation.}
+  \caption{Optimized Gantt chart (brute-force optimal ordering). Corn and soybean were shifted to available gaps using Strategy~B (dashed borders), producing a non-overlapping four-crop rotation with total income of 39,211~THB/rai/year.}
   \label{fig:gantt_opt}
 \end{figure}
 
@@ -1032,17 +1033,17 @@ Table~\ref{tab:income_detail} details the income before and after optimization.
     \toprule
     \textbf{Crop} & \textbf{Before} & \textbf{After} & \textbf{Strategy} & $\boldsymbol{\Delta}$ \\
     \midrule
-    Cassava    & 12,180 & 12,180 & Original & $\pm$0 \\
-    Soybean    & 5,895  & 5,895  & Original & $\pm$0 \\
-    Green Bean & 6,252  & 6,187  & Shifted  & $-$65  \\
-    Corn       & 17,115 & 17,115 & Original & $\pm$0 \\
+    Cassava    & 8,998  & 8,998  & Original & $\pm$0     \\
+    Corn       & 20,377 & 18,385 & Shifted  & $-$1,992  \\
+    Green Bean & 6,818  & 6,818  & Original & $\pm$0     \\
+    Soybean    & 7,830  & 5,011  & Shifted  & $-$2,819  \\
     \midrule
-    \textbf{Total} & \textit{Infeasible} & \textbf{41,377} & --- & --- \\
+    \textbf{Total} & \textit{Infeasible} & \textbf{39,211} & --- & --- \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-Green bean lost only 65~THB ($-$1.04\%) from the shift, while the total feasible income reached 41,377~THB/rai/year. Table~\ref{tab:mono} compares this with monoculture baselines.
+Corn and soybean lost income from shifting to non-peak months, while the total feasible income reached 39,211~THB/rai/year. This schedule was identified through exhaustive enumeration (Section~\ref{sec:bruteforce}) rather than the greedy heuristic. Table~\ref{tab:mono} compares this with monoculture baselines.
 
 \begin{table}[htbp]
   \centering
@@ -1052,23 +1053,21 @@ Green bean lost only 65~THB ($-$1.04\%) from the shift, while the total feasible
     \toprule
     \textbf{Plan} & \textbf{THB/rai/yr} & \textbf{vs.\ Opt.} \\
     \midrule
-    \textbf{4-Crop Rotation} & \textbf{41,377} & --- \\
-    Mono: Corn (best) & 17,115 & $+$141.7\% \\
-    Mono: Cassava & 12,180 & $+$239.7\% \\
-    Mono: Green Bean & 6,252  & $+$561.7\% \\
-    Mono: Soybean & 5,895  & $+$601.6\% \\
+    \textbf{4-Crop Rotation} & \textbf{39,211} & --- \\
+    Mono: Corn (best) & 20,377 & $+$92.4\% \\
+    Mono: Cassava & 8,998 & $+$335.8\% \\
+    Mono: Soybean & 7,830 & $+$400.8\% \\
+    Mono: Green Bean & 6,818  & $+$475.1\% \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-The optimized four-crop rotation yields approximately 2.4~times the income of the best single-crop monoculture option (corn).
+The optimized four-crop rotation yields approximately 1.9~times the income of the best single-crop monoculture option (corn).
 
 \subsubsection{Brute-Force Optimality Verification}
+\label{sec:bruteforce}
 
-To verify the greedy result, exhaustive enumeration of all $4! = 24$ crop permutations was performed. The brute-force search produced the same schedule and identical total income of 41,377~THB/rai/year, confirming that the greedy heuristic found the globally optimal solution for this four-crop instance. While this equivalence is expected given the small problem size, it validates the greedy algorithm's correctness and supports its use as a scalable approach for larger crop sets where exhaustive search becomes computationally prohibitive.
-
-%% NOTE: If brute-force finds a DIFFERENT solution after running the notebook,
-%% replace the paragraph above with the actual gap numbers.
+Exhaustive enumeration of all $4! = 24$ crop permutations was performed to verify the greedy heuristic. The brute-force search identified an optimal schedule yielding 39,211~THB/rai/year, compared to the greedy result of 33,394~THB/rai/year---an optimality gap of 14.8\%. The greedy heuristic, by prioritizing corn (highest income) first, blocked soybean from being scheduled. In contrast, the optimal ordering (Cassava~$\rightarrow$~Soybean~$\rightarrow$~Green Bean~$\rightarrow$~Corn) accommodates all four crops through strategic shifting. This result demonstrates that greedy scheduling is suboptimal even for four crops and motivates the use of exact methods such as exhaustive enumeration or Dynamic Programming for production deployment. Table~\ref{tab:income_detail} and Fig.~\ref{fig:gantt_opt} present the brute-force optimal schedule.
 
 \subsubsection{Sensitivity to Yield Variability}
 \label{sec:sensitivity}
@@ -1083,18 +1082,18 @@ The income model assumes deterministic yields, but actual farm output varies due
     \toprule
     \textbf{Yield Factor} & \textbf{4-Crop (THB/rai/yr)} & \textbf{vs.\ Best Mono} \\
     \midrule
-    1.1 ($+$10\%) & 45,515 & $\times$2.42 \\
-    1.0 (baseline) & 41,377 & $\times$2.42 \\
-    0.9 ($-$10\%)  & 37,239 & $\times$2.42 \\
-    0.8 ($-$20\%)  & 33,102 & $\times$2.42 \\
-    0.7 ($-$30\%)  & 28,964 & $\times$2.42 \\
+    1.1 ($+$10\%) & 43,132 & $\times$1.92 \\
+    1.0 (baseline) & 39,211 & $\times$1.92 \\
+    0.9 ($-$10\%)  & 35,290 & $\times$1.92 \\
+    0.8 ($-$20\%)  & 31,369 & $\times$1.92 \\
+    0.7 ($-$30\%)  & 27,448 & $\times$1.92 \\
     \bottomrule
   \end{tabular}
   \vspace{2pt}
-  \raggedright\scriptsize\textit{Note:} Because Income~$=$~Yield~$\times$~Price, uniform scaling preserves the rotation-to-monoculture ratio ($\times$2.42) across all yield factors.
+  \raggedright\scriptsize\textit{Note:} Because Income~$=$~Yield~$\times$~Price, uniform scaling preserves the rotation-to-monoculture ratio ($\times$1.92) across all yield factors.
 \end{table}
 
-Even at a 30\% yield reduction---representative of a severe drought year---the four-crop rotation retains a significant income advantage over monoculture, demonstrating the structural benefit of temporal diversification. Because both rotation and monoculture incomes scale proportionally with yield, the relative advantage ($\times$2.42) is invariant to uniform yield shocks. Differential yield shocks---where one crop fails but others survive---would alter this ratio and represent a scenario where rotation provides risk diversification beyond income maximization. However, these figures remain upper-bound estimates as production costs, post-harvest losses, and price-yield correlations are not modeled.
+Even at a 30\% yield reduction---representative of a severe drought year---the four-crop rotation retains a significant income advantage over monoculture, demonstrating the structural benefit of temporal diversification. Because both rotation and monoculture incomes scale proportionally with yield, the relative advantage ($\times$1.92) is invariant to uniform yield shocks. Differential yield shocks---where one crop fails but others survive---would alter this ratio and represent a scenario where rotation provides risk diversification beyond income maximization. However, these figures remain upper-bound estimates as production costs, post-harvest losses, and price-yield correlations are not modeled.
 
 \subsection{Web Application}
 
@@ -1135,7 +1134,7 @@ With validation-based window selection, Rolling-Window LSTM's average MAPE (17.0
 
 \subsection{Greedy Scheduling: Verification and Scalability}
 
-With only four crops, the scheduling problem admits $4! = 24$ permutations, making exhaustive search trivial. Our brute-force verification confirmed that the greedy heuristic produced the globally optimal solution in this instance---the same schedule and total income of 41,377~THB/rai/year. The greedy approach is nonetheless presented as a general-purpose method because the scheduling framework is designed to scale: as the number of crops grows beyond 10--15, exhaustive search becomes infeasible ($15! \approx 1.3 \times 10^{12}$), and a polynomial-time heuristic or Dynamic Programming approach in $O(n \log n)$ becomes necessary. The current four-crop case serves as a proof-of-concept where greedy optimality can be independently verified.
+With only four crops, the scheduling problem admits $4! = 24$ permutations, making exhaustive search trivial. Our brute-force verification revealed that the greedy heuristic is suboptimal: it produced 33,394~THB/rai/year (3~crops, soybean excluded), compared to the optimal 39,211~THB/rai/year (all 4~crops)---a gap of 14.8\%. The greedy algorithm's income-first prioritization placed corn first, which consumed a time slot that prevented soybean from being scheduled. The optimal ordering prioritizes cassava first (long growing period, must start early), followed by crops that fill the remaining gaps. This demonstrates that even with four crops, the scheduling structure is non-trivial: greedy approaches can miss solutions that require counter-intuitive priority orderings. For larger crop sets ($>$10), exhaustive search becomes infeasible ($15! \approx 1.3 \times 10^{12}$), and Dynamic Programming in $O(n \log n)$ becomes necessary.
 
 \subsection{Experimental Design Considerations}
 
@@ -1163,7 +1162,7 @@ This paper presented CropPlanner, an integrated system for AI-driven crop planni
 
 First, a comparative study of four forecasting models revealed that no single model dominates across all metrics. Standard LSTM achieved the highest average accuracy (92.93\%), while Rolling-Window LSTM---with window sizes validated on a held-out year to prevent data leakage---retained accurate peak timing for three of four crops. This finding underscores the importance of both proper experimental methodology and selecting evaluation metrics aligned with the downstream application.
 
-Second, the Greedy Scheduling algorithm produced a non-overlapping four-crop rotation yielding 41,377~THB/rai/year---approximately 2.4~times the best monoculture income. Exhaustive enumeration of all 24~permutations confirmed this is the globally optimal solution, and sensitivity analysis demonstrated robustness to yield variability.
+Second, exhaustive enumeration identified the optimal non-overlapping four-crop rotation yielding 39,211~THB/rai/year---approximately 1.9~times the best monoculture income. The greedy heuristic was found to be suboptimal by 14.8\%, demonstrating the value of exact methods even for small problem instances. Sensitivity analysis confirmed the rotation advantage is robust to uniform yield variability.
 
 Third, the CropPlanner web application enables farmers to plan up to 12~months ahead through intuitive visualizations, delivering AI-powered insights without requiring technical expertise.
 
