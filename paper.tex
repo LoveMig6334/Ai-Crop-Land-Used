@@ -503,7 +503,7 @@ Since independently optimal positions for each crop may overlap, a scheduling al
     };
 
     % A success
-    \node[process, above=0.5cm of stratA] (addA) {Add $j_i$ to $S$\\(original dates)};
+    \node[process, above=0.5cm of stratA] (addA) {\shortstack{Add $j_i$ to $S$\\(original dates)}};
 
     % Strategy B
     \node[decision, right=1.5cm of stratA] (stratB) {
@@ -513,7 +513,7 @@ Since independently optimal positions for each crop may overlap, a scheduling al
     };
 
     % B success
-    \node[process, above=0.5cm of stratB] (addB) {Shift to gap;\\recalc income;\\add to $S$};
+    \node[process, above=0.5cm of stratB] (addB) {\shortstack{Shift to gap;\\recalc income;\\add to $S$}};
 
     % Strategy C
     \node[decision, right=1.5cm of stratB] (stratC) {
@@ -523,7 +523,7 @@ Since independently optimal positions for each crop may overlap, a scheduling al
     };
 
     % C success
-    \node[process, above=0.5cm of stratC] (addC) {Plant in prev.\\year; harvest\\in 2024; add to $S$};
+    \node[process, above=0.5cm of stratC] (addC) {\shortstack{Plant in prev.\\year; harvest\\in 2024; add to $S$}};
 
     % Exclude
     \node[process, right=1.2cm of stratC] (exclude) {Exclude $j_i$};
