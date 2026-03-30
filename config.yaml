@@ -1,5 +1,7 @@
 random_seed: 42
 train_cutoff_year: 2023
+val_year: 2023
+test_year: 2024
 
 data:
   seq_len: 12

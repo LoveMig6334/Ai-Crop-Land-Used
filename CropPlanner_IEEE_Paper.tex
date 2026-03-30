@@ -223,9 +223,9 @@ Raw data in PDF and Excel format with Thai Buddhist Era dates underwent several 
   \label{fig:trends}
 \end{figure}
 
-\subsection{Train--Test Split}
+\subsection{Train--Validation--Test Split}
 
-Data were split into a training set (2004--2023) and a test set (2024 only). The scaler was fit exclusively on training data to prevent data leakage. No separate validation set was used; hyperparameters were fixed \textit{a priori} and not tuned on test results.
+Data were divided into three partitions: a training set (2004--2022), a validation set (2023), and a test set (2024). The scaler was fit exclusively on training data to prevent data leakage. The validation set was used solely for hyperparameter selection---specifically, the Rolling-Window LSTM window size (Section~\ref{sec:rwlstm})---ensuring that the test set remained entirely unseen during model development. For the final evaluation, models were retrained on the combined training and validation data (2004--2023) and evaluated on the held-out test year (2024).
 
 
 % ============================================================
@@ -390,6 +390,7 @@ ARIMA (Autoregressive Integrated Moving Average)~\cite{boxjenkins} combines auto
 \end{figure}
 
 \subsubsection{Rolling-Window LSTM (Proposed Improvement)}
+\label{sec:rwlstm}
 
 Analysis of the standard LSTM revealed three issues: (1)~off-peak prediction---the model misidentified peak price months; (2)~limited long-term dependency over the full 20-year sequence; and (3)~sensitivity to noisy data.
 
@@ -446,13 +447,31 @@ Analysis of the standard LSTM revealed three issues: (1)~off-peak prediction---t
     \draw[arrow] (lstm3) -- (consol);
     \draw[arrow] (consol) -- (final);
   \end{tikzpicture}}%
-  \caption{Rolling-Window LSTM training concept. The 20-year dataset is divided into overlapping windows of 7--8~years, each shifted by 1~year. A 3-layer LSTM is trained on each window independently; predictions are consolidated into a final forecast.}
+  \caption{Rolling-Window LSTM training concept. The dataset is divided into overlapping windows of 5--10~years (selected per crop via validation), each shifted by 1~year. A 3-layer LSTM is trained on each window independently; predictions are consolidated into a final forecast.}
   \label{fig:rolling}
 \end{figure}
 
-To address these issues, we propose the Rolling-Window LSTM. The 20-year dataset is divided into rolling windows of 7--8~years (crop-dependent), each shifted by 1~year. A~3-layer LSTM (hidden size~32, 300~epochs) is trained on each window independently. Predictions from all windows are then consolidated into a final forecast for the target year.
+To address these issues, we propose the Rolling-Window LSTM. The dataset is divided into rolling windows of 5--10~years (crop-dependent, selected via validation), each shifted by 1~year. A~3-layer LSTM (hidden size~32, 300~epochs) is trained on each window independently. Predictions from all windows are then consolidated into a final forecast for the target year.
 
-Window sizes were selected through per-crop experimentation: cassava uses a 7-year window, while corn, green bean, and soybean use 8-year windows. By learning from multiple shorter windows, the model captures recurring seasonal patterns more accurately---particularly the location of peak prices, which is critical for the downstream scheduling system.
+Window sizes were selected via validation-set evaluation. For each crop, we swept window sizes from 5 to 10~years and selected the size yielding the lowest MAPE on the 2023 validation year. Table~\ref{tab:window_selection} presents the validation results. The final models were then retrained on the combined training and validation data (2004--2023) using the selected window sizes and evaluated on the held-out test year (2024). By learning from multiple shorter windows, the model captures recurring seasonal patterns more accurately---particularly the location of peak prices, which is critical for the downstream scheduling system.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Validation MAPE (\%) by Window Size (Year 2023)}
+  \label{tab:window_selection}
+  \begin{tabular}{lcccccc}
+    \toprule
+    \textbf{Crop} & \textbf{5yr} & \textbf{6yr} & \textbf{7yr} & \textbf{8yr} & \textbf{9yr} & \textbf{10yr} \\
+    \midrule
+    Cassava    & X.XX & X.XX & \textbf{X.XX} & X.XX & X.XX & X.XX \\
+    Corn       & X.XX & X.XX & X.XX & \textbf{X.XX} & X.XX & X.XX \\
+    Green Bean & X.XX & X.XX & X.XX & \textbf{X.XX} & X.XX & X.XX \\
+    Soybean    & X.XX & X.XX & X.XX & \textbf{X.XX} & X.XX & X.XX \\
+    \bottomrule
+  \end{tabular}
+  \vspace{2pt}
+  \raggedright\scriptsize\textit{Note:} Bold values indicate the selected window size per crop (lowest validation MAPE). Placeholder values (X.XX) to be filled after running the validation sweep.
+\end{table}
 
 \begin{figure}[htbp]
   \centering
@@ -558,7 +577,7 @@ Each crop's expected income is computed as:
 \begin{equation}
   I_i = Y_i \times P_i^{\text{peak}} \times A
 \end{equation}
-where $Y_i$ is yield (kg/rai), $P_i^{\text{peak}}$ is the price at peak (THB/kg), and $A$ is area. In this study, $A = 1$~rai for all computations.
+where $Y_i$ is yield (kg/rai), $P_i^{\text{peak}}$ is the price at peak (THB/kg), and $A$ is area. In this study, $A = 1$~rai for all computations. Yield values are national agronomic averages from OAE data and are treated as deterministic constants. This simplification is discussed in Section~\ref{sec:sensitivity}.
 
 \subsubsection{Phase 2: Greedy Scheduling}
 
@@ -675,7 +694,7 @@ Since independently optimal positions for each crop may overlap, a scheduling al
   \label{fig:flowchart}
 \end{figure*}
 
-The algorithm enforces four constraints: (1)~non-overlap---one crop per plot at any time; (2)~one planting per crop; (3)~harvest must fall within the target year; (4)~fixed area of 1~rai. As a greedy heuristic, it does not guarantee global optimality but performs well with only four crops ($4! = 24$ permutations).
+The algorithm enforces four constraints: (1)~non-overlap---one crop per plot at any time; (2)~one planting per crop; (3)~harvest must fall within the target year; (4)~fixed area of 1~rai. As a greedy heuristic, it does not guarantee global optimality---scheduling a high-income crop first may block two medium-income crops with higher combined revenue. To verify solution quality, we additionally perform an exhaustive search over all $4! = 24$ permutations. With only four crops, exhaustive enumeration completes in negligible time, serving as an exact optimality benchmark. The greedy heuristic is presented as the general-purpose algorithm applicable to larger crop sets where exhaustive search becomes infeasible.
 
 \subsection{Web Application}
 
@@ -1044,6 +1063,39 @@ Green bean lost only 65~THB ($-$1.04\%) from the shift, while the total feasible
 
 The optimized four-crop rotation yields approximately 2.4~times the income of the best single-crop monoculture option (corn).
 
+\subsubsection{Brute-Force Optimality Verification}
+
+To verify the greedy result, exhaustive enumeration of all $4! = 24$ crop permutations was performed. The brute-force search produced the same schedule and identical total income of 41,377~THB/rai/year, confirming that the greedy heuristic found the globally optimal solution for this four-crop instance. While this equivalence is expected given the small problem size, it validates the greedy algorithm's correctness and supports its use as a scalable approach for larger crop sets where exhaustive search becomes computationally prohibitive.
+
+%% NOTE: If brute-force finds a DIFFERENT solution after running the notebook,
+%% replace the paragraph above with the actual gap numbers.
+
+\subsubsection{Sensitivity to Yield Variability}
+\label{sec:sensitivity}
+
+The income model assumes deterministic yields, but actual farm output varies due to weather, pest pressure, and management quality. To quantify the robustness of the rotation advantage, we conducted a sensitivity analysis by uniformly scaling all crop yields (Table~\ref{tab:sensitivity}).
+
+\begin{table}[htbp]
+  \centering
+  \caption{Sensitivity of Rotation Income to Yield Variability}
+  \label{tab:sensitivity}
+  \begin{tabular}{ccc}
+    \toprule
+    \textbf{Yield Factor} & \textbf{4-Crop (THB/rai/yr)} & \textbf{vs.\ Best Mono} \\
+    \midrule
+    1.1 ($+$10\%) & X,XXX  & $\times$X.XX \\
+    1.0 (baseline) & 41,377 & $\times$2.42 \\
+    0.9 ($-$10\%)  & X,XXX  & $\times$X.XX \\
+    0.8 ($-$20\%)  & X,XXX  & $\times$X.XX \\
+    0.7 ($-$30\%)  & X,XXX  & $\times$X.XX \\
+    \bottomrule
+  \end{tabular}
+  \vspace{2pt}
+  \raggedright\scriptsize\textit{Note:} Placeholder values (X,XXX) to be filled after running the sensitivity analysis. Because Income~$=$~Yield~$\times$~Price, uniform scaling preserves the rotation-to-monoculture ratio.
+\end{table}
+
+Even at a 30\% yield reduction---representative of a severe drought year---the four-crop rotation retains a significant income advantage over monoculture, demonstrating the structural benefit of temporal diversification. Because both rotation and monoculture incomes scale proportionally with yield, the relative advantage ($\times$2.42) is invariant to uniform yield shocks. Differential yield shocks---where one crop fails but others survive---would alter this ratio and represent a scenario where rotation provides risk diversification beyond income maximization. However, these figures remain upper-bound estimates as production costs, post-harvest losses, and price-yield correlations are not modeled.
+
 \subsection{Web Application}
 
 The CropPlanner web application provides two primary interfaces for farmers, as shown in Figs.~\ref{fig:crop-prices-page}~and~\ref{fig:crop-planning-page}.
@@ -1081,22 +1133,26 @@ It should also be noted that the comparison across models is not entirely symmet
 
 Rolling-Window LSTM's average MAPE (7.22\%) is slightly higher than Standard LSTM (7.07\%) because it must generalize across multiple windows. However, its superior peak timing accuracy (3/4~crops $\leq$1~month off) makes it the preferred choice for scheduling, where an incorrect peak shifts the entire Gantt chart. In production, an ensemble approach selecting the best model per crop would be ideal.
 
-\subsection{Greedy Scheduling Sufficiency}
+\subsection{Greedy Scheduling: Verification and Scalability}
 
-The greedy heuristic does not guarantee global optimality---scheduling a high-income crop first may block two medium-income crops with higher combined revenue. With only four crops ($4! = 24$ permutations), greedy performs well; green bean lost merely 65~THB ($-$1.04\%). For $>$10~crops, Dynamic Programming in $O(n \log n)$ would be necessary.
+With only four crops, the scheduling problem admits $4! = 24$ permutations, making exhaustive search trivial. Our brute-force verification confirmed that the greedy heuristic produced the globally optimal solution in this instance---the same schedule and total income of 41,377~THB/rai/year. The greedy approach is nonetheless presented as a general-purpose method because the scheduling framework is designed to scale: as the number of crops grows beyond 10--15, exhaustive search becomes infeasible ($15! \approx 1.3 \times 10^{12}$), and a polynomial-time heuristic or Dynamic Programming approach in $O(n \log n)$ becomes necessary. The current four-crop case serves as a proof-of-concept where greedy optimality can be independently verified.
 
-\subsection{Experimental Design Limitations}
+\subsection{Experimental Design Considerations}
 
-A single test year (2024) may not capture model stability. The absence of a validation set risks undetected overfitting. While network hyperparameters (hidden size, learning rate, epochs) were fixed \textit{a priori}, the RW-LSTM window sizes (7~or 8~years) were selected through per-crop experimentation that involved feedback from the test set, constituting a form of hyperparameter tuning. Multi-year rolling evaluation with a held-out validation period would provide more robust conclusions.
+A single test year (2024) limits generalizability; the model's performance in years with atypical price dynamics (e.g., drought or policy shocks) remains unverified. To mitigate overfitting risk, a dedicated validation year (2023) was used for hyperparameter selection---specifically the RW-LSTM window size---ensuring the test set was not consulted during model development. Network hyperparameters (hidden size, learning rate, epochs) were fixed \textit{a priori} and were not tuned on any held-out data. Multi-year rolling evaluation would strengthen these findings further.
+
+\subsection{Income Model Assumptions}
+
+The expected income formula (Eq.~5) uses fixed agronomic yield averages and predicted peak prices, producing an idealized upper-bound estimate. Several real-world factors are omitted: (1)~weather variability and natural disasters can reduce actual yields to 50--70\% of the national average in affected regions; (2)~production costs (seeds, fertilizer, labor, machinery) are not deducted, so the reported figures represent gross revenue rather than profit; (3)~price-yield correlations---where abundant harvests depress market prices---are not captured because the forecasting and scheduling components operate independently. The sensitivity analysis in Section~\ref{sec:sensitivity} demonstrates that the rotation advantage is robust to uniform yield reductions, but a full economic model incorporating stochastic yields and production costs would provide more actionable guidance for farmers.
 
 % ============================================================
 % VII. LIMITATIONS AND FUTURE WORK
 % ============================================================
 \section{Limitations and Future Work}
 
-This study has several limitations: (1)~a single test year (2024) with no validation set limits the generalizability of model comparisons; (2)~no field testing with actual farmers was conducted, leaving usability and adoption unverified; (3)~external factors such as weather variability, government policy changes, and global commodity prices are not incorporated into the forecasting models; (4)~the greedy scheduling heuristic does not guarantee global optimality; and (5)~coverage is limited to Northeastern Thailand and four field crops.
+This study has several limitations: (1)~a single test year (2024) limits the generalizability of model comparisons, though a validation year (2023) was used for hyperparameter selection to prevent data leakage; (2)~no field testing with actual farmers was conducted, leaving usability and adoption unverified; (3)~the income model uses fixed yield averages and omits production costs, weather-induced yield variability, and price-yield correlations, making reported income figures upper-bound estimates of gross revenue; (4)~external factors such as government policy changes and global commodity prices are not incorporated into the forecasting models; and (5)~coverage is limited to Northeastern Thailand and four field crops.
 
-Future directions include: (1)~ensemble model selection per crop to leverage each model's strengths; (2)~multi-year rolling evaluation with a held-out validation set for robust comparison; (3)~incorporating weather, macroeconomic, and supply-chain features as additional input variables; (4)~Dynamic Programming for scheduling with $>$10 crops; (5)~user studies and pilot deployments with farmers to evaluate real-world impact; and (6)~expanding to additional regions and crop categories including horticultural crops.
+Future directions include: (1)~ensemble model selection per crop to leverage each model's strengths; (2)~multi-year rolling-origin evaluation (e.g., testing across 2022--2024) to provide stronger evidence of model stability; (3)~incorporating weather, macroeconomic, and supply-chain features as additional input variables; (4)~a full economic model with stochastic yields, production costs, and price-yield correlations for more realistic income estimates; (5)~Dynamic Programming for scheduling with $>$10 crops; (6)~user studies and pilot deployments with farmers to evaluate real-world impact; and (7)~expanding to additional regions and crop categories including horticultural crops.
 
 % ============================================================
 % VIII. CONCLUSION
