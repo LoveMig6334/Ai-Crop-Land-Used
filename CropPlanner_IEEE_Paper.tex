@@ -55,7 +55,7 @@
 % ABSTRACT
 % ============================================================
 \begin{abstract}
-Agricultural price volatility exceeding 20\% annually, combined with the prevalence of monoculture farming practices, exposes Thai farmers to significant income risks. This paper presents CropPlanner, an integrated system comprising three components: (1)~a comparative study of AI models for 12-month crop price forecasting, including LSTM, Transformer, ARIMA, and a proposed Rolling-Window LSTM; (2)~a crop planning recommendation system formulated as a Weighted Job Scheduling Problem solved by a Greedy Heuristic; and (3)~a web application for farmers. Experiments were conducted using 20~years of monthly price data (2004--2024) for four major field crops---cassava, corn, green bean, and soybean---in Northeastern Thailand. Results show that no single model dominates across all crops: Standard LSTM achieved the highest average accuracy of 92.93\%, while Rolling-Window LSTM---with window sizes selected via a held-out validation year to prevent data leakage---achieved correct peak timing for two of four crops and within one month for a third, a property critical for scheduling. Exhaustive enumeration over all $4! = 24$ permutations identified the optimal non-overlapping four-crop rotation plan yielding 39,211~THB/rai/year, approximately 1.9~times the income of the best monoculture option, while revealing that the greedy heuristic is suboptimal by 14.8\%.
+Agricultural price volatility exceeding 20\% annually, combined with the prevalence of monoculture farming practices, exposes Thai farmers to significant income risks. This paper presents CropPlanner, an integrated system comprising three components: (1)~a comparative study of AI models for 12-month crop price forecasting, including LSTM, Transformer, ARIMA, and a proposed Rolling-Window LSTM; (2)~a crop planning recommendation system formulated as a Weighted Job Scheduling Problem solved by a Greedy Heuristic; and (3)~a web application for farmers. Experiments were conducted using 20~years of monthly price data (2004--2024) for four major field crops---cassava, corn, green bean, and soybean---in Northeastern Thailand. Results show that no single model dominates across all crops: Standard LSTM achieved the highest average accuracy of 92.93\%, while Rolling-Window LSTM---with window sizes selected via a held-out validation year to prevent data leakage---achieved correct peak timing for two of four crops and within one month for a third, a property critical for scheduling. Exhaustive enumeration over all $4! = 24$ permutations identified the optimal non-overlapping four-crop rotation plan yielding 39,212~THB/rai/year, approximately 1.9~times the income of the best monoculture option, while revealing that the greedy heuristic is suboptimal by 14.8\%.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -427,7 +427,7 @@ Analysis of the standard LSTM revealed three issues: (1)~off-peak prediction---t
     \node[above right=0.08cm and 0.05cm of y20, font=\tiny, purple!70] {$W_N$};
 
     % Shift annotation
-    \draw[winbrace] ([yshift=-12pt]y0.south west) -- node[below=4pt, font=\tiny] {7--8 year window} ([yshift=-12pt]y7.south east);
+    \draw[winbrace] ([yshift=-12pt]y0.south west) -- node[below=4pt, font=\tiny] {5--10 year window} ([yshift=-12pt]y7.south east);
 
     % Arrow showing shift
     \draw[-{Stealth[length=1.5mm]}, gray] ([yshift=-8pt]y0.south) -- node[below, font=\tiny] {shift 1yr} ([yshift=-8pt]y1.south);
@@ -824,7 +824,7 @@ No single model dominates across all crops. Standard LSTM achieves the highest a
     \node[font=\tiny, red, below] at (axis cs:1,2.57) {$\uparrow$Jan};
     \end{axis}
   \end{tikzpicture}
-  \caption{RW-LSTM forecast for cassava (best case). Peak correctly predicted in Jan (actual: Jan, predicted: Jan) with $\Delta$Month~=~0.}
+  \caption{RW-LSTM forecast for cassava (best peak timing). Peak correctly predicted in Jan (actual: Jan, predicted: Jan) with $\Delta$Month~=~0.}
   \label{fig:rwlstm_cassava}
 \end{figure}
 
@@ -879,7 +879,7 @@ While Rolling-Window LSTM has a higher average MAPE than Standard LSTM with prop
   \end{tabular}
 \end{table}
 
-Two of four crops (cassava and green bean) have exact peak month predictions, and soybean is within one month. Corn's peak prediction is five months off, reflecting the difficulty of capturing its mid-year price spike with a short (6-year) window. Despite lower overall MAPE compared to the test-tuned configuration, the validated model retains strong peak timing for three of four crops---critical for the scheduling system where peak position determines harvest dates.
+Two of four crops (cassava and green bean) have exact peak month predictions, and soybean is within one month. Corn's peak prediction is five months off, reflecting the difficulty of capturing its mid-year price spike with a short (6-year) window. Note that the $\Delta$Price column reflects overall forecast error at the peak month, not scheduling quality: the scheduling system uses only the peak month position to set the harvest date, while income is computed from the predicted price at that month. Cassava's high $\Delta$Price (29.57\%) despite exact peak timing indicates the forecast underestimates the price level but correctly identifies \textit{when} to harvest. Despite lower overall MAPE compared to the test-tuned configuration, the validated model retains strong peak timing for three of four crops---critical for the scheduling system.
 
 \subsection{Crop Planning Results}
 
@@ -1019,7 +1019,7 @@ After applying exhaustive enumeration with the optimal ordering (Cassava~$\right
     % Legend
     \node[font=\tiny, anchor=west] at (0,{4.5}) {\tikz{\fill[green!30, draw=black, dashed, thick] (0,0) rectangle (0.4,0.2);} = Shifted (Strategy~B)};
   \end{tikzpicture}}%
-  \caption{Optimized Gantt chart (brute-force optimal ordering). Corn and soybean were shifted to available gaps using Strategy~B (dashed borders), producing a non-overlapping four-crop rotation with total income of 39,211~THB/rai/year.}
+  \caption{Optimized Gantt chart (brute-force optimal ordering). Corn and soybean were shifted to available gaps using Strategy~B (dashed borders), producing a non-overlapping four-crop rotation with total income of 39,212~THB/rai/year.}
   \label{fig:gantt_opt}
 \end{figure}
 
@@ -1038,12 +1038,12 @@ Table~\ref{tab:income_detail} details the income before and after optimization.
     Green Bean & 6,818  & 6,818  & Original & $\pm$0     \\
     Soybean    & 7,830  & 5,011  & Shifted  & $-$2,819  \\
     \midrule
-    \textbf{Total} & \textit{Infeasible} & \textbf{39,211} & --- & --- \\
+    \textbf{Total} & \textit{Infeasible} & \textbf{39,212} & --- & --- \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-Corn and soybean lost income from shifting to non-peak months, while the total feasible income reached 39,211~THB/rai/year. This schedule was identified through exhaustive enumeration (Section~\ref{sec:bruteforce}) rather than the greedy heuristic. Table~\ref{tab:mono} compares this with monoculture baselines.
+Corn and soybean lost income from shifting to non-peak months, while the total feasible income reached 39,212~THB/rai/year. This schedule was identified through exhaustive enumeration (Section~\ref{sec:bruteforce}) rather than the greedy heuristic. Table~\ref{tab:mono} compares this with monoculture baselines.
 
 \begin{table}[htbp]
   \centering
@@ -1053,11 +1053,11 @@ Corn and soybean lost income from shifting to non-peak months, while the total f
     \toprule
     \textbf{Plan} & \textbf{THB/rai/yr} & \textbf{vs.\ Opt.} \\
     \midrule
-    \textbf{4-Crop Rotation} & \textbf{39,211} & --- \\
+    \textbf{4-Crop Rotation} & \textbf{39,212} & --- \\
     Mono: Corn (best) & 20,377 & $+$92.4\% \\
     Mono: Cassava & 8,998 & $+$335.8\% \\
-    Mono: Soybean & 7,830 & $+$400.8\% \\
-    Mono: Green Bean & 6,818  & $+$475.1\% \\
+    Mono: Soybean & 7,830 & $+$400.9\% \\
+    Mono: Green Bean & 6,818  & $+$475.2\% \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -1067,7 +1067,7 @@ The optimized four-crop rotation yields approximately 1.9~times the income of th
 \subsubsection{Brute-Force Optimality Verification}
 \label{sec:bruteforce}
 
-Exhaustive enumeration of all $4! = 24$ crop permutations was performed to verify the greedy heuristic. The brute-force search identified an optimal schedule yielding 39,211~THB/rai/year, compared to the greedy result of 33,394~THB/rai/year---an optimality gap of 14.8\%. The greedy heuristic, by prioritizing corn (highest income) first, blocked soybean from being scheduled. In contrast, the optimal ordering (Cassava~$\rightarrow$~Soybean~$\rightarrow$~Green Bean~$\rightarrow$~Corn) accommodates all four crops through strategic shifting. This result demonstrates that greedy scheduling is suboptimal even for four crops and motivates the use of exact methods such as exhaustive enumeration or Dynamic Programming for production deployment. Table~\ref{tab:income_detail} and Fig.~\ref{fig:gantt_opt} present the brute-force optimal schedule.
+Exhaustive enumeration of all $4! = 24$ crop permutations was performed to verify the greedy heuristic. The brute-force search identified an optimal schedule yielding 39,212~THB/rai/year, compared to the greedy result of 33,394~THB/rai/year---an optimality gap of 14.8\%. The greedy heuristic, by prioritizing corn (highest income) first, blocked soybean from being scheduled. In contrast, the optimal ordering (Cassava~$\rightarrow$~Soybean~$\rightarrow$~Green Bean~$\rightarrow$~Corn) accommodates all four crops through strategic shifting. This result demonstrates that greedy scheduling is suboptimal even for four crops and motivates the use of exact methods such as exhaustive enumeration or Dynamic Programming for production deployment. Table~\ref{tab:income_detail} and Fig.~\ref{fig:gantt_opt} present the brute-force optimal schedule.
 
 \subsubsection{Sensitivity to Yield Variability}
 \label{sec:sensitivity}
@@ -1082,10 +1082,10 @@ The income model assumes deterministic yields, but actual farm output varies due
     \toprule
     \textbf{Yield Factor} & \textbf{4-Crop (THB/rai/yr)} & \textbf{vs.\ Best Mono} \\
     \midrule
-    1.1 ($+$10\%) & 43,132 & $\times$1.92 \\
-    1.0 (baseline) & 39,211 & $\times$1.92 \\
-    0.9 ($-$10\%)  & 35,290 & $\times$1.92 \\
-    0.8 ($-$20\%)  & 31,369 & $\times$1.92 \\
+    1.1 ($+$10\%) & 43,133 & $\times$1.92 \\
+    1.0 (baseline) & 39,212 & $\times$1.92 \\
+    0.9 ($-$10\%)  & 35,291 & $\times$1.92 \\
+    0.8 ($-$20\%)  & 31,370 & $\times$1.92 \\
     0.7 ($-$30\%)  & 27,448 & $\times$1.92 \\
     \bottomrule
   \end{tabular}
@@ -1113,7 +1113,7 @@ The CropPlanner web application provides two primary interfaces for farmers, as 
 \label{fig:crop-planning-page}
 \end{figure}
 
-The \textbf{Crop Prices} page displays Rolling-Window LSTM forecast charts for all four crops, enabling farmers to compare predicted price trends across a~12-month horizon. The \textbf{Crop Planning} page accepts a start month and plot area as inputs, invokes the Greedy Scheduling algorithm, and returns a Gantt chart with an accompanying financial summary---including projected income, estimated expenses, net profit, and ROI.
+The \textbf{Crop Prices} page displays Rolling-Window LSTM forecast charts for all four crops, enabling farmers to compare predicted price trends across a~12-month horizon. The \textbf{Crop Planning} page accepts a start month and plot area as inputs, runs the scheduling algorithm, and returns a Gantt chart with an accompanying financial summary---including projected income, estimated expenses, net profit, and ROI. The current prototype uses the greedy heuristic; incorporating the exhaustive search---trivial for four crops ($<$1~ms)---is planned for the next release.
 
 The application was deployed on Vercel with the Next.js backend serving REST~API endpoints that query pre-computed RW-LSTM forecasts stored in MySQL. The interface is responsive across desktop and mobile devices, ensuring accessibility for farmers in rural areas with limited computing resources.
 
@@ -1124,25 +1124,19 @@ The application was deployed on Vercel with the Next.js backend serving REST~API
 
 \subsection{No Single Model Dominates}
 
-The finding that no single model is best for all crops is attributable to the limited dataset ($\sim$252 data points) and differing price dynamics. LSTM, with fewer parameters, avoids overfitting and performs best for cassava and corn. Transformer's self-attention captures complex seasonal patterns for soybean. ARIMA fails for cassava (MAPE = 24.71\%) due to structural breaks violating stationarity, but remains competitive for crops with regular trends.
-
-It should also be noted that the comparison across models is not entirely symmetric. ARIMA uses AutoARIMA to fit a single model on the full training history and produces a recursive 12-month forecast, whereas Rolling-Window LSTM trains on multiple overlapping windows. With validation-based window selection, RW-LSTM's average MAPE (17.06\%) is notably higher than other models, indicating that its original performance was inflated by test-set feedback in the window size selection process. This underscores the importance of rigorous train--validation--test separation even for seemingly minor hyperparameters.
+No single model is best for all crops, attributable to the limited dataset ($\sim$252 points) and differing price dynamics. LSTM avoids overfitting and leads for cassava and corn; Transformer captures complex seasonal patterns for soybean; ARIMA fails for cassava (24.71\%) due to stationarity violations but remains competitive elsewhere.
 
 \subsection{Peak Timing Over Overall MAPE}
 
-With validation-based window selection, Rolling-Window LSTM's average MAPE (17.06\%) is substantially higher than Standard LSTM (7.07\%), reflecting the cost of proper hyperparameter selection without test-set feedback. However, its peak timing accuracy remains strong for three of four crops (cassava and green bean exact, soybean $\leq$1~month off), making it a viable choice for scheduling where peak position is more important than pointwise accuracy. Corn's 5-month peak error (Jul~$\rightarrow$~Feb) suggests the 6-year validated window is too short to capture its mid-year dynamics. In production, an ensemble approach selecting the best model per crop would be ideal.
+With validation-based window selection, RW-LSTM's average MAPE (17.06\%) is notably higher than Standard LSTM (7.07\%), indicating that its original performance was inflated by test-set feedback---underscoring the importance of rigorous train--validation--test separation. However, its peak timing remains strong for three of four crops (cassava and green bean exact, soybean $\leq$1~month off), making it viable for scheduling where peak position matters more than pointwise accuracy. Corn's 5-month error suggests its 6-year validated window is too short. An ensemble selecting the best model per crop would be ideal.
 
 \subsection{Greedy Scheduling: Verification and Scalability}
 
-With only four crops, the scheduling problem admits $4! = 24$ permutations, making exhaustive search trivial. Our brute-force verification revealed that the greedy heuristic is suboptimal: it produced 33,394~THB/rai/year (3~crops, soybean excluded), compared to the optimal 39,211~THB/rai/year (all 4~crops)---a gap of 14.8\%. The greedy algorithm's income-first prioritization placed corn first, which consumed a time slot that prevented soybean from being scheduled. The optimal ordering prioritizes cassava first (long growing period, must start early), followed by crops that fill the remaining gaps. This demonstrates that even with four crops, the scheduling structure is non-trivial: greedy approaches can miss solutions that require counter-intuitive priority orderings. For larger crop sets ($>$10), exhaustive search becomes infeasible ($15! \approx 1.3 \times 10^{12}$), and Dynamic Programming in $O(n \log n)$ becomes necessary.
+With only four crops, the scheduling problem admits $4! = 24$ permutations, making exhaustive search trivial. Our brute-force verification revealed that the greedy heuristic is suboptimal: it produced 33,394~THB/rai/year (3~crops, soybean excluded), compared to the optimal 39,212~THB/rai/year (all 4~crops)---a gap of 14.8\%. The greedy algorithm's income-first prioritization placed corn first, which consumed a time slot that prevented soybean from being scheduled. The optimal ordering prioritizes cassava first (long growing period, must start early), followed by crops that fill the remaining gaps. This demonstrates that even with four crops, the scheduling structure is non-trivial: greedy approaches can miss solutions that require counter-intuitive priority orderings. For larger crop sets ($>$10), exhaustive search becomes infeasible ($15! \approx 1.3 \times 10^{12}$), and Dynamic Programming in $O(n \log n)$ becomes necessary.
 
-\subsection{Experimental Design Considerations}
+\subsection{Experimental Design and Income Model}
 
-A single test year (2024) limits generalizability; the model's performance in years with atypical price dynamics (e.g., drought or policy shocks) remains unverified. To mitigate overfitting risk, a dedicated validation year (2023) was used for hyperparameter selection---specifically the RW-LSTM window size---ensuring the test set was not consulted during model development. Network hyperparameters (hidden size, learning rate, epochs) were fixed \textit{a priori} and were not tuned on any held-out data. Multi-year rolling evaluation would strengthen these findings further.
-
-\subsection{Income Model Assumptions}
-
-The expected income formula (Eq.~5) uses fixed agronomic yield averages and predicted peak prices, producing an idealized upper-bound estimate. Several real-world factors are omitted: (1)~weather variability and natural disasters can reduce actual yields to 50--70\% of the national average in affected regions; (2)~production costs (seeds, fertilizer, labor, machinery) are not deducted, so the reported figures represent gross revenue rather than profit; (3)~price-yield correlations---where abundant harvests depress market prices---are not captured because the forecasting and scheduling components operate independently. The sensitivity analysis in Section~\ref{sec:sensitivity} demonstrates that the rotation advantage is robust to uniform yield reductions, but a full economic model incorporating stochastic yields and production costs would provide more actionable guidance for farmers.
+A single test year (2024) limits generalizability; a dedicated validation year (2023) was used for RW-LSTM window size selection to prevent data leakage, and network hyperparameters were fixed \textit{a priori}. The income model (Eq.~5) uses fixed yield averages and omits production costs and price-yield correlations, producing upper-bound gross revenue estimates. The sensitivity analysis (Section~\ref{sec:sensitivity}) confirms the rotation advantage is robust to uniform yield reductions, but a full economic model would provide more actionable guidance.
 
 % ============================================================
 % VII. LIMITATIONS AND FUTURE WORK
@@ -1162,7 +1156,7 @@ This paper presented CropPlanner, an integrated system for AI-driven crop planni
 
 First, a comparative study of four forecasting models revealed that no single model dominates. Standard LSTM achieved the highest average accuracy (92.93\%), while Rolling-Window LSTM---with window sizes validated on a held-out year to prevent data leakage---retained accurate peak timing for three of four crops, underscoring the importance of proper experimental methodology and application-aligned metrics.
 
-Second, exhaustive enumeration identified the optimal non-overlapping four-crop rotation yielding 39,211~THB/rai/year---approximately 1.9~times the best monoculture income. The greedy heuristic was suboptimal by 14.8\%, demonstrating the value of exact methods. Sensitivity analysis confirmed robustness to uniform yield variability.
+Second, exhaustive enumeration identified the optimal non-overlapping four-crop rotation yielding 39,212~THB/rai/year---approximately 1.9~times the best monoculture income. The greedy heuristic was suboptimal by 14.8\%, demonstrating the value of exact methods. Sensitivity analysis confirmed robustness to uniform yield variability.
 
 Third, the CropPlanner web application enables farmers to plan up to 12~months ahead through intuitive visualizations, delivering AI-powered insights without requiring technical expertise. This system has the potential to reduce income volatility and promote sustainable agriculture for Thai farmers.
 
