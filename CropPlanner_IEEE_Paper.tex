@@ -266,36 +266,35 @@ The Transformer model~\cite{vaswani2017attention} uses multi-head self-attention
 % --- Fig. 4: Transformer Architecture (from code: transformer_model.py) ---
 \begin{figure}[htbp]
   \centering
-  \resizebox{0.75\columnwidth}{!}{%
-  \begin{tikzpicture}[node distance=0.35cm]
+  \resizebox{\columnwidth}{!}{%
+  \begin{tikzpicture}[node distance=0.35cm and 0.4cm]
     % Input
-    \node[block=yellow!20, text width=1.6cm, align=center] (input) {Input\\$x \in \mathbb{R}^{12 \times 1}$};
+    \node[block=yellow!20, text width=1.3cm, align=center] (input) {Input\\$x \in \mathbb{R}^{12 \times 1}$};
 
     % Input projection
-    \node[block=purple!15, below=0.4cm of input, text width=2cm, align=center] (proj) {Linear Projection\\$1 \to 64$};
+    \node[block=purple!15, right=0.4cm of input, text width=1.3cm, align=center] (proj) {Linear\\$1 \to 64$};
 
     % Positional Encoding
-    \node[block=cyan!15, below=0.4cm of proj, text width=2cm, align=center] (pe) {Positional\\Encoding};
+    \node[block=cyan!15, right=0.4cm of proj, text width=1.3cm, align=center] (pe) {Positional\\Encoding};
 
     % Encoder block (repeated)
-    \node[block=green!15, below=0.5cm of pe, text width=2.8cm, align=center, minimum height=1.4cm] (enc) {
+    \node[block=green!15, right=0.4cm of pe, text width=2.2cm, align=center, minimum height=1.2cm] (enc) {
       \begin{tabular}{c}
-        \textbf{Encoder Layer} $\times 2$\\[2pt]
-        Multi-Head Attention\\
-        ($h=8$, $d_{\text{model}}=64$)\\[2pt]
-        Feed-Forward ($d_{ff}=128$)\\
+        \textbf{Encoder} $\times 2$\\[1pt]
+        MHA ($h\!=\!8$)\\
+        FF ($d_{ff}\!=\!128$)\\
         + Add \& Norm
       \end{tabular}
     };
 
     % Last step
-    \node[block=orange!20, below=0.4cm of enc, text width=1.6cm, align=center] (last) {Last Step\\$e_{T}$};
+    \node[block=orange!20, right=0.4cm of enc, text width=1.2cm, align=center] (last) {Last Step\\$e_{T}$};
 
     % Decoder
-    \node[block=red!15, below=0.4cm of last, text width=1.6cm, align=center] (dec) {Linear\\$64 \to 12$};
+    \node[block=red!15, right=0.4cm of last, text width=1.2cm, align=center] (dec) {Linear\\$64 \to 12$};
 
     % Output
-    \node[block=blue!15, below=0.4cm of dec, text width=1.6cm, align=center] (output) {Output\\$\hat{y} \in \mathbb{R}^{12}$};
+    \node[block=blue!15, right=0.4cm of dec, text width=1.3cm, align=center] (output) {Output\\$\hat{y} \in \mathbb{R}^{12}$};
 
     % Arrows
     \draw[arrow] (input) -- (proj);
@@ -306,7 +305,7 @@ The Transformer model~\cite{vaswani2017attention} uses multi-head self-attention
     \draw[arrow] (dec) -- (output);
 
     % Add + residual annotation
-    \draw[-{Stealth[length=1.5mm]}, gray, dashed] (pe.east) -- ++(0.8,0) |- (enc.east);
+    \draw[-{Stealth[length=1.5mm]}, gray, dashed] (pe.south) -- ++(0,-0.5) -| (enc.south);
   \end{tikzpicture}}%
   \caption{Transformer architecture (encoder-only). Prices are projected to $d_{\text{model}}=64$, augmented with positional encoding, and processed by 2~encoder layers with 8-head attention. The last position's encoding is decoded to 12~output values.}
   \label{fig:transformer}
@@ -584,6 +583,7 @@ The algorithm enforces four constraints: (1)~non-overlap---one crop per plot at 
 % --- Fig. 9: Web Application Architecture ---
 \begin{figure}[htbp]
   \centering
+  \resizebox{\columnwidth}{!}{%
   \begin{tikzpicture}[node distance=0.5cm and 0.8cm]
     % Frontend
     \node[block=blue!15, text width=2cm, align=center, minimum height=1.2cm] (fe) {
@@ -625,7 +625,7 @@ The algorithm enforces four constraints: (1)~non-overlap---one crop per plot at 
     % Features
     \node[below=1.2cm of fe, font=\tiny, text width=2.2cm, align=center] (f1) {\textbf{Feature 1:} Crop Prices\\(forecast charts)};
     \node[below=1.2cm of db, font=\tiny, text width=2.2cm, align=center] (f2) {\textbf{Feature 2:} Crop Planning\\(Gantt chart + ROI)};
-  \end{tikzpicture}
+  \end{tikzpicture}}%
   \caption{Web application architecture. The frontend communicates with a Next.js backend connected to MySQL for data storage. AI model outputs feed into the backend for real-time recommendations.}
   \label{fig:webapp}
 \end{figure}
