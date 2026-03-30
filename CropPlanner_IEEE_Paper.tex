@@ -369,14 +369,7 @@ ARIMA (Autoregressive Integrated Moving Average)~\cite{boxjenkins} combines auto
     \node[block=yellow!20, text width=1.5cm, align=center] (data) {20-Year\\Price Data};
 
     % Decomposition
-    \node[block=purple!15, right=0.6cm of data, text width=1.6cm, align=center, minimum height=1.5cm] (decomp) {
-      \begin{tabular}{c}
-        Time Series\\Decomposition\\[3pt]
-        {\tiny Trend}\\
-        {\tiny Seasonality}\\
-        {\tiny Residuals}
-      \end{tabular}
-    };
+    \node[block=purple!15, right=0.6cm of data, text width=2.0cm, align=center, minimum height=1.8cm] (decomp) {Time Series\\Decomposition\\[3pt]{\tiny Trend}\\{\tiny Seasonality}\\{\tiny Residuals}};
 
     % AutoARIMA
     \node[block=green!15, right=0.6cm of decomp, text width=1.6cm, align=center] (arima) {AutoARIMA\\$(p,d,q)$\\auto-select};
@@ -389,7 +382,8 @@ ARIMA (Autoregressive Integrated Moving Average)~\cite{boxjenkins} combines auto
     \draw[arrow] (decomp) -- (arima);
     \draw[arrow] (arima) -- (out);
 
-    \node[below=0.2cm of decomp, font=\tiny, text=gray] {StatsForecast};
+    % StatsForecast label centered under entire pipeline
+    \node[below=0.6cm of $(data.south)!0.5!(out.south)$, font=\tiny, text=gray] {StatsForecast};
   \end{tikzpicture}}
   \caption{ARIMA forecasting pipeline. Historical data is decomposed into trend, seasonality, and residual components before AutoARIMA selects optimal $(p,d,q)$ parameters.}
   \label{fig:arima}
@@ -632,35 +626,47 @@ Since independently optimal positions for each crop may overlap, a scheduling al
     % End
     \node[startstop, left=2.5cm of markused] (end) {Return $S$};
 
-    % === Arrows ===
+% === Arrows ===
     \draw[arrow] (start) -- (sort);
     \draw[arrow] (sort) -- (init);
     \draw[arrow] (init) -- (hasnext);
-
     % Has next
     \draw[arrow] (hasnext) -- node[right, font=\tiny] {Yes} (pick);
     \draw[arrow] (hasnext.west) -- ++(-1.2,0) |- node[near start, above, font=\tiny] {No} (end);
-
     % Used check
     \draw[arrow] (pick) -- (usedcheck);
-    \draw[arrow] (usedcheck.south) -- ++(0,-0.4) -| ([xshift=-0.3cm]markused.south) -- (markused.south west) node[near start, left, font=\tiny] {Yes (skip)};
     \draw[arrow] (usedcheck) -- node[above, font=\tiny] {No} (stratA);
+
+    % Used check Yes: go down then right into markused from the left side
+    \draw[arrow] (usedcheck.south) -- ++(0,-0.4)
+      -| node[near start, left, font=\tiny] {Yes (skip)} ([xshift=-1cm]markused.south) -- (markused.south west);
 
     % Strategy A
     \draw[arrow] (stratA) -- node[right, font=\tiny] {No overlap} (addA);
     \draw[arrow] (stratA) -- node[above, font=\tiny] {Overlap} (stratB);
-    \draw[arrow] (addA.north) -- ++(0,0.3) -| ([xshift=0.5cm]markused.south) -- (markused);
 
     % Strategy B
     \draw[arrow] (stratB) -- node[right, font=\tiny] {Found} (addB);
     \draw[arrow] (stratB) -- node[above, font=\tiny] {No gap} (stratC);
-    \draw[arrow] (addB.north) -- ++(0,0.5) -| ([xshift=0.5cm]markused.south);
 
     % Strategy C
     \draw[arrow] (stratC) -- node[right, font=\tiny] {Fits} (addC);
     \draw[arrow] (stratC) -- node[above, font=\tiny] {No} (exclude);
-    \draw[arrow] (addC.north) -- ++(0,0.7) -| ([xshift=0.5cm]markused.south);
-    \draw[arrow] (exclude.south) |- (markused);
+
+    % --- Success paths into markused ---
+    % Route via gaps BETWEEN the diamonds to avoid crossing nodes.
+
+    % addA -> markused: via gap between stratA and stratB
+    \draw[arrow] (addA.east) -| ($(stratA.east)!0.5!(stratB.west)$) |- (markused);
+
+    % addB -> markused: via gap between stratB and stratC
+    \draw[arrow] (addB.east) -| ($(stratB.east)!0.5!(stratC.west)$) |- ([yshift=0.15cm]markused.east);
+
+    % addC -> markused: route right from addC then down
+    \draw[arrow] (addC.east) -- ++(0.4,0) |- ([yshift=-0.15cm]markused.east);
+
+    % Exclude -> markused: go down then into markused from the south
+    \draw[arrow] (exclude.south) -- ++(0,-0.3) -| ([xshift=0.8cm]markused.south) -- (markused);
 
     % Loop back
     \draw[arrow] (markused.west) -| ([xshift=-3cm]hasnext.west) -- (hasnext.west);
