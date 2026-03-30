@@ -194,7 +194,7 @@ Raw data in PDF and Excel format with Thai Buddhist Era dates underwent several 
       title style={font=\scriptsize\bfseries},
       grid=major, grid style={gray!15},
       xtick={2004,2008,2012,2016,2020,2024},
-      mark size=1pt, thick,
+      every axis plot/.append style={mark size=1pt, thick},
     ]
     \nextgroupplot[title={Cassava}, ymin=0.8, ymax=3.8]
     \addplot[blue!70, mark=*, mark options={fill=blue!70}] coordinates {
