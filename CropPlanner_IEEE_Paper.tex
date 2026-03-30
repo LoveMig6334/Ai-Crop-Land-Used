@@ -79,13 +79,14 @@ This paper presents CropPlanner, an end-to-end system linking AI-based price for
 
 \begin{enumerate}
   \item \textbf{Model comparison and improvement:} We compare LSTM, Transformer, ARIMA, and a proposed Rolling-Window LSTM for 12-month price forecasting of four Thai field crops, analyzing both overall accuracy and peak timing accuracy.
-  \item \textbf{Crop planning recommendation:} We formulate the planting schedule optimization as a Weighted Job Scheduling Problem and solve it using a Greedy Heuristic that produces non-overlapping planting--harvest timelines.
+  \item \textbf{Crop planning recommendation:} We formulate planting schedule optimization as a Weighted Job Scheduling Problem and solve it with a Greedy Heuristic that produces non-overlapping planting--harvest timelines.
   \item \textbf{Web application:} We develop CropPlanner, a prototype web application that presents forecasting results and planting recommendations through intuitive visualizations.
 \end{enumerate}
 
 % --- Fig. 1: System Overview ---
 \begin{figure}[htbp]
   \centering
+  \resizebox{\columnwidth}{!}{%
   \begin{tikzpicture}[node distance=0.4cm]
     % Component 1
     \node[bigblock=green!15] (ai) {
@@ -123,7 +124,7 @@ This paper presents CropPlanner, an end-to-end system linking AI-based price for
     \node[right=0.5cm of web, font=\tiny, text width=1.2cm, align=center] (output) {Farmer\\Dashboard};
     \draw[arrow] (input) -- (ai);
     \draw[arrow] (web) -- (output);
-  \end{tikzpicture}
+  \end{tikzpicture}}
   \caption{System overview of CropPlanner comprising three integrated components.}
   \label{fig:system}
 \end{figure}
@@ -187,7 +188,7 @@ Data was split into a training set (2004--2023) and a test set (2024 only). The 
 % ============================================================
 \section{Methodology}
 
-The CropPlanner system comprises three components: (A)~AI price forecasting models, (B)~crop planning recommendation, and (C)~a web application. All models take 12~months of historical prices as input and output 12-month forecasts.
+The CropPlanner system comprises three components: (A)~AI~price forecasting models, (B)~crop planning recommendation, and (C)~a~web application. All models take 12~months of historical prices as input and produce 12-month forecasts.
 
 \subsection{AI Price Forecasting Models}
 
@@ -215,11 +216,12 @@ Table~\ref{tab:hyperparams} summarizes the hyperparameters of all four models.
 
 \subsubsection{Standard LSTM}
 
-Long Short-Term Memory (LSTM)~\cite{hochreiter1997lstm} is a recurrent neural network designed to learn long-term dependencies via gating mechanisms (forget, input, and output gates). Our LSTM model consists of 2~layers with hidden size~32, receiving 12~months of input and producing 12~months of output. Training used MSE loss on PyTorch for 300~epochs with a learning rate of 0.01 and random seed~42.
+Long Short-Term Memory (LSTM)~\cite{hochreiter1997lstm} is a recurrent neural network designed to learn long-term dependencies via gating mechanisms (forget, input, and output gates). Our model consists of 2~layers with hidden size~32, receiving 12~months of input and producing 12~months of output. Training used MSE loss on PyTorch for 300~epochs with learning rate~0.01 and random seed~42.
 
 % --- Fig. 3: LSTM Architecture (from code: lstm_model.py) ---
 \begin{figure}[htbp]
   \centering
+  \resizebox{\columnwidth}{!}{%
   \begin{tikzpicture}[node distance=0.35cm and 0.3cm]
     % Input
     \node[block=yellow!20, text width=1.4cm, align=center] (input) {Input\\$x \in \mathbb{R}^{12 \times 1}$};
@@ -252,7 +254,7 @@ Long Short-Term Memory (LSTM)~\cite{hochreiter1997lstm} is a recurrent neural ne
     \begin{scope}[on background layer]
       \node[group, fit=(lstm1)(lstm2), label={[font=\tiny, text=gray]above:nn.LSTM (batch\_first=True)}] {};
     \end{scope}
-  \end{tikzpicture}
+  \end{tikzpicture}}
   \caption{Standard LSTM architecture. Input sequence of 12 monthly prices passes through 2~LSTM layers (hidden=32). The last time step's hidden state is projected to 12 output values via a linear layer.}
   \label{fig:lstm}
 \end{figure}
@@ -264,6 +266,7 @@ The Transformer model~\cite{vaswani2017attention} uses multi-head self-attention
 % --- Fig. 4: Transformer Architecture (from code: transformer_model.py) ---
 \begin{figure}[htbp]
   \centering
+  \resizebox{0.75\columnwidth}{!}{%
   \begin{tikzpicture}[node distance=0.35cm]
     % Input
     \node[block=yellow!20, text width=1.6cm, align=center] (input) {Input\\$x \in \mathbb{R}^{12 \times 1}$};
@@ -304,7 +307,7 @@ The Transformer model~\cite{vaswani2017attention} uses multi-head self-attention
 
     % Add + residual annotation
     \draw[-{Stealth[length=1.5mm]}, gray, dashed] (pe.east) -- ++(0.8,0) |- (enc.east);
-  \end{tikzpicture}
+  \end{tikzpicture}}%
   \caption{Transformer architecture (encoder-only). Prices are projected to $d_{\text{model}}=64$, augmented with positional encoding, and processed by 2~encoder layers with 8-head attention. The last position's encoding is decoded to 12~output values.}
   \label{fig:transformer}
 \end{figure}
@@ -316,6 +319,7 @@ ARIMA (Autoregressive Integrated Moving Average)~\cite{boxjenkins} combines auto
 % --- Fig. 5: ARIMA Pipeline ---
 \begin{figure}[htbp]
   \centering
+  \resizebox{\columnwidth}{!}{%
   \begin{tikzpicture}[node distance=0.4cm]
     % Data
     \node[block=yellow!20, text width=1.5cm, align=center] (data) {20-Year\\Price Data};
@@ -342,7 +346,7 @@ ARIMA (Autoregressive Integrated Moving Average)~\cite{boxjenkins} combines auto
     \draw[arrow] (arima) -- (out);
 
     \node[below=0.2cm of decomp, font=\tiny, text=gray] {StatsForecast};
-  \end{tikzpicture}
+  \end{tikzpicture}}
   \caption{ARIMA forecasting pipeline. Historical data is decomposed into trend, seasonality, and residual components before AutoARIMA selects optimal $(p,d,q)$ parameters.}
   \label{fig:arima}
 \end{figure}
@@ -354,6 +358,7 @@ Analysis of the standard LSTM revealed three issues: (1)~off-peak prediction---t
 % --- Fig. 6: Rolling-Window Concept ---
 \begin{figure}[htbp]
   \centering
+  \resizebox{\columnwidth}{!}{%
   \begin{tikzpicture}[
     yearbox/.style={rectangle, minimum width=0.38cm, minimum height=0.45cm, draw=black!50, font=\tiny, inner sep=1pt},
     winbrace/.style={decorate, decoration={brace, amplitude=4pt, mirror}, thick}
@@ -402,12 +407,12 @@ Analysis of the standard LSTM revealed three issues: (1)~off-peak prediction---t
     \draw[arrow] ([yshift=-10pt]y10.south) -- (lstm3);
     \draw[arrow] (lstm3) -- (consol);
     \draw[arrow] (consol) -- (final);
-  \end{tikzpicture}
+  \end{tikzpicture}}%
   \caption{Rolling-Window LSTM training concept. The 20-year dataset is divided into overlapping windows of 7--8~years, each shifted by 1~year. A 3-layer LSTM is trained on each window independently; predictions are consolidated into a final forecast.}
   \label{fig:rolling}
 \end{figure}
 
-To address these issues, we propose Rolling-Window LSTM. The 20-year dataset is divided into rolling windows of 7--8~years (crop-dependent), shifted by 1~year. A 3-layer LSTM (hidden size~32, 300~epochs) is trained on each window independently. Predictions from all windows are consolidated into a final forecast for the target year.
+To address these issues, we propose the Rolling-Window LSTM. The 20-year dataset is divided into rolling windows of 7--8~years (crop-dependent), each shifted by 1~year. A~3-layer LSTM (hidden size~32, 300~epochs) is trained on each window independently. Predictions from all windows are then consolidated into a final forecast for the target year.
 
 Window sizes were selected through per-crop experimentation: cassava uses a 7-year window, while corn, green bean, and soybean use 8-year windows. By learning from multiple shorter windows, the model captures recurring seasonal patterns more accurately---particularly the location of peak prices, which is critical for the downstream scheduling system.
 
@@ -440,7 +445,7 @@ The crop planning problem is formulated as a \textit{Weighted Job Scheduling Pro
 
 \subsubsection{Phase 1: Job Definition from Forecasts}
 
-Rolling-Window LSTM forecasts are normalized by dividing each crop's price series by its mean, enabling cross-crop comparison. The peak normalized price date (argmax) defines the harvest date---the optimal selling time. The planting date is computed by subtracting the growing period:
+Rolling-Window LSTM forecasts are normalized by dividing each crop's price series by its mean, enabling cross-crop comparison. The peak normalized price date~(argmax) defines the harvest date---the optimal selling time. The planting date is then computed by subtracting the growing period:
 \begin{equation}
   t_{\text{plant}} = t_{\text{harvest}} - d_{\text{grow}}
 \end{equation}
@@ -476,6 +481,7 @@ Since independently optimal positions for each crop may overlap, a scheduling al
 % --- Fig. 8: Greedy Scheduling Flowchart ---
 \begin{figure*}[htbp]
   \centering
+  \resizebox{\textwidth}{!}{%
   \begin{tikzpicture}[node distance=0.5cm and 0.6cm]
     % Start
     \node[startstop] (start) {Start};
@@ -566,7 +572,7 @@ Since independently optimal positions for each crop may overlap, a scheduling al
 
     % Loop back
     \draw[arrow] (markused.west) -| ([xshift=-3cm]hasnext.west) -- (hasnext.west);
-  \end{tikzpicture}
+  \end{tikzpicture}}%
   \caption{Flowchart of the Greedy Crop Scheduling algorithm. Crops are processed in descending income order. For each crop, three placement strategies are attempted sequentially: (A)~original peak-optimal dates, (B)~shifted to an available gap within the target year, (C)~planting in the previous year with harvest in the target year. If none succeeds, the crop is excluded.}
   \label{fig:flowchart}
 \end{figure*}
@@ -750,7 +756,7 @@ Green bean lost only 65~THB ($-$1.04\%) from the shift, while the total feasible
   \end{tabular}
 \end{table}
 
-The optimized four-crop rotation yields approximately 2.4~times the income of the best monoculture option (corn).
+The optimized four-crop rotation yields approximately 2.4~times the income of the best single-crop monoculture option (corn).
 
 \subsection{Web Application}
 
@@ -797,9 +803,9 @@ Future directions include: (1)~ensemble model selection per crop; (2)~multi-year
 
 This paper presented CropPlanner, an integrated system for AI-driven crop planning. Three contributions were made:
 
-First, a comparative study of four forecasting models revealed that no single model dominates. Standard LSTM achieved the highest average accuracy (92.93\%), while Rolling-Window LSTM exhibited superior peak timing accuracy---predicting peaks within one month for three of four crops.
+First, a comparative study of four forecasting models revealed that no single model dominates across all metrics. Standard LSTM achieved the highest average accuracy (92.93\%), while Rolling-Window LSTM exhibited superior peak timing accuracy---predicting peaks within one month for three of four crops.
 
-Second, Greedy Scheduling produced a non-overlapping four-crop rotation yielding 41,377~THB/rai/year---approximately 2.4~times the best monoculture income.
+Second, the Greedy Scheduling algorithm produced a non-overlapping four-crop rotation yielding 41,377~THB/rai/year---approximately 2.4~times the best monoculture income.
 
 Third, the CropPlanner web application enables farmers to plan up to 12~months ahead through intuitive visualizations.
 
