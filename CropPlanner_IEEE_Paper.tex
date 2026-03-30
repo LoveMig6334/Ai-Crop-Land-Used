@@ -8,9 +8,20 @@
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{array}
+\usepackage{cite}
 \usepackage{url}
 \usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  citecolor=black,
+  urlcolor=blue!70!black,
+  pdftitle={CropPlanner: An AI-Powered Web Application for Crop Planning Recommendations},
+  pdfauthor={Thatt Bunnag, Nathanon Ratchathornbuathip, Art-ong Mukngoen, Atthaphon Lorphan},
+}
 \usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{balance}
 \usepackage[caption=false]{subfig}
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, calc, backgrounds, decorations.pathreplacing, patterns}
@@ -50,6 +61,8 @@
 }
 
 \maketitle
+\thispagestyle{plain}
+\pagestyle{plain}
 
 % ============================================================
 % ABSTRACT
@@ -523,7 +536,6 @@ Window sizes were selected via validation-set evaluation. For each crop, we swep
   \label{fig:peak_compare}
 \end{figure}
 
-\newpage
 \subsubsection{Evaluation Metrics}
 
 Model performance was evaluated using three metrics.
@@ -1168,6 +1180,7 @@ The authors thank the Department of Internal Trade and the Office of Agricultura
 % ============================================================
 % REFERENCES
 % ============================================================
+\balance
 \begin{thebibliography}{13}
 
 \bibitem{oae2024stats}
