@@ -1158,15 +1158,13 @@ Future directions include: (1)~ensemble model selection per crop to leverage eac
 % ============================================================
 \section{Conclusion}
 
-This paper presented CropPlanner, an integrated system for AI-driven crop planning that bridges the gap between price forecasting research and actionable agricultural recommendations. Three contributions were made:
+This paper presented CropPlanner, an integrated system for AI-driven crop planning that bridges the gap between price forecasting research and actionable agricultural recommendations.
 
-First, a comparative study of four forecasting models revealed that no single model dominates across all metrics. Standard LSTM achieved the highest average accuracy (92.93\%), while Rolling-Window LSTM---with window sizes validated on a held-out year to prevent data leakage---retained accurate peak timing for three of four crops. This finding underscores the importance of both proper experimental methodology and selecting evaluation metrics aligned with the downstream application.
+First, a comparative study of four forecasting models revealed that no single model dominates. Standard LSTM achieved the highest average accuracy (92.93\%), while Rolling-Window LSTM---with window sizes validated on a held-out year to prevent data leakage---retained accurate peak timing for three of four crops, underscoring the importance of proper experimental methodology and application-aligned metrics.
 
-Second, exhaustive enumeration identified the optimal non-overlapping four-crop rotation yielding 39,211~THB/rai/year---approximately 1.9~times the best monoculture income. The greedy heuristic was found to be suboptimal by 14.8\%, demonstrating the value of exact methods even for small problem instances. Sensitivity analysis confirmed the rotation advantage is robust to uniform yield variability.
+Second, exhaustive enumeration identified the optimal non-overlapping four-crop rotation yielding 39,211~THB/rai/year---approximately 1.9~times the best monoculture income. The greedy heuristic was suboptimal by 14.8\%, demonstrating the value of exact methods. Sensitivity analysis confirmed robustness to uniform yield variability.
 
-Third, the CropPlanner web application enables farmers to plan up to 12~months ahead through intuitive visualizations, delivering AI-powered insights without requiring technical expertise.
-
-This system has the potential to reduce income volatility, distribute earnings throughout the year, and promote sustainable agriculture for Thai farmers.
+Third, the CropPlanner web application enables farmers to plan up to 12~months ahead through intuitive visualizations, delivering AI-powered insights without requiring technical expertise. This system has the potential to reduce income volatility and promote sustainable agriculture for Thai farmers.
 
 \section*{Acknowledgments}
 
