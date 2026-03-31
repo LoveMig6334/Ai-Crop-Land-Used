@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.30)  31 MAR 2026 15:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.30)  31 MAR 2026 15:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1187,8 +1187,8 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 
-Overfull \hbox (3.26274pt too wide) in paragraph at lines 288--301
-[][] 
+Overfull \hbox (3.26274pt too wide) in paragraph at lines 288--300
+ [][] 
  []
 
 [3] [4] [5] [6]
@@ -1254,11 +1254,11 @@ Package rerunfilecheck Info: File `CropPlanner_IEEE_Paper.out' has not changed.
 (rerunfilecheck)             Checksum: BC1A5B4F72EC678C70BB2D8ED9BF3C80;7517.
  ) 
 Here is how much of TeX's memory you used:
- 39248 strings out of 467871
- 895761 string characters out of 5418376
+ 39254 strings out of 467871
+ 895818 string characters out of 5418376
  1623381 words of memory out of 5000000
  66898 multiletter control sequences out of 15000+600000
- 782602 words of font info for 477 fonts, out of 8000000 for 9000
+ 782957 words of font info for 481 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,21n,94p,1446b,2573s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
@@ -1288,7 +1288,7 @@ b8a.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utm
 bi8a.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/ut
 mr8a.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/ut
 mri8a.pfb>
-Output written on CropPlanner_IEEE_Paper.pdf (15 pages, 612190 bytes).
+Output written on CropPlanner_IEEE_Paper.pdf (15 pages, 612320 bytes).
 PDF statistics:
  610 PDF objects out of 1000 (max. 8388607)
  168 named destinations out of 1000 (max. 500000)

@@ -192,8 +192,8 @@ Table~\ref{tab:related_work} summarizes the key differences between representati
     \textbf{This work} & \textbf{LSTM, Trans., ARIMA, RW-LSTM} & \textbf{4} & \textbf{WJSP + Greedy} & \textbf{Yes} & \textbf{Yes} & \textbf{Thailand} \\
     \bottomrule
   \end{tabular}
-  \vspace{2pt}
-  \raggedright\scriptsize\textit{Note:} ``Peak Timing'' indicates whether the work explicitly evaluates the accuracy of predicted peak price positions, distinct from overall forecast accuracy.
+  \vspace{6pt}
+  \par\raggedright\scriptsize\textit{Note:} ``Peak Timing'' indicates whether the work explicitly evaluates the accuracy of predicted peak price positions, distinct from overall forecast accuracy.
 \end{table*}
 
 The gap that this work addresses is the integration of AI price forecasting with scheduling optimization and farmer-accessible web delivery---a pipeline that has received limited attention in prior literature. To our knowledge, no prior study jointly evaluates multiple forecasting models on peak timing accuracy and uses the predicted peaks as inputs to a scheduling algorithm, while delivering results through an interactive web application.
@@ -296,8 +296,8 @@ Table~\ref{tab:descriptive} summarizes the key statistical properties of each cr
     Soybean    & 15.70 & 11.38 & 22.16 & 14.1 & $+$61 \\
     \bottomrule
   \end{tabular}
-  \vspace{2pt}
-  \raggedright\scriptsize\textit{Note:} ``YoY Std'' is the standard deviation of year-over-year percentage changes. ``Trend'' is the overall percentage change from 2004 to 2024.
+  \vspace{6pt}
+  \par\raggedright\scriptsize\textit{Note:} ``YoY Std'' is the standard deviation of year-over-year percentage changes. ``Trend'' is the overall percentage change from 2004 to 2024.
 \end{table}
 
 Cassava exhibits the highest volatility (YoY~Std~=~30.4\%) with three extreme years: 2005 (+40\%), 2010 (+99\%), and 2018 (+57\%). This high volatility, combined with its long growing period (250~days), makes cassava particularly challenging to forecast and schedule. Corn shows more moderate but consistent growth (+92\% over 20~years), with 5~high-volatility years. Green bean and soybean display lower long-term trends but exhibit significant seasonal variation within each year, which is more relevant for the monthly forecasting task.
@@ -711,8 +711,8 @@ Window sizes were selected via validation-set evaluation. For each crop, we swep
     Soybean    & \textbf{15.62} & 20.48 & 19.15 & 23.72 & 25.07 & 21.73 \\
     \bottomrule
   \end{tabular}
-  \vspace{2pt}
-  \raggedright\scriptsize\textit{Note:} Bold values indicate the selected window size per crop (lowest validation MAPE).
+  \vspace{6pt}
+  \par\raggedright\scriptsize\textit{Note:} Bold values indicate the selected window size per crop (lowest validation MAPE).
 \end{table}
 
 As demonstrated in Section~\ref{sec:limitations}, the Standard LSTM misses the green bean Sep peak by 2~months (Fig.~\ref{fig:lstm_gb_limit}). In contrast, the RW-LSTM with a validated 5-year window correctly predicts the Sep peak ($\Delta$Month~=~0), as shown in Fig.~\ref{fig:rwlstm_gb}.
@@ -1414,8 +1414,8 @@ Table~\ref{tab:ensemble} summarizes a per-crop oracle model selection strategy, 
     \textbf{Best Single}   & LSTM & 7.07\% & 92.93 & --- \\
     \bottomrule
   \end{tabular}
-  \vspace{2pt}
-  \raggedright\scriptsize\textit{Note:} ``Oracle'' selection uses the known best model per crop on the test set. In practice, selection would be based on validation performance, which may not always identify the test-set winner.
+  \vspace{6pt}
+  \par\raggedright\scriptsize\textit{Note:} ``Oracle'' selection uses the known best model per crop on the test set. In practice, selection would be based on validation performance, which may not always identify the test-set winner.
 \end{table}
 
 We emphasize that this is an \textit{oracle} analysis: the best model per crop is selected after observing test-set performance. In a production system, model selection would rely on validation-set MAPE, which may not always identify the test-set winner. Nevertheless, the consistent per-crop specialization---LSTM for cassava/corn, ARIMA for green bean, Transformer for soybean---suggests that crop-specific model selection is a promising direction warranting further investigation with multi-year evaluation.
@@ -1646,8 +1646,8 @@ Table~\ref{tab:permutations} presents the top~5 and bottom~5 of the 24~permutati
     24 & So$\to$Ca$\to$GB$\to$Co & 2/4 & 15,380 & 39.2\% \\
     \bottomrule
   \end{tabular}
-  \vspace{2pt}
-  \raggedright\scriptsize Ca=Cassava, Co=Corn, GB=Green Bean, So=Soybean. Income in THB/rai/year. Horizontal rules separate 4/4, 3/4, and 2/4 crop schedules. The greedy heuristic (income-first ordering) corresponds to ranks 13--14.
+  \vspace{6pt}
+  \par\raggedright\scriptsize Ca=Cassava, Co=Corn, GB=Green Bean, So=Soybean. Income in THB/rai/year. Horizontal rules separate 4/4, 3/4, and 2/4 crop schedules. The greedy heuristic (income-first ordering) corresponds to ranks 13--14.
 \end{table}
 
 Of the 24~permutations, 8~successfully schedule all four crops, 14~exclude one crop (3/4), and 2~exclude two crops (2/4). Two clear patterns emerge. First, all top-performing orderings place cassava---the longest crop at 250~days---first, allowing it to claim its peak-price position (January harvest) via the previous-year planting strategy. Shorter crops (corn, green bean, soybean) then fill the remaining gaps through shifting. The top~3 orderings all begin with cassava and achieve the same optimal income. Second, orderings starting with soybean consistently underperform---all bottom~5 entries begin with soybean, whose 90-day duration and March peak compete directly with corn's February peak, creating early conflicts that cascade into exclusions. The worst orderings (So$\to$Ca) lose 61\% of optimal income by scheduling only 2~crops. This sensitivity to ordering---even with just four crops---motivates exact methods such as Dynamic Programming for production deployment.
@@ -1672,8 +1672,8 @@ The income model assumes deterministic yields, but actual farm output varies due
     0.7 ($-$30\%)  & 27,448 & $\times$1.92 \\
     \bottomrule
   \end{tabular}
-  \vspace{2pt}
-  \raggedright\scriptsize\textit{Note:} Because Income~$=$~Yield~$\times$~Price, uniform scaling preserves the rotation-to-monoculture ratio ($\times$1.92) across all yield factors.
+  \vspace{6pt}
+  \par\raggedright\scriptsize\textit{Note:} Because Income~$=$~Yield~$\times$~Price, uniform scaling preserves the rotation-to-monoculture ratio ($\times$1.92) across all yield factors.
 \end{table}
 
 Even at a 30\% yield reduction---representative of a severe drought year---the four-crop rotation retains a significant income advantage over monoculture, demonstrating the structural benefit of temporal diversification. Because both rotation and monoculture incomes scale proportionally with yield, the relative advantage ($\times$1.92) is invariant to uniform yield shocks. Differential yield shocks---where one crop fails but others survive---would alter this ratio and represent a scenario where rotation provides risk diversification beyond income maximization. However, these figures remain upper-bound estimates as production costs, post-harvest losses, and price-yield correlations are not modeled.
@@ -1781,6 +1781,7 @@ The authors thank the Department of Internal Trade and the Office of Agricultura
 % ============================================================
 % REFERENCES
 % ============================================================
+\balance
 \begin{thebibliography}{25}
 
 \bibitem{oae2024stats}
