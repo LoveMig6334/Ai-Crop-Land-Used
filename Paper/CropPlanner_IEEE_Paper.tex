@@ -1244,6 +1244,89 @@ The per-model comparison figures (Fig.~\ref{fig:cross_model}) reveal distinct mo
   \label{fig:cross_model}
 \end{figure*}
 
+% --- Fig: RW-LSTM All Crops with Peak Markers ---
+\begin{figure*}[htbp]
+  \centering
+  \resizebox{\textwidth}{!}{%
+  \begin{tikzpicture}
+    \begin{groupplot}[
+      group style={group size=2 by 2, horizontal sep=1.6cm, vertical sep=1.6cm},
+      width=9.5cm, height=5.5cm,
+      xlabel={\scriptsize Month (2024)},
+      xlabel style={font=\scriptsize},
+      ylabel style={font=\scriptsize},
+      xticklabel style={font=\tiny},
+      yticklabel style={font=\tiny},
+      title style={font=\scriptsize\bfseries},
+      grid=major, grid style={gray!15},
+      xtick={1,2,...,12},
+      xticklabels={J,F,M,A,M,J,J,A,S,O,N,D},
+      legend style={font=\tiny, at={(0.98,0.98)}, anchor=north east, draw=gray!40},
+      every axis plot/.append style={thick, mark size=1.3pt},
+    ]
+
+    % === Cassava (peak: actual Jan, pred Jan, Delta=0) ===
+    \nextgroupplot[title={Cassava --- $\Delta$Month\,=\,0 (Excellent)}, ylabel={\scriptsize Price (THB/kg)}, ymin=2.0, ymax=4.0]
+    \addplot[blue, mark=o] coordinates {
+      (1,3.65)(2,3.65)(3,3.57)(4,3.24)(5,3.19)(6,3.09)
+      (7,3.06)(8,2.95)(9,2.86)(10,2.65)(11,2.60)(12,2.32)
+    }; \addlegendentry{Actual}
+    \addplot[orange, dashed, mark=triangle*, mark options={fill=orange}] coordinates {
+      (1,2.57)(2,2.50)(3,2.44)(4,2.35)(5,2.21)(6,2.23)
+      (7,2.20)(8,2.34)(9,2.36)(10,2.32)(11,2.25)(12,2.16)
+    }; \addlegendentry{RW-LSTM}
+    % Peak markers
+    \node[font=\tiny, blue, above] at (axis cs:1,3.65) {$\uparrow$\textbf{Jan}};
+    \node[font=\tiny, orange, below] at (axis cs:1,2.57) {$\uparrow$\textbf{Jan}};
+
+    % === Corn (peak: actual Jul, pred Feb, Delta=5) ===
+    \nextgroupplot[title={Corn --- $\Delta$Month\,=\,5 (Poor)}, ymin=8.0, ymax=15.0]
+    \addplot[blue, mark=o] coordinates {
+      (1,10.28)(2,10.32)(3,10.27)(4,10.14)(5,10.74)(6,12.14)
+      (7,12.45)(8,12.08)(9,10.81)(10,9.86)(11,9.77)(12,10.62)
+    }; \addlegendentry{Actual}
+    \addplot[orange, dashed, mark=triangle*, mark options={fill=orange}] coordinates {
+      (1,13.30)(2,13.58)(3,12.70)(4,12.72)(5,12.80)(6,12.71)
+      (7,11.58)(8,11.45)(9,10.79)(10,10.61)(11,9.67)(12,10.09)
+    }; \addlegendentry{RW-LSTM}
+    % Peak markers
+    \node[font=\tiny, blue, above] at (axis cs:7,12.45) {$\uparrow$\textbf{Jul}};
+    \node[font=\tiny, orange, above] at (axis cs:2,13.58) {$\uparrow$\textbf{Feb}};
+
+    % === Green Bean (peak: actual Sep, pred Sep, Delta=0) ===
+    \nextgroupplot[title={Green Bean --- $\Delta$Month\,=\,0 (Excellent)}, ylabel={\scriptsize Price (THB/kg)}, ymin=20, ymax=33]
+    \addplot[blue, mark=o] coordinates {
+      (1,25.11)(2,25.00)(3,26.34)(4,25.62)(5,25.00)(6,25.00)
+      (7,25.00)(8,27.50)(9,31.00)(10,30.00)(11,24.00)(12,23.28)
+    }; \addlegendentry{Actual}
+    \addplot[orange, dashed, mark=triangle*, mark options={fill=orange}] coordinates {
+      (1,24.29)(2,23.47)(3,21.97)(4,21.56)(5,22.50)(6,23.64)
+      (7,25.28)(8,26.27)(9,27.83)(10,27.46)(11,27.35)(12,27.19)
+    }; \addlegendentry{RW-LSTM}
+    % Peak markers
+    \node[font=\tiny, blue, above] at (axis cs:9,31.00) {$\uparrow$\textbf{Sep}};
+    \node[font=\tiny, orange, below right] at (axis cs:9,27.83) {$\uparrow$\textbf{Sep}};
+
+    % === Soybean (peak: actual Apr, pred Mar, Delta=1) ===
+    \nextgroupplot[title={Soybean --- $\Delta$Month\,=\,1 (Excellent)}, ymin=13, ymax=28]
+    \addplot[blue, mark=o] coordinates {
+      (1,19.45)(2,19.45)(3,19.45)(4,21.67)(5,19.78)(6,17.50)
+      (7,17.38)(8,17.25)(9,17.13)(10,17.00)(11,17.00)(12,17.10)
+    }; \addlegendentry{Actual}
+    \addplot[orange, dashed, mark=triangle*, mark options={fill=orange}] coordinates {
+      (1,24.77)(2,26.07)(3,26.10)(4,20.97)(5,20.83)(6,21.83)
+      (7,21.61)(8,24.18)(9,23.33)(10,21.69)(11,15.46)(12,16.70)
+    }; \addlegendentry{RW-LSTM}
+    % Peak markers
+    \node[font=\tiny, blue, above] at (axis cs:4,21.67) {$\uparrow$\textbf{Apr}};
+    \node[font=\tiny, orange, above] at (axis cs:3,26.10) {$\uparrow$\textbf{Mar}};
+
+    \end{groupplot}
+  \end{tikzpicture}}%
+  \caption{Rolling-Window LSTM forecast vs.\ actual prices for all four crops (2024 test year) with peak month annotations. Arrows indicate the predicted and actual peak months. Cassava and green bean achieve exact peak timing ($\Delta$Month\,=\,0), soybean is within one month ($\Delta$Month\,=\,1), while corn's peak is five months off ($\Delta$Month\,=\,5). This peak timing property---rather than overall MAPE---determines the quality of the downstream scheduling system.}
+  \label{fig:rwlstm_all}
+\end{figure*}
+
 An ensemble approach selecting the best-performing model per crop based on validation MAPE would achieve an estimated average test MAPE of approximately 5.76\% (LSTM for cassava at 4.81\%, LSTM for corn at 6.43\%, ARIMA for green bean at 6.08\%, Transformer for soybean at 5.71\%), compared to 7.07\% for the best single model (Standard LSTM). This represents an 18.5\% relative improvement and suggests that per-crop model selection is a promising direction for practical deployment.
 
 \subsection{Crop Planning Results}
