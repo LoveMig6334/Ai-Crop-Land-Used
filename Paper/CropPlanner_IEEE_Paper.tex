@@ -1141,16 +1141,106 @@ Two of four crops (cassava and green bean) have exact peak month predictions, an
 
 The per-model comparison figures (Fig.~\ref{fig:cross_model}) reveal distinct model behaviors across crops. LSTM and Transformer tend to produce smooth forecasts that track the general price level well but miss sharp peaks; ARIMA captures seasonal periodicity but diverges when stationarity is violated; RW-LSTM sacrifices price-level accuracy for better peak timing.
 
-% --- Fig: Cross-Model Comparison Grid ---
+% --- Fig: Cross-Model Comparison Grid (TikZ) ---
 \begin{figure*}[htbp]
   \centering
-  \subfloat[Cassava]{\includegraphics[width=0.45\textwidth]{model/error/views/cassava_models_comparison.png}\label{fig:cross_cas}}
-  \hfill
-  \subfloat[Corn]{\includegraphics[width=0.45\textwidth]{model/error/views/corn_models_comparison.png}\label{fig:cross_corn}}\\
-  \subfloat[Green Bean]{\includegraphics[width=0.45\textwidth]{model/error/views/green_bean_models_comparison.png}\label{fig:cross_gb}}
-  \hfill
-  \subfloat[Soybean]{\includegraphics[width=0.45\textwidth]{model/error/views/soybean_models_comparison.png}\label{fig:cross_soy}}
-  \caption{Cross-model comparison for all four crops. Each subplot shows actual prices, forecast curves, and per-month error analysis for LSTM, Transformer, and ARIMA models, revealing distinct strengths per crop.}
+  \resizebox{\textwidth}{!}{%
+  \begin{tikzpicture}
+    \begin{groupplot}[
+      group style={group size=2 by 2, horizontal sep=1.6cm, vertical sep=1.6cm},
+      width=9.5cm, height=5.5cm,
+      xlabel={\scriptsize Month (2024)},
+      xlabel style={font=\scriptsize},
+      ylabel style={font=\scriptsize},
+      xticklabel style={font=\tiny},
+      yticklabel style={font=\tiny},
+      title style={font=\scriptsize\bfseries},
+      grid=major, grid style={gray!15},
+      xtick={1,2,...,12},
+      xticklabels={J,F,M,A,M,J,J,A,S,O,N,D},
+      legend style={font=\tiny, at={(0.98,0.98)}, anchor=north east, legend columns=2, draw=gray!40},
+      every axis plot/.append style={thick, mark size=1.3pt},
+    ]
+
+    % === Cassava ===
+    \nextgroupplot[title={Cassava}, ylabel={\scriptsize Price (THB/kg)}, ymin=2.0, ymax=4.0]
+    \addplot[black, mark=o] coordinates {
+      (1,3.65)(2,3.65)(3,3.57)(4,3.24)(5,3.19)(6,3.09)
+      (7,3.06)(8,2.95)(9,2.86)(10,2.65)(11,2.60)(12,2.32)
+    }; \addlegendentry{Actual}
+    \addplot[green!60!black, dashed, mark=square*, mark options={fill=green!60!black, scale=0.8}] coordinates {
+      (1,3.51)(2,3.34)(3,3.24)(4,3.19)(5,3.13)(6,3.06)
+      (7,2.98)(8,2.91)(9,2.85)(10,2.80)(11,2.75)(12,2.70)
+    }; \addlegendentry{LSTM}
+    \addplot[red, dashed, mark=triangle*, mark options={fill=red, scale=0.8}] coordinates {
+      (1,3.43)(2,3.01)(3,2.93)(4,2.79)(5,2.50)(6,2.61)
+      (7,2.71)(8,2.90)(9,2.92)(10,2.57)(11,2.63)(12,2.31)
+    }; \addlegendentry{Trans.}
+    \addplot[blue, dashed, mark=diamond*, mark options={fill=blue, scale=0.8}] coordinates {
+      (1,3.66)(2,3.67)(3,3.70)(4,3.75)(5,3.77)(6,3.77)
+      (7,3.77)(8,3.78)(9,3.79)(10,3.79)(11,3.80)(12,3.79)
+    }; \addlegendentry{ARIMA}
+
+    % === Corn ===
+    \nextgroupplot[title={Corn}, ymin=8.0, ymax=13.5]
+    \addplot[black, mark=o] coordinates {
+      (1,10.28)(2,10.32)(3,10.27)(4,10.14)(5,10.74)(6,12.14)
+      (7,12.45)(8,12.08)(9,10.81)(10,9.86)(11,9.77)(12,10.62)
+    }; \addlegendentry{Actual}
+    \addplot[green!60!black, dashed, mark=square*, mark options={fill=green!60!black, scale=0.8}] coordinates {
+      (1,10.43)(2,10.72)(3,10.82)(4,10.76)(5,10.65)(6,10.57)
+      (7,10.52)(8,10.52)(9,10.53)(10,10.53)(11,10.52)(12,10.50)
+    }; \addlegendentry{LSTM}
+    \addplot[red, dashed, mark=triangle*, mark options={fill=red, scale=0.8}] coordinates {
+      (1,9.93)(2,9.70)(3,9.49)(4,9.26)(5,8.82)(6,8.86)
+      (7,8.94)(8,8.85)(9,8.78)(10,8.79)(11,8.77)(12,8.93)
+    }; \addlegendentry{Trans.}
+    \addplot[blue, dashed, mark=diamond*, mark options={fill=blue, scale=0.8}] coordinates {
+      (1,10.53)(2,10.75)(3,10.91)(4,11.06)(5,11.18)(6,11.28)
+      (7,11.33)(8,11.41)(9,11.46)(10,11.50)(11,11.52)(12,11.58)
+    }; \addlegendentry{ARIMA}
+
+    % === Green Bean ===
+    \nextgroupplot[title={Green Bean}, ylabel={\scriptsize Price (THB/kg)}, ymin=20, ymax=32]
+    \addplot[black, mark=o] coordinates {
+      (1,25.11)(2,25.00)(3,26.34)(4,25.62)(5,25.00)(6,25.00)
+      (7,25.00)(8,27.50)(9,31.00)(10,30.00)(11,24.00)(12,23.28)
+    }; \addlegendentry{Actual}
+    \addplot[green!60!black, dashed, mark=square*, mark options={fill=green!60!black, scale=0.8}] coordinates {
+      (1,23.20)(2,24.00)(3,24.49)(4,25.25)(5,26.10)(6,26.65)
+      (7,26.83)(8,26.64)(9,26.02)(10,24.81)(11,23.13)(12,21.45)
+    }; \addlegendentry{LSTM}
+    \addplot[red, dashed, mark=triangle*, mark options={fill=red, scale=0.8}] coordinates {
+      (1,25.00)(2,26.46)(3,26.01)(4,25.87)(5,25.49)(6,25.73)
+      (7,24.98)(8,25.90)(9,26.19)(10,26.23)(11,26.86)(12,27.19)
+    }; \addlegendentry{Trans.}
+    \addplot[blue, dashed, mark=diamond*, mark options={fill=blue, scale=0.8}] coordinates {
+      (1,24.02)(2,24.83)(3,24.83)(4,24.83)(5,24.83)(6,24.83)
+      (7,24.83)(8,24.83)(9,24.83)(10,24.83)(11,24.83)(12,24.83)
+    }; \addlegendentry{ARIMA}
+
+    % === Soybean ===
+    \nextgroupplot[title={Soybean}, ymin=13, ymax=23]
+    \addplot[black, mark=o] coordinates {
+      (1,19.45)(2,19.45)(3,19.45)(4,21.67)(5,19.78)(6,17.50)
+      (7,17.38)(8,17.25)(9,17.13)(10,17.00)(11,17.00)(12,17.10)
+    }; \addlegendentry{Actual}
+    \addplot[green!60!black, dashed, mark=square*, mark options={fill=green!60!black, scale=0.8}] coordinates {
+      (1,17.49)(2,18.01)(3,18.27)(4,18.58)(5,18.87)(6,19.04)
+      (7,19.11)(8,19.10)(9,19.02)(10,18.89)(11,18.74)(12,18.63)
+    }; \addlegendentry{LSTM}
+    \addplot[red, dashed, mark=triangle*, mark options={fill=red, scale=0.8}] coordinates {
+      (1,18.06)(2,18.36)(3,19.48)(4,18.73)(5,18.51)(6,17.72)
+      (7,17.70)(8,16.77)(9,16.05)(10,17.80)(11,15.76)(12,15.13)
+    }; \addlegendentry{Trans.}
+    \addplot[blue, dashed, mark=diamond*, mark options={fill=blue, scale=0.8}] coordinates {
+      (1,18.27)(2,19.22)(3,19.37)(4,17.38)(5,17.11)(6,17.09)
+      (7,17.09)(8,18.22)(9,17.96)(10,17.41)(11,14.74)(12,14.91)
+    }; \addlegendentry{ARIMA}
+
+    \end{groupplot}
+  \end{tikzpicture}}%
+  \caption{Cross-model forecast comparison for all four crops (2024 test year). Each subplot overlays actual prices (black) with LSTM (green), Transformer (red), and ARIMA (blue) forecasts. Key observations: (a)~ARIMA diverges upward for cassava due to stationarity violations; (b)~all models miss the corn Jun--Jul spike; (c)~all models underestimate the green bean Sep--Oct peak; (d)~Transformer tracks soybean most closely overall. No single model dominates across all crops.}
   \label{fig:cross_model}
 \end{figure*}
 
