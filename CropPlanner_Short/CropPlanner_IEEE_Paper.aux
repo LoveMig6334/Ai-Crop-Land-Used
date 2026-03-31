@@ -1,0 +1,127 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{oae2024stats,oae2024forecast,ocsb2024,thairice2024}
+\citation{waqas2024climate}
+\citation{asg2014}
+\citation{rohan2025crop}
+\citation{javaid2023ai}
+\citation{hochreiter1997lstm}
+\citation{vaswani2017attention}
+\citation{rohan2025crop}
+\citation{javaid2023ai}
+\citation{sarker2009crop}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{section.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces System overview of CropPlanner comprising three integrated components.}}{1}{figure.1}\protected@file@percent }
+\newlabel{fig:system}{{1}{1}{System overview of CropPlanner comprising three integrated components}{figure.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {II}Related Work}{1}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Time-Series Forecasting for Agricultural Prices}{1}{subsection.2.1}\protected@file@percent }
+\citation{zhai2020dss}
+\citation{hochreiter1997lstm}
+\citation{vaswani2017attention}
+\citation{boxjenkins}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Crop Scheduling and Decision Support Systems}{2}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {III}Data and Preprocessing}{2}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Data Sources}{2}{subsection.3.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Dataset Summary}}{2}{table.1}\protected@file@percent }
+\newlabel{tab:dataset}{{I}{2}{Dataset Summary}{table.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Preprocessing}{2}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Train--Validation--Test Split}{2}{subsection.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Yearly average prices (2004--2024) for four Thai field crops showing long-term trends, structural breaks, and the distinct price scales of each commodity.}}{2}{figure.2}\protected@file@percent }
+\newlabel{fig:trends}{{2}{2}{Yearly average prices (2004--2024) for four Thai field crops showing long-term trends, structural breaks, and the distinct price scales of each commodity}{figure.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Methodology}{2}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}AI Price Forecasting Models}{2}{subsection.4.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Hyperparameter Summary}}{2}{table.2}\protected@file@percent }
+\newlabel{tab:hyperparams}{{II}{2}{Hyperparameter Summary}{table.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}1}Standard LSTM}{2}{subsubsection.4.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}2}Transformer}{2}{subsubsection.4.1.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Standard LSTM architecture. Input sequence of 12 monthly prices passes through 2~LSTM layers (hidden=32). The last time step's hidden state is projected to 12 output values via a linear layer.}}{3}{figure.3}\protected@file@percent }
+\newlabel{fig:lstm}{{3}{3}{Standard LSTM architecture. Input sequence of 12 monthly prices passes through 2~LSTM layers (hidden=32). The last time step's hidden state is projected to 12 output values via a linear layer}{figure.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Transformer architecture (encoder-only). Prices are projected to $d_{\text  {model}}=64$, augmented with positional encoding, and processed by 2~encoder layers with 8-head attention. The last position's encoding is decoded to 12~output values.}}{3}{figure.4}\protected@file@percent }
+\newlabel{fig:transformer}{{4}{3}{Transformer architecture (encoder-only). Prices are projected to $d_{\text {model}}=64$, augmented with positional encoding, and processed by 2~encoder layers with 8-head attention. The last position's encoding is decoded to 12~output values}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}3}ARIMA}{3}{subsubsection.4.1.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces ARIMA forecasting pipeline. Historical data is decomposed into trend, seasonality, and residual components before AutoARIMA selects optimal $(p,d,q)$ parameters.}}{3}{figure.5}\protected@file@percent }
+\newlabel{fig:arima}{{5}{3}{ARIMA forecasting pipeline. Historical data is decomposed into trend, seasonality, and residual components before AutoARIMA selects optimal $(p,d,q)$ parameters}{figure.5}{}}
+\newlabel{sec:rwlstm}{{\mbox  {IV-A}4}{3}{Rolling-Window LSTM (Proposed Improvement)}{subsubsection.4.1.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}4}Rolling-Window LSTM (Proposed Improvement)}{3}{subsubsection.4.1.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Rolling-Window LSTM training concept. The dataset is divided into overlapping windows of 5--10~years (selected per crop via validation), each shifted by 1~year. A 3-layer LSTM is trained on each window independently; predictions are consolidated into a final forecast.}}{3}{figure.6}\protected@file@percent }
+\newlabel{fig:rolling}{{6}{3}{Rolling-Window LSTM training concept. The dataset is divided into overlapping windows of 5--10~years (selected per crop via validation), each shifted by 1~year. A 3-layer LSTM is trained on each window independently; predictions are consolidated into a final forecast}{figure.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Validation MAPE (\%) by Window Size (Year 2023)}}{3}{table.3}\protected@file@percent }
+\newlabel{tab:window_selection}{{III}{3}{Validation MAPE (\%) by Window Size (Year 2023)}{table.3}{}}
+\newlabel{fig:lstm_gb}{{7a}{3}{Subfigure 7a}{subfigure.7.1}{}}
+\newlabel{sub@fig:lstm_gb}{{(a)}{a}{Subfigure 7a\relax }{subfigure.7.1}{}}
+\newlabel{fig:rwlstm_gb}{{7b}{3}{Subfigure 7b}{subfigure.7.2}{}}
+\newlabel{sub@fig:rwlstm_gb}{{(b)}{b}{Subfigure 7b\relax }{subfigure.7.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Green bean 2024 forecast comparison. (a)~Standard LSTM produces a smooth curve peaking in Jul, missing the sharp Sep peak. (b)~RW-LSTM correctly predicts peak timing in Sep ($\Delta $=0~mo.) with the validated 5-year window.}}{3}{figure.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Standard LSTM (peak: Jul, actual: Sep, $\Delta $=2~mo.)}}}{3}{subfigure.7.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {RW-LSTM (peak: Sep, actual: Sep, $\Delta $=0~mo.)}}}{3}{subfigure.7.2}\protected@file@percent }
+\newlabel{fig:peak_compare}{{7}{3}{Green bean 2024 forecast comparison. (a)~Standard LSTM produces a smooth curve peaking in Jul, missing the sharp Sep peak. (b)~RW-LSTM correctly predicts peak timing in Sep ($\Delta $=0~mo.) with the validated 5-year window}{figure.7}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}5}Evaluation Metrics}{3}{subsubsection.4.1.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Crop Planning Recommendation System}{4}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}1}Phase 1: Job Definition from Forecasts}{4}{subsubsection.4.2.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Agronomic Constants per Crop}}{4}{table.4}\protected@file@percent }
+\newlabel{tab:agro}{{IV}{4}{Agronomic Constants per Crop}{table.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}2}Phase 2: Greedy Scheduling}{4}{subsubsection.4.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Web Application}{4}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {V}Results}{4}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Model Comparison}{4}{subsection.5.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces MAPE (\%) for 2024 Test Year}}{4}{table.5}\protected@file@percent }
+\newlabel{tab:mape}{{V}{4}{MAPE (\%) for 2024 Test Year}{table.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces Forecast Accuracy (\%) for 2024 Test Year}}{4}{table.6}\protected@file@percent }
+\newlabel{tab:accuracy}{{VI}{4}{Forecast Accuracy (\%) for 2024 Test Year}{table.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}1}Peak Timing Accuracy}{4}{subsubsection.5.1.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Flowchart of the Greedy Crop Scheduling algorithm. Crops are processed in descending income order. For each crop, three placement strategies are attempted sequentially: (A)~original peak-optimal dates, (B)~shifted to an available gap within the target year, (C)~planting in the previous year with harvest in the target year. If none succeeds, the crop is excluded.}}{5}{figure.8}\protected@file@percent }
+\newlabel{fig:flowchart}{{8}{5}{Flowchart of the Greedy Crop Scheduling algorithm. Crops are processed in descending income order. For each crop, three placement strategies are attempted sequentially: (A)~original peak-optimal dates, (B)~shifted to an available gap within the target year, (C)~planting in the previous year with harvest in the target year. If none succeeds, the crop is excluded}{figure.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Web application architecture. The frontend communicates with a Next.js backend connected to MySQL for data storage. AI model outputs feed into the backend for real-time recommendations.}}{5}{figure.9}\protected@file@percent }
+\newlabel{fig:webapp}{{9}{5}{Web application architecture. The frontend communicates with a Next.js backend connected to MySQL for data storage. AI model outputs feed into the backend for real-time recommendations}{figure.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces RW-LSTM forecast for cassava (best peak timing). Peak correctly predicted in Jan (actual: Jan, predicted: Jan) with $\Delta $Month~=~0.}}{5}{figure.10}\protected@file@percent }
+\newlabel{fig:rwlstm_cassava}{{10}{5}{RW-LSTM forecast for cassava (best peak timing). Peak correctly predicted in Jan (actual: Jan, predicted: Jan) with $\Delta $Month~=~0}{figure.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces RW-LSTM forecast for corn (challenging case). The predicted peak (Feb) arrives five months before the actual peak~(Jul), with $\Delta $Month~=~5.}}{5}{figure.11}\protected@file@percent }
+\newlabel{fig:rwlstm_corn}{{11}{5}{RW-LSTM forecast for corn (challenging case). The predicted peak (Feb) arrives five months before the actual peak~(Jul), with $\Delta $Month~=~5}{figure.11}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VII}{\ignorespaces Peak Timing Accuracy --- Rolling-Window LSTM}}{5}{table.7}\protected@file@percent }
+\newlabel{tab:peak}{{VII}{5}{Peak Timing Accuracy --- Rolling-Window LSTM}{table.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Crop Planning Results}{6}{subsection.5.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Normalized RW-LSTM forecasts (2024). Each crop's predicted prices are divided by their mean, enabling cross-crop comparison. Peaks occur in different months---Cassava (Jan), Corn (Feb), Soybean (Mar), Green Bean (Sep)---which enables non-overlapping crop rotation.}}{6}{figure.12}\protected@file@percent }
+\newlabel{fig:overlap}{{12}{6}{Normalized RW-LSTM forecasts (2024). Each crop's predicted prices are divided by their mean, enabling cross-crop comparison. Peaks occur in different months---Cassava (Jan), Corn (Feb), Soybean (Mar), Green Bean (Sep)---which enables non-overlapping crop rotation}{figure.12}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Unoptimized Gantt chart. Each crop is placed at its peak-optimal planting--harvest window. Cassava, corn, and soybean overlap during Oct 2023--Mar 2024, indicated by hatched regions.}}{6}{figure.13}\protected@file@percent }
+\newlabel{fig:gantt_unopt}{{13}{6}{Unoptimized Gantt chart. Each crop is placed at its peak-optimal planting--harvest window. Cassava, corn, and soybean overlap during Oct 2023--Mar 2024, indicated by hatched regions}{figure.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Optimized Gantt chart (brute-force optimal ordering). Corn and soybean were shifted to available gaps using Strategy~B (dashed borders), producing a non-overlapping four-crop rotation with total income of 39,212~THB/rai/year.}}{6}{figure.14}\protected@file@percent }
+\newlabel{fig:gantt_opt}{{14}{6}{Optimized Gantt chart (brute-force optimal ordering). Corn and soybean were shifted to available gaps using Strategy~B (dashed borders), producing a non-overlapping four-crop rotation with total income of 39,212~THB/rai/year}{figure.14}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VIII}{\ignorespaces Income Comparison: Before vs.\ After Optimization}}{6}{table.8}\protected@file@percent }
+\newlabel{tab:income_detail}{{VIII}{6}{Income Comparison: Before vs.\ After Optimization}{table.8}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {IX}{\ignorespaces Optimized Multi-Crop Rotation vs.\ Monoculture}}{6}{table.9}\protected@file@percent }
+\newlabel{tab:mono}{{IX}{6}{Optimized Multi-Crop Rotation vs.\ Monoculture}{table.9}{}}
+\newlabel{sec:bruteforce}{{\mbox  {V-B}1}{6}{Brute-Force Optimality Verification}{subsubsection.5.2.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}1}Brute-Force Optimality Verification}{6}{subsubsection.5.2.1}\protected@file@percent }
+\newlabel{sec:sensitivity}{{\mbox  {V-B}2}{6}{Sensitivity to Yield Variability}{subsubsection.5.2.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}2}Sensitivity to Yield Variability}{6}{subsubsection.5.2.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {X}{\ignorespaces Sensitivity of Rotation Income to Yield Variability}}{6}{table.10}\protected@file@percent }
+\newlabel{tab:sensitivity}{{X}{6}{Sensitivity of Rotation Income to Yield Variability}{table.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Web Application}{7}{subsection.5.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces CropPlanner --- Crop Prices Page. Predicted price charts for all four crops with monthly granularity.}}{7}{figure.15}\protected@file@percent }
+\newlabel{fig:crop-prices-page}{{15}{7}{CropPlanner --- Crop Prices Page. Predicted price charts for all four crops with monthly granularity}{figure.15}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces CropPlanner --- Crop Planning Page. Farmers input start month and area; the system returns a Gantt chart with financial summary (income, expenses, profit, and ROI).}}{7}{figure.16}\protected@file@percent }
+\newlabel{fig:crop-planning-page}{{16}{7}{CropPlanner --- Crop Planning Page. Farmers input start month and area; the system returns a Gantt chart with financial summary (income, expenses, profit, and ROI)}{figure.16}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Discussion}{7}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}No Single Model Dominates}{7}{subsection.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}Peak Timing Over Overall MAPE}{7}{subsection.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}Greedy Scheduling: Verification and Scalability}{7}{subsection.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-D}}Experimental Design and Income Model}{7}{subsection.6.4}\protected@file@percent }
+\bibcite{oae2024stats}{1}
+\bibcite{oae2024forecast}{2}
+\bibcite{ocsb2024}{3}
+\bibcite{thairice2024}{4}
+\bibcite{waqas2024climate}{5}
+\bibcite{asg2014}{6}
+\bibcite{rohan2025crop}{7}
+\bibcite{javaid2023ai}{8}
+\bibcite{hochreiter1997lstm}{9}
+\bibcite{vaswani2017attention}{10}
+\bibcite{boxjenkins}{11}
+\bibcite{sarker2009crop}{12}
+\bibcite{zhai2020dss}{13}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Limitations and Future Work}{8}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}Conclusion}{8}{section.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{8}{section*.2}\protected@file@percent }
+\gdef \@abspage@last{8}
