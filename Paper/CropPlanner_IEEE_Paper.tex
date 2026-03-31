@@ -85,7 +85,7 @@ Agriculture forms a critical foundation of the Thai economy, contributing approx
 
 A key contributing factor is the widespread practice of monoculture farming. Many farmers plant the same crop continuously throughout the year, leaving them vulnerable when prices decline during certain periods~\cite{asg2014}. While government price support programs provide temporary relief, they are insufficient for long-term income stabilization. What farmers fundamentally lack are tools for forward-looking price forecasting and systematic planting schedule optimization.
 
-Recent advances in machine learning, particularly time-series models such as LSTM~\cite{hochreiter1997lstm} and Transformer~\cite{vaswani2017attention}, have demonstrated the ability to reduce Mean Absolute Error (MAE) in agricultural price prediction by up to 35\% compared to traditional methods~\cite{rohan2025crop}. Yet three critical gaps remain in the literature: (1)~most existing work forecasts individual crop prices in isolation, without connecting predictions to actionable planting recommendations~\cite{javaid2023ai}; (2)~\textit{peak timing accuracy}---the ability to predict \textit{when} prices peak---has not been evaluated as a distinct metric, despite being the most relevant property for scheduling harvest dates; and (3)~no prior system delivers an end-to-end pipeline from multi-model forecasting comparison through scheduling optimization to a farmer-accessible web interface.
+Recent advances in machine learning, particularly time-series models such as LSTM~\cite{hochreiter1997lstm} and Transformer~\cite{vaswani2017attention}, have demonstrated significant improvements over traditional statistical methods for agricultural commodity price prediction~\cite{rohan2025crop}. Yet three critical gaps remain in the literature: (1)~most existing work forecasts individual crop prices in isolation, without connecting predictions to actionable planting recommendations~\cite{javaid2023ai}; (2)~\textit{peak timing accuracy}---the ability to predict \textit{when} prices peak---has not been evaluated as a distinct metric, despite being the most relevant property for scheduling harvest dates; and (3)~no prior system delivers an end-to-end pipeline from multi-model forecasting comparison through scheduling optimization to a farmer-accessible web interface.
 
 This paper presents CropPlanner, an end-to-end system linking AI-based price forecasting with crop scheduling and a farmer-facing web application. Our contributions are threefold:
 
@@ -157,7 +157,7 @@ The relative merits of LSTM and Transformer models for commodity price forecasti
 
 A critical challenge in non-stationary price forecasting is concept drift---the distribution of price patterns shifts over time due to policy changes, supply shocks, and global economic cycles. Cerqueira et al.~\cite{cerqueira2020} conducted an empirical study on sliding-window and expanding-window evaluation strategies for time-series forecasting, finding that sliding windows better handle distributional shift by discarding outdated observations. This insight motivates our Rolling-Window LSTM approach, which restricts training to recent, more relevant data subsets.
 
-Sabu and Kumar~\cite{rohan2025crop} demonstrated that LSTM and Transformer models can reduce MAE by up to 35\% compared to traditional methods for crop price prediction. Javaid et al.~\cite{javaid2023ai} surveyed AI applications in agriculture broadly, including predictive analytics. However, most prior work forecasts a single crop in isolation and does not connect predictions to downstream planning systems.
+Sabu and Kumar~\cite{rohan2025crop} demonstrated that LSTM models can significantly outperform ARIMA for agricultural commodity price prediction, achieving lower MAE on arecanut price forecasting. Javaid et al.~\cite{javaid2023ai} surveyed AI applications in agriculture broadly, including predictive analytics. However, most prior work forecasts a single crop in isolation and does not connect predictions to downstream planning systems.
 
 \subsection{Crop Scheduling and Combinatorial Optimization}
 
@@ -465,7 +465,7 @@ All input prices are normalized using MinMaxScaler fitted exclusively on trainin
 
 \subsubsection{Transformer}
 
-The Transformer model~\cite{vaswani2017attention} uses multi-head self-attention to process the entire sequence simultaneously, efficiently capturing global dependencies across time steps. We adopt an encoder-only architecture rather than the full encoder--decoder design because our task is direct multi-step regression (12~inputs $\to$ 12~outputs via a linear head), not autoregressive sequence generation. Scalar monthly prices are first projected to the model dimension via a learned linear layer ($1 \to d_{\text{model}} = 64$), then augmented with sinusoidal positional encoding to preserve temporal ordering. The encoder consists of 2~layers, each with 8-head self-attention and a feed-forward network ($d_{ff} = 128$). The last time step's hidden state is extracted and projected to 12~output values via a linear layer. Training uses MSE loss with the Adam optimizer (learning rate $= 0.001$) for 500~epochs, with the same MinMaxScaler preprocessing and full-batch training protocol as LSTM.
+The Transformer model~\cite{vaswani2017attention} uses multi-head self-attention to process the entire sequence simultaneously, efficiently capturing global dependencies across time steps. We adopt an encoder-only architecture rather than the full encoder--decoder design because our task is direct multi-step regression (12~inputs $\to$ 12~outputs via a linear head), not autoregressive sequence generation. Scalar monthly prices are first projected to the model dimension via a learned linear layer ($1 \to d_{\text{model}} = 64$), then augmented with sinusoidal positional encoding to preserve temporal ordering. The encoder consists of 2~layers, each with 8-head self-attention and a feed-forward network ($d_{ff} = 128$). The last time step's hidden representation is extracted and projected to 12~output values via a linear layer. Training uses MSE loss with the Adam optimizer (learning rate $= 0.001$) for 500~epochs, with the same MinMaxScaler preprocessing and full-batch training protocol as LSTM.
 
 % --- Fig. 4: Transformer Architecture (from code: transformer_model.py) ---
 \begin{figure}[htbp]
@@ -511,7 +511,7 @@ The Transformer model~\cite{vaswani2017attention} uses multi-head self-attention
     % Add + residual annotation
     \draw[-{Stealth[length=1.5mm]}, gray, dashed] (pe.south) -- ++(0,-0.5) -| (enc.south);
   \end{tikzpicture}}%
-  \caption{Transformer architecture (encoder-only). Prices are projected to $d_{\text{model}}=64$, augmented with positional encoding, and processed by 2~encoder layers with 8-head attention. The last position's encoding is decoded to 12~output values.}
+  \caption{Transformer architecture (encoder-only). Prices are projected to $d_{\text{model}}=64$, augmented with positional encoding, and processed by 2~encoder layers with 8-head attention. The last time step's hidden representation is projected to 12~output values via a linear layer.}
   \label{fig:transformer}
 \end{figure}
 
@@ -1177,99 +1177,7 @@ Fig.~\ref{fig:boxplot} shows the distribution of monthly absolute percentage err
   \label{fig:boxplot}
 \end{figure}
 
-\begin{figure}[htbp]
-  \centering
-  \begin{tikzpicture}
-    \begin{axis}[
-      width=\columnwidth, height=4cm,
-      xlabel={\scriptsize Month (2024)}, ylabel={\scriptsize Price (THB/kg)},
-      xticklabel style={font=\tiny}, yticklabel style={font=\tiny},
-      xlabel style={font=\tiny}, ylabel style={font=\tiny},
-      title={\scriptsize\bfseries Cassava --- RW-LSTM Forecast (2024)},
-      xtick={1,2,...,12},
-      xticklabels={J,F,M,A,M,J,J,A,S,O,N,D},
-      ymin=2, ymax=4, grid=major, grid style={gray!15},
-      legend style={font=\tiny, at={(0.98,0.98)}, anchor=north east},
-    ]
-    \addplot[blue, thick, mark=o, mark size=1.2pt] coordinates {
-      (1,3.65)(2,3.65)(3,3.57)(4,3.24)(5,3.19)(6,3.09)
-      (7,3.06)(8,2.95)(9,2.86)(10,2.65)(11,2.60)(12,2.32)
-    }; \addlegendentry{Actual}
-    \addplot[red, dashed, thick, mark=square*, mark size=1.2pt] coordinates {
-      (1,2.57)(2,2.50)(3,2.44)(4,2.35)(5,2.21)(6,2.23)
-      (7,2.20)(8,2.34)(9,2.36)(10,2.32)(11,2.25)(12,2.16)
-    }; \addlegendentry{RW-LSTM}
-    % Peak markers
-    \node[font=\tiny, blue, above] at (axis cs:1,3.65) {$\uparrow$Jan};
-    \node[font=\tiny, red, below] at (axis cs:1,2.57) {$\uparrow$Jan};
-    \end{axis}
-  \end{tikzpicture}
-  \caption{RW-LSTM forecast for cassava (best peak timing). Peak correctly predicted in Jan (actual: Jan, predicted: Jan) with $\Delta$Month~=~0.}
-  \label{fig:rwlstm_cassava}
-\end{figure}
-
-\begin{figure}[htbp]
-  \centering
-  \begin{tikzpicture}
-    \begin{axis}[
-      width=\columnwidth, height=4cm,
-      xlabel={\scriptsize Month (2024)}, ylabel={\scriptsize Price (THB/kg)},
-      xticklabel style={font=\tiny}, yticklabel style={font=\tiny},
-      xlabel style={font=\tiny}, ylabel style={font=\tiny},
-      title={\scriptsize\bfseries Corn --- RW-LSTM Forecast (2024)},
-      xtick={1,2,...,12},
-      xticklabels={J,F,M,A,M,J,J,A,S,O,N,D},
-      ymin=8, ymax=15, grid=major, grid style={gray!15},
-      legend style={font=\tiny, at={(0.98,0.98)}, anchor=north east},
-    ]
-    \addplot[blue, thick, mark=o, mark size=1.2pt] coordinates {
-      (1,10.28)(2,10.32)(3,10.27)(4,10.14)(5,10.74)(6,12.14)
-      (7,12.45)(8,12.08)(9,10.81)(10,9.86)(11,9.77)(12,10.62)
-    }; \addlegendentry{Actual}
-    \addplot[red, dashed, thick, mark=square*, mark size=1.2pt] coordinates {
-      (1,13.30)(2,13.58)(3,12.70)(4,12.72)(5,12.80)(6,12.71)
-      (7,11.58)(8,11.45)(9,10.79)(10,10.61)(11,9.67)(12,10.09)
-    }; \addlegendentry{RW-LSTM}
-    % Peak markers
-    \node[font=\tiny, blue, above] at (axis cs:7,12.45) {$\uparrow$Jul};
-    \node[font=\tiny, red, above] at (axis cs:2,13.58) {$\uparrow$Feb};
-    \end{axis}
-  \end{tikzpicture}
-  \caption{RW-LSTM forecast for corn (challenging case). The predicted peak (Feb) arrives five months before the actual peak~(Jul), with $\Delta$Month~=~5.}
-  \label{fig:rwlstm_corn}
-\end{figure}
-
-% --- Fig: Soybean RW-LSTM ---
-\begin{figure}[htbp]
-  \centering
-  \begin{tikzpicture}
-    \begin{axis}[
-      width=\columnwidth, height=4cm,
-      xlabel={\scriptsize Month (2024)}, ylabel={\scriptsize Price (THB/kg)},
-      xticklabel style={font=\tiny}, yticklabel style={font=\tiny},
-      xlabel style={font=\tiny}, ylabel style={font=\tiny},
-      title={\scriptsize\bfseries Soybean --- RW-LSTM Forecast (2024)},
-      xtick={1,2,...,12},
-      xticklabels={J,F,M,A,M,J,J,A,S,O,N,D},
-      ymin=13, ymax=28, grid=major, grid style={gray!15},
-      legend style={font=\tiny, at={(0.98,0.98)}, anchor=north east},
-    ]
-    \addplot[blue, thick, mark=o, mark size=1.2pt] coordinates {
-      (1,19.45)(2,19.45)(3,19.45)(4,21.67)(5,19.78)(6,17.50)
-      (7,17.38)(8,17.25)(9,17.13)(10,17.00)(11,17.00)(12,17.10)
-    }; \addlegendentry{Actual}
-    \addplot[red, dashed, thick, mark=square*, mark size=1.2pt] coordinates {
-      (1,24.77)(2,26.07)(3,26.10)(4,20.97)(5,20.83)(6,21.83)
-      (7,21.61)(8,24.18)(9,23.33)(10,21.69)(11,15.46)(12,16.70)
-    }; \addlegendentry{RW-LSTM}
-    % Peak markers
-    \node[font=\tiny, blue, above] at (axis cs:4,21.67) {$\uparrow$Apr};
-    \node[font=\tiny, red, above] at (axis cs:3,26.10) {$\uparrow$Mar};
-    \end{axis}
-  \end{tikzpicture}
-  \caption{RW-LSTM forecast for soybean. The predicted peak (Mar) is one month before the actual peak~(Apr), achieving $\Delta$Month~=~1 despite significant price-level overestimation (MAPE~=~22.38\%).}
-  \label{fig:rwlstm_soybean}
-\end{figure}
+% Individual RW-LSTM plots removed; all four crops shown in Fig.~\ref{fig:rwlstm_all}.
 
 \subsubsection{Peak Timing Accuracy}
 
@@ -1291,7 +1199,7 @@ While Rolling-Window LSTM has a higher average MAPE than Standard LSTM with prop
   \end{tabular}
 \end{table}
 
-Two of four crops (cassava and green bean) have exact peak month predictions, and soybean is within one month (Fig.~\ref{fig:rwlstm_soybean}). Corn's peak prediction is five months off, reflecting the difficulty of capturing its mid-year price spike with a short (6-year) window. Note that the $\Delta$Price column reflects overall forecast error at the peak month, not scheduling quality: the scheduling system uses only the peak month position to set the harvest date, while income is computed from the predicted price at that month. Cassava's high $\Delta$Price (29.57\%) despite exact peak timing indicates the forecast underestimates the price level but correctly identifies \textit{when} to harvest. Despite lower overall MAPE compared to the test-tuned configuration, the validated model retains strong peak timing for three of four crops---critical for the scheduling system.
+Two of four crops (cassava and green bean) have exact peak month predictions, and soybean is within one month (Fig.~\ref{fig:rwlstm_all}). Corn's peak prediction is five months off, reflecting the difficulty of capturing its mid-year price spike with a short (6-year) window. Note that the $\Delta$Price column reflects overall forecast error at the peak month, not scheduling quality: the scheduling system uses only the peak month position to set the harvest date, while income is computed from the predicted price at that month. Cassava's high $\Delta$Price (29.57\%) despite exact peak timing indicates the forecast underestimates the price level but correctly identifies \textit{when} to harvest. Despite lower overall MAPE compared to the test-tuned configuration, the validated model retains strong peak timing for three of four crops---critical for the scheduling system.
 
 \subsubsection{Cross-Model Analysis and Ensemble Potential}
 
@@ -1396,7 +1304,7 @@ The per-model comparison figures (Fig.~\ref{fig:cross_model}) reveal distinct mo
 
     \end{groupplot}
   \end{tikzpicture}}%
-  \caption{Cross-model forecast comparison for all four crops (2024 test year). Each subplot overlays actual prices (black) with LSTM (green), Transformer (red), and ARIMA (blue) forecasts. Key observations: (a)~ARIMA diverges upward for cassava due to stationarity violations; (b)~all models miss the corn Jun--Jul spike; (c)~all models underestimate the green bean Sep--Oct peak; (d)~Transformer tracks soybean most closely overall. No single model dominates across all crops.}
+  \caption{Cross-model forecast comparison for all four crops (2024 test year). Each subplot overlays actual prices (black) with LSTM (green), Transformer (red), and ARIMA (blue) forecasts. Key observations: (a)~ARIMA diverges upward for cassava due to stationarity violations; (b)~all models miss the corn Jun--Jul spike; (c)~all models underestimate the green bean Sep--Oct peak; (d)~Transformer tracks soybean most closely overall. No single model dominates across all crops. RW-LSTM forecasts are shown separately in Fig.~\ref{fig:rwlstm_all}.}
   \label{fig:cross_model}
 \end{figure*}
 
@@ -1706,24 +1614,24 @@ Table~\ref{tab:permutations} presents the top~5 and bottom~5 of the 24~permutati
     \toprule
     \textbf{Rank} & \textbf{Ordering} & \textbf{Crops} & \textbf{Income} & \textbf{vs.\ Opt.} \\
     \midrule
-    1  & Co$\to$GB$\to$So$\to$Ca & 4/4 & 41,267 & 100.0\% \\
-    2  & GB$\to$Co$\to$So$\to$Ca & 4/4 & 41,267 & 100.0\% \\
-    3  & Co$\to$GB$\to$Ca$\to$So & 4/4 & 39,757 & 96.3\% \\
-    4  & GB$\to$Co$\to$Ca$\to$So & 4/4 & 39,757 & 96.3\% \\
-    5  & Ca$\to$GB$\to$Co$\to$So & 4/4 & 39,211 & 95.0\% \\
+    1  & Ca$\to$GB$\to$Co$\to$So & 4/4 & 39,211 & 100.0\% \\
+    2  & Ca$\to$So$\to$GB$\to$Co & 4/4 & 39,211 & 100.0\% \\
+    3  & GB$\to$Ca$\to$Co$\to$So & 4/4 & 39,211 & 100.0\% \\
+    4  & Ca$\to$Co$\to$GB$\to$So & 4/4 & 37,479 & 95.6\% \\
+    5  & Ca$\to$GB$\to$So$\to$Co & 4/4 & 37,479 & 95.6\% \\
     \midrule
-    20 & So$\to$Co$\to$Ca$\to$GB & 3/4 & 29,790 & 72.2\% \\
-    21 & So$\to$Co$\to$GB$\to$Ca & 3/4 & 29,790 & 72.2\% \\
-    22 & So$\to$GB$\to$Co$\to$Ca & 3/4 & 29,790 & 72.2\% \\
-    23 & So$\to$Ca$\to$Co$\to$GB & 2/4 & 15,380 & 37.3\% \\
-    24 & So$\to$Ca$\to$GB$\to$Co & 2/4 & 15,380 & 37.3\% \\
+    20 & So$\to$Co$\to$GB$\to$Ca & 3/4 & 29,790 & 76.0\% \\
+    21 & So$\to$GB$\to$Ca$\to$Co & 3/4 & 29,790 & 76.0\% \\
+    22 & So$\to$GB$\to$Co$\to$Ca & 3/4 & 29,790 & 76.0\% \\
+    23 & So$\to$Ca$\to$Co$\to$GB & 2/4 & 15,380 & 39.2\% \\
+    24 & So$\to$Ca$\to$GB$\to$Co & 2/4 & 15,380 & 39.2\% \\
     \bottomrule
   \end{tabular}
   \vspace{2pt}
-  \raggedright\scriptsize Ca=Cassava, Co=Corn, GB=Green Bean, So=Soybean. Income in THB/rai/year.
+  \raggedright\scriptsize Ca=Cassava, Co=Corn, GB=Green Bean, So=Soybean. Income in THB/rai/year. Of the 14~omitted middle entries (ranks 6--19), 5~achieve 4/4 crops (35,706--37,479~THB) and 9~achieve 3/4 crops (29,790--33,717~THB).
 \end{table}
 
-Of the 24~permutations, 14~successfully schedule all four crops, 8~exclude one crop (3/4), and 2~exclude two crops (2/4). Two clear patterns emerge. First, orderings that place short-duration, high-flexibility crops first (corn at 120~days, green bean at 80~days) achieve higher incomes because they secure peak-price time slots without over-constraining the timeline, leaving room for cassava's long 250-day growing period via the previous-year strategy. The top~2 orderings both start with corn or green bean and end with cassava. Second, orderings starting with soybean consistently underperform---all bottom~5 entries begin with soybean, whose 90-day duration and March peak compete directly with corn's February peak, creating early conflicts that cascade into exclusions. The worst orderings (So$\to$Ca) lose 63\% of optimal income by scheduling only 2~crops. This sensitivity to ordering---even with just four crops---motivates exact methods such as Dynamic Programming for production deployment.
+Of the 24~permutations, 8~successfully schedule all four crops, 14~exclude one crop (3/4), and 2~exclude two crops (2/4). Two clear patterns emerge. First, all top-performing orderings place cassava---the longest crop at 250~days---first, allowing it to claim its peak-price position (January harvest) via the previous-year planting strategy. Shorter crops (corn, green bean, soybean) then fill the remaining gaps through shifting. The top~3 orderings all begin with cassava and achieve the same optimal income. Second, orderings starting with soybean consistently underperform---all bottom~5 entries begin with soybean, whose 90-day duration and March peak compete directly with corn's February peak, creating early conflicts that cascade into exclusions. The worst orderings (So$\to$Ca) lose 61\% of optimal income by scheduling only 2~crops. This sensitivity to ordering---even with just four crops---motivates exact methods such as Dynamic Programming for production deployment.
 
 \subsubsection{Sensitivity to Yield Variability}
 \label{sec:sensitivity}
@@ -1825,9 +1733,9 @@ Future directions include: (1)~ensemble model selection per crop to leverage eac
 
 This paper presented CropPlanner, an integrated system for AI-driven crop planning that bridges the gap between price forecasting research and actionable agricultural recommendations.
 
-First, a comparative study of four forecasting models---Standard LSTM, Transformer, ARIMA, and the proposed Rolling-Window LSTM---revealed that no single model dominates across all crops. Standard LSTM achieved the highest average accuracy (92.93\%), while Rolling-Window LSTM retained accurate peak timing for three of four crops. We identified three systematic limitations of standard models (off-peak prediction, long-range averaging, and structural break sensitivity) that motivate the windowed approach, and introduced peak timing accuracy as an application-aligned evaluation metric. Error distribution analysis revealed that LSTM provides the most consistent predictions (IQR~=~6.5~pp), while ARIMA's outliers exceed 40\% for non-stationary crops. Oracle per-crop model selection could reduce average MAPE from 7.07\% to 5.76\%, suggesting that crop-specific ensemble strategies are a promising direction.
+First, a comparative study of four forecasting models---Standard LSTM, Transformer, ARIMA, and the proposed Rolling-Window LSTM---revealed that no single model dominates across all crops. Standard LSTM achieved the highest average accuracy (92.93\%), while Rolling-Window LSTM retained accurate peak timing for three of four crops. We identified three systematic limitations of standard models (off-peak prediction, long-range averaging, and structural break sensitivity) that motivate the windowed approach, and introduced peak timing accuracy as an application-aligned evaluation metric. Error distribution analysis revealed that LSTM provides the most consistent predictions (IQR of 3.5\%--10.0\%), while ARIMA's outliers exceed 40\% for non-stationary crops. Oracle per-crop model selection could reduce average MAPE from 7.07\% to 5.76\%, suggesting that crop-specific ensemble strategies are a promising direction.
 
-Second, we formalized the crop planning problem as a Weighted Job Scheduling Problem with mathematical notation and complexity analysis. Exhaustive enumeration over all $4! = 24$ permutations identified the optimal four-crop rotation yielding 39,212~THB/rai/year---approximately 1.9~times the best monoculture income. Permutation analysis revealed that 14 of 24~orderings achieve a full 4-crop schedule, while orderings starting with soybean consistently underperform, losing up to 63\% of optimal income. The greedy heuristic, formalized in Algorithm~\ref{alg:greedy}, was suboptimal by 14.8\%, demonstrating that scheduling structure is non-trivial even for four crops and motivating exact methods for production deployment.
+Second, we formalized the crop planning problem as a Weighted Job Scheduling Problem with mathematical notation and complexity analysis. Exhaustive enumeration over all $4! = 24$ permutations identified the optimal four-crop rotation yielding 39,212~THB/rai/year---approximately 1.9~times the best monoculture income. Permutation analysis revealed that only 8 of 24~orderings achieve a full 4-crop schedule, while orderings starting with soybean consistently underperform, losing up to 61\% of optimal income. The greedy heuristic, formalized in Algorithm~\ref{alg:greedy}, was suboptimal by 14.8\%, demonstrating that scheduling structure is non-trivial even for four crops and motivating exact methods for production deployment.
 
 Third, the CropPlanner web application enables farmers to plan up to 12~months ahead through intuitive visualizations, delivering AI-powered insights without requiring technical expertise. The system demonstrates the feasibility of an end-to-end pipeline from multi-model forecasting through scheduling optimization to web-based delivery---a combination that, as shown in our literature review, has received limited attention in prior work. This system has the potential to reduce income volatility and promote sustainable, diversified agriculture for Thai farmers.
 
