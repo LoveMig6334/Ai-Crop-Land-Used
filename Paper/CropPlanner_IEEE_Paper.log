@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.30)  31 MAR 2026 15:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.30)  31 MAR 2026 15:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1175,9 +1175,9 @@ Underfull \vbox (badness 7685) has occurred while \output is active []
 hatt/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
 
 
-]
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 22
-8.
+] [2]
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 23
+2.
 
 (C:\Users\thatt\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
@@ -1187,13 +1187,12 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 
-[2]
-Overfull \hbox (3.26274pt too wide) in paragraph at lines 284--297
+Overfull \hbox (3.26274pt too wide) in paragraph at lines 288--301
 [][] 
  []
 
 [3] [4] [5] [6]
-Overfull \hbox (21.81473pt too wide) detected at line 807
+Overfull \hbox (21.81473pt too wide) detected at line 811
 [][][][] [] \OML/cmm/m/it/10 I[] [] \OT1/cmr/m/n/10 [\OML/cmm/m/it/10 s[]; s[] 
 \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 d[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 \ \OT1
 /cmr/m/n/10 [\OML/cmm/m/it/10 s[]; s[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 d[]\O
@@ -1203,33 +1202,33 @@ T1/cmr/m/n/10 ) = \OMS/cmsy/m/n/10 ;  8 \OML/cmm/m/it/10 c[]; c[] \OMS/cmsy/m/n
  []
 
 [7]
-Underfull \hbox (badness 8038) in paragraph at lines 1052--1053
+Underfull \hbox (badness 8038) in paragraph at lines 1056--1057
 []\T1/ptm/m/n/10 (+20) The Crop-Plan-ner web ap-pli-ca-tion was built with
  []
 
 
-Underfull \hbox (badness 4660) in paragraph at lines 1052--1053
+Underfull \hbox (badness 4660) in paragraph at lines 1056--1057
 \T1/ptm/m/n/10 (+20) MySQL for the back-end, pro-to-typed in Figma, and
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1052--1053
+Underfull \hbox (badness 10000) in paragraph at lines 1056--1057
 \T1/ptm/m/n/10 (+20) end-points: \T1/pcr/m/n/10 /api/forecast?crop={name} \T1/p
 tm/m/n/10 (+20) re-turns
  []
 
 
-Underfull \hbox (badness 3849) in paragraph at lines 1052--1053
+Underfull \hbox (badness 3849) in paragraph at lines 1056--1057
 \T1/ptm/m/n/10 (+20) 12-month RW-LSTM price pre-dic-tions as JSON, and
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1052--1053
+Underfull \hbox (badness 10000) in paragraph at lines 1056--1057
 \T1/pcr/m/n/10 /api/schedule?start={month}&area={rai}
  []
 
 [8] [9]
-Underfull \hbox (badness 2088) in paragraph at lines 1581--1582
+Underfull \hbox (badness 2088) in paragraph at lines 1585--1586
 \T1/ptm/m/n/10 (+20) peak months, while the to-tal fea-si-ble in-come reached
  []
 
@@ -1237,16 +1236,14 @@ Underfull \hbox (badness 2088) in paragraph at lines 1581--1582
 <fig15.png, id=432, 1444.64719pt x 812.28468pt>
 File: fig15.png Graphic file (type png)
 <use fig15.png>
-Package pdftex.def Info: fig15.png  used on input line 1683.
+Package pdftex.def Info: fig15.png  used on input line 1687.
 (pdftex.def)             Requested size: 252.0pt x 141.68095pt.
 <fig16.png, id=434, 1444.64719pt x 812.28468pt>
 File: fig16.png Graphic file (type png)
 <use fig16.png>
-Package pdftex.def Info: fig16.png  used on input line 1690.
+Package pdftex.def Info: fig16.png  used on input line 1694.
 (pdftex.def)             Requested size: 252.0pt x 141.68095pt.
- [11] [12 <./fig15.png>] [13 <./fig16.png>] [14] [15
-
-]
+ [11] [12 <./fig15.png>] [13 <./fig16.png>] [14] [15]
 (CropPlanner_IEEE_Paper.aux)
  ***********
 LaTeX2e <2025-11-01>
@@ -1259,7 +1256,7 @@ Package rerunfilecheck Info: File `CropPlanner_IEEE_Paper.out' has not changed.
 Here is how much of TeX's memory you used:
  39248 strings out of 467871
  895761 string characters out of 5418376
- 1622688 words of memory out of 5000000
+ 1623381 words of memory out of 5000000
  66898 multiletter control sequences out of 15000+600000
  782602 words of font info for 477 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1291,7 +1288,7 @@ b8a.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utm
 bi8a.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/ut
 mr8a.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/ut
 mri8a.pfb>
-Output written on CropPlanner_IEEE_Paper.pdf (15 pages, 612886 bytes).
+Output written on CropPlanner_IEEE_Paper.pdf (15 pages, 612190 bytes).
 PDF statistics:
  610 PDF objects out of 1000 (max. 8388607)
  168 named destinations out of 1000 (max. 500000)

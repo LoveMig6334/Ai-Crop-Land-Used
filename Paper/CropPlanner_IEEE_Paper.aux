@@ -42,11 +42,11 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Time-Series Forecasting for Agricultural Prices}{2}{subsection.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Crop Scheduling and Combinatorial Optimization}{2}{subsection.2.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}Agricultural Decision Support Systems}{2}{subsection.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {III}Data and Preprocessing}{2}{section.3}\protected@file@percent }
-\newlabel{sec:data}{{III}{2}{Data and Preprocessing}{section.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Data Sources}{2}{subsection.3.1}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Comparison of Related Work}}{3}{table.1}\protected@file@percent }
 \newlabel{tab:related_work}{{I}{3}{Comparison of Related Work}{table.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {III}Data and Preprocessing}{3}{section.3}\protected@file@percent }
+\newlabel{sec:data}{{III}{3}{Data and Preprocessing}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Data Sources}{3}{subsection.3.1}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Dataset Summary}}{3}{table.2}\protected@file@percent }
 \newlabel{tab:dataset}{{II}{3}{Dataset Summary}{table.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Preprocessing}{3}{subsection.3.2}\protected@file@percent }
@@ -55,28 +55,28 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Descriptive Statistics}{3}{subsection.3.3}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Descriptive Statistics of Yearly Average Prices (2004--2024)}}{3}{table.3}\protected@file@percent }
 \newlabel{tab:descriptive}{{III}{3}{Descriptive Statistics of Yearly Average Prices (2004--2024)}{table.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Train--Validation--Test Split}{3}{subsection.3.4}\protected@file@percent }
 \citation{hochreiter1997lstm}
 \citation{vaswani2017attention}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Seasonal decomposition comparison (2015--2024). \textbf  {Top row:} yearly trend (12-month moving average). Cassava shows sharp structural breaks (2017 trough, 2018 spike); green bean shows a smoother U-shaped trend. \textbf  {Bottom row:} average monthly seasonal deviation. Cassava's seasonal component is negligible ($\pm $0.08~THB/kg); green bean exhibits clear seasonality ($\pm $1.3~THB/kg) with peaks in Feb and May.}}{4}{figure.3}\protected@file@percent }
-\newlabel{fig:seasonal}{{3}{4}{Seasonal decomposition comparison (2015--2024). \textbf {Top row:} yearly trend (12-month moving average). Cassava shows sharp structural breaks (2017 trough, 2018 spike); green bean shows a smoother U-shaped trend. \textbf {Bottom row:} average monthly seasonal deviation. Cassava's seasonal component is negligible ($\pm $0.08~THB/kg); green bean exhibits clear seasonality ($\pm $1.3~THB/kg) with peaks in Feb and May}{figure.3}{}}
+\citation{boxjenkins}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Train--Validation--Test Split}{4}{subsection.3.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {IV}Methodology}{4}{section.4}\protected@file@percent }
 \newlabel{sec:methodology}{{IV}{4}{Methodology}{section.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}AI Price Forecasting Models}{4}{subsection.4.1}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Hyperparameter Summary}}{4}{table.4}\protected@file@percent }
 \newlabel{tab:hyperparams}{{IV}{4}{Hyperparameter Summary}{table.4}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}1}Standard LSTM}{4}{subsubsection.4.1.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Standard LSTM architecture. Input sequence of 12 monthly prices passes through 2~LSTM layers (hidden=32). The last time step's hidden state is projected to 12 output values via a linear layer.}}{4}{figure.4}\protected@file@percent }
-\newlabel{fig:lstm}{{4}{4}{Standard LSTM architecture. Input sequence of 12 monthly prices passes through 2~LSTM layers (hidden=32). The last time step's hidden state is projected to 12 output values via a linear layer}{figure.4}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}2}Transformer}{4}{subsubsection.4.1.2}\protected@file@percent }
-\citation{boxjenkins}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}3}ARIMA}{4}{subsubsection.4.1.3}\protected@file@percent }
+\newlabel{sec:limitations}{{\mbox  {IV-A}4}{4}{Limitations of Standard Models}{subsubsection.4.1.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}4}Limitations of Standard Models}{4}{subsubsection.4.1.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Seasonal decomposition comparison (2015--2024). \textbf  {Top row:} yearly trend (12-month moving average). Cassava shows sharp structural breaks (2017 trough, 2018 spike); green bean shows a smoother U-shaped trend. \textbf  {Bottom row:} average monthly seasonal deviation. Cassava's seasonal component is negligible ($\pm $0.08~THB/kg); green bean exhibits clear seasonality ($\pm $1.3~THB/kg) with peaks in Feb and May.}}{5}{figure.3}\protected@file@percent }
+\newlabel{fig:seasonal}{{3}{5}{Seasonal decomposition comparison (2015--2024). \textbf {Top row:} yearly trend (12-month moving average). Cassava shows sharp structural breaks (2017 trough, 2018 spike); green bean shows a smoother U-shaped trend. \textbf {Bottom row:} average monthly seasonal deviation. Cassava's seasonal component is negligible ($\pm $0.08~THB/kg); green bean exhibits clear seasonality ($\pm $1.3~THB/kg) with peaks in Feb and May}{figure.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Standard LSTM architecture. Input sequence of 12 monthly prices passes through 2~LSTM layers (hidden=32). The last time step's hidden state is projected to 12 output values via a linear layer.}}{5}{figure.4}\protected@file@percent }
+\newlabel{fig:lstm}{{4}{5}{Standard LSTM architecture. Input sequence of 12 monthly prices passes through 2~LSTM layers (hidden=32). The last time step's hidden state is projected to 12 output values via a linear layer}{figure.4}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Transformer architecture (encoder-only). Prices are projected to $d_{\text  {model}}=64$, augmented with positional encoding, and processed by 2~encoder layers with 8-head attention. The last time step's hidden representation is projected to 12~output values via a linear layer.}}{5}{figure.5}\protected@file@percent }
 \newlabel{fig:transformer}{{5}{5}{Transformer architecture (encoder-only). Prices are projected to $d_{\text {model}}=64$, augmented with positional encoding, and processed by 2~encoder layers with 8-head attention. The last time step's hidden representation is projected to 12~output values via a linear layer}{figure.5}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}3}ARIMA}{5}{subsubsection.4.1.3}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces ARIMA forecasting pipeline. Historical data is decomposed into trend, seasonality, and residual components before AutoARIMA selects optimal $(p,d,q)$ parameters.}}{5}{figure.6}\protected@file@percent }
 \newlabel{fig:arima}{{6}{5}{ARIMA forecasting pipeline. Historical data is decomposed into trend, seasonality, and residual components before AutoARIMA selects optimal $(p,d,q)$ parameters}{figure.6}{}}
-\newlabel{sec:limitations}{{\mbox  {IV-A}4}{5}{Limitations of Standard Models}{subsubsection.4.1.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}4}Limitations of Standard Models}{5}{subsubsection.4.1.4}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Green bean 2024: Standard LSTM produces a smooth bell curve peaking in Jul, missing the sharp Sep peak entirely ($\Delta $Month~=~2).}}{5}{figure.7}\protected@file@percent }
 \newlabel{fig:lstm_gb_limit}{{7}{5}{Green bean 2024: Standard LSTM produces a smooth bell curve peaking in Jul, missing the sharp Sep peak entirely ($\Delta $Month~=~2)}{figure.7}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Corn 2024: Standard LSTM predicts a nearly flat curve (range 10.43--10.82) that completely misses the Jun--Jul price spike to 12.45~THB/kg ($\Delta $Month~=~4, peak error~=~15.46\%).}}{5}{figure.8}\protected@file@percent }
@@ -89,22 +89,22 @@
 \newlabel{tab:window_selection}{{V}{6}{Validation MAPE (\%) by Window Size (Year 2023)}{table.5}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Green bean 2024: RW-LSTM correctly predicts peak timing in Sep ($\Delta $Month~=~0) with the validated 5-year window, compared to Standard LSTM's 2-month error (Fig.~\ref {fig:lstm_gb_limit}).}}{6}{figure.10}\protected@file@percent }
 \newlabel{fig:rwlstm_gb}{{10}{6}{Green bean 2024: RW-LSTM correctly predicts peak timing in Sep ($\Delta $Month~=~0) with the validated 5-year window, compared to Standard LSTM's 2-month error (Fig.~\ref {fig:lstm_gb_limit})}{figure.10}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}6}Evaluation Metrics}{6}{subsubsection.4.1.6}\protected@file@percent }
 \@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces Rolling-Window LSTM Training and Prediction}}{6}{algocf.1}\protected@file@percent }
 \newlabel{alg:rwlstm}{{1}{6}{Rolling-Window LSTM (Proposed Improvement)}{algocf.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}6}Evaluation Metrics}{6}{subsubsection.4.1.6}\protected@file@percent }
 \citation{clrs2009,kleinberg2005}
 \citation{clrs2009}
-\citation{kleinberg2005}
 \citation{kleinberg2005}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Crop Planning Recommendation System}{7}{subsection.4.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}1}Problem Formulation}{7}{subsubsection.4.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}2}Phase 1: Job Definition from Forecasts}{7}{subsubsection.4.2.2}\protected@file@percent }
+\newlabel{eq:income}{{6}{7}{Phase 1: Job Definition from Forecasts}{equation.6}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces Agronomic Constants per Crop}}{7}{table.6}\protected@file@percent }
 \newlabel{tab:agro}{{VI}{7}{Agronomic Constants per Crop}{table.6}{}}
-\newlabel{eq:income}{{6}{7}{Phase 1: Job Definition from Forecasts}{equation.6}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}3}Phase 2: Greedy Scheduling}{7}{subsubsection.4.2.3}\protected@file@percent }
 \@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces Greedy Crop Scheduling}}{7}{algocf.2}\protected@file@percent }
 \newlabel{alg:greedy}{{2}{7}{Phase 2: Greedy Scheduling}{algocf.2}{}}
+\citation{kleinberg2005}
 \@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Flowchart of the Greedy Crop Scheduling algorithm. Crops are processed in descending income order. For each crop, three placement strategies are attempted sequentially: (A)~original peak-optimal dates, (B)~shifted to an available gap within the target year, (C)~planting in the previous year with harvest in the target year. If none succeeds, the crop is excluded.}}{8}{figure.11}\protected@file@percent }
 \newlabel{fig:flowchart}{{11}{8}{Flowchart of the Greedy Crop Scheduling algorithm. Crops are processed in descending income order. For each crop, three placement strategies are attempted sequentially: (A)~original peak-optimal dates, (B)~shifted to an available gap within the target year, (C)~planting in the previous year with harvest in the target year. If none succeeds, the crop is excluded}{figure.11}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Web Application}{8}{subsection.4.3}\protected@file@percent }
@@ -122,7 +122,7 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}1}Peak Timing Accuracy}{9}{subsubsection.5.1.1}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {IX}{\ignorespaces Peak Timing Accuracy --- Rolling-Window LSTM}}{9}{table.9}\protected@file@percent }
 \newlabel{tab:peak}{{IX}{9}{Peak Timing Accuracy --- Rolling-Window LSTM}{table.9}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}2}Cross-Model Analysis and Ensemble Potential}{9}{subsubsection.5.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}2}Cross-Model Analysis and Ensemble Potential}{10}{subsubsection.5.1.2}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {X}{\ignorespaces Oracle Per-Crop Model Selection}}{10}{table.10}\protected@file@percent }
 \newlabel{tab:ensemble}{{X}{10}{Oracle Per-Crop Model Selection}{table.10}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Crop Planning Results}{10}{subsection.5.2}\protected@file@percent }
@@ -153,7 +153,6 @@
 \newlabel{fig:crop-prices-page}{{19}{12}{CropPlanner --- Crop Prices Page. Predicted price charts for all four crops with monthly granularity}{figure.19}{}}
 \citation{clrs2009}
 \citation{kleinberg2005}
-\citation{salinas2020deepar}
 \@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces CropPlanner --- Crop Planning Page. Farmers input start month and area; the system returns a Gantt chart with financial summary (income, expenses, profit, and ROI).}}{13}{figure.20}\protected@file@percent }
 \newlabel{fig:crop-planning-page}{{20}{13}{CropPlanner --- Crop Planning Page. Farmers input start month and area; the system returns a Gantt chart with financial summary (income, expenses, profit, and ROI)}{figure.20}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {VI}Discussion}{13}{section.6}\protected@file@percent }
@@ -163,6 +162,7 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}Greedy Scheduling: Why It Fails and What It Implies}{13}{subsection.6.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-D}}Experimental Design and Income Model}{13}{subsection.6.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-E}}Threats to Validity}{13}{subsection.6.5}\protected@file@percent }
+\citation{salinas2020deepar}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-F}}Practical Deployment Challenges}{14}{subsection.6.6}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {VII}Limitations and Future Work}{14}{section.7}\protected@file@percent }
 \newlabel{sec:limfuture}{{VII}{14}{Limitations and Future Work}{section.7}{}}
