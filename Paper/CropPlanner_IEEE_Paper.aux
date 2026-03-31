@@ -58,7 +58,6 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Train--Validation--Test Split}{3}{subsection.3.4}\protected@file@percent }
 \citation{hochreiter1997lstm}
 \citation{vaswani2017attention}
-\citation{boxjenkins}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Seasonal decomposition comparison (2015--2024). \textbf  {Top row:} yearly trend (12-month moving average). Cassava shows sharp structural breaks (2017 trough, 2018 spike); green bean shows a smoother U-shaped trend. \textbf  {Bottom row:} average monthly seasonal deviation. Cassava's seasonal component is negligible ($\pm $0.08~THB/kg); green bean exhibits clear seasonality ($\pm $1.3~THB/kg) with peaks in Feb and May.}}{4}{figure.3}\protected@file@percent }
 \newlabel{fig:seasonal}{{3}{4}{Seasonal decomposition comparison (2015--2024). \textbf {Top row:} yearly trend (12-month moving average). Cassava shows sharp structural breaks (2017 trough, 2018 spike); green bean shows a smoother U-shaped trend. \textbf {Bottom row:} average monthly seasonal deviation. Cassava's seasonal component is negligible ($\pm $0.08~THB/kg); green bean exhibits clear seasonality ($\pm $1.3~THB/kg) with peaks in Feb and May}{figure.3}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {IV}Methodology}{4}{section.4}\protected@file@percent }
@@ -70,6 +69,7 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Standard LSTM architecture. Input sequence of 12 monthly prices passes through 2~LSTM layers (hidden=32). The last time step's hidden state is projected to 12 output values via a linear layer.}}{4}{figure.4}\protected@file@percent }
 \newlabel{fig:lstm}{{4}{4}{Standard LSTM architecture. Input sequence of 12 monthly prices passes through 2~LSTM layers (hidden=32). The last time step's hidden state is projected to 12 output values via a linear layer}{figure.4}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}2}Transformer}{4}{subsubsection.4.1.2}\protected@file@percent }
+\citation{boxjenkins}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Transformer architecture (encoder-only). Prices are projected to $d_{\text  {model}}=64$, augmented with positional encoding, and processed by 2~encoder layers with 8-head attention. The last time step's hidden representation is projected to 12~output values via a linear layer.}}{5}{figure.5}\protected@file@percent }
 \newlabel{fig:transformer}{{5}{5}{Transformer architecture (encoder-only). Prices are projected to $d_{\text {model}}=64$, augmented with positional encoding, and processed by 2~encoder layers with 8-head attention. The last time step's hidden representation is projected to 12~output values via a linear layer}{figure.5}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}3}ARIMA}{5}{subsubsection.4.1.3}\protected@file@percent }
@@ -81,23 +81,23 @@
 \newlabel{fig:lstm_gb_limit}{{7}{5}{Green bean 2024: Standard LSTM produces a smooth bell curve peaking in Jul, missing the sharp Sep peak entirely ($\Delta $Month~=~2)}{figure.7}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Corn 2024: Standard LSTM predicts a nearly flat curve (range 10.43--10.82) that completely misses the Jun--Jul price spike to 12.45~THB/kg ($\Delta $Month~=~4, peak error~=~15.46\%).}}{5}{figure.8}\protected@file@percent }
 \newlabel{fig:lstm_corn_limit}{{8}{5}{Corn 2024: Standard LSTM predicts a nearly flat curve (range 10.43--10.82) that completely misses the Jun--Jul price spike to 12.45~THB/kg ($\Delta $Month~=~4, peak error~=~15.46\%)}{figure.8}{}}
-\newlabel{sec:rwlstm}{{\mbox  {IV-A}5}{5}{Rolling-Window LSTM (Proposed Improvement)}{subsubsection.4.1.5}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}5}Rolling-Window LSTM (Proposed Improvement)}{5}{subsubsection.4.1.5}\protected@file@percent }
-\citation{clrs2009,kleinberg2005}
+\newlabel{sec:rwlstm}{{\mbox  {IV-A}5}{6}{Rolling-Window LSTM (Proposed Improvement)}{subsubsection.4.1.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}5}Rolling-Window LSTM (Proposed Improvement)}{6}{subsubsection.4.1.5}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Rolling-Window LSTM training concept. The dataset is divided into overlapping windows of 5--10~years (selected per crop via validation), each shifted by 1~year. A 3-layer LSTM is trained on each window independently; predictions are consolidated into a final forecast.}}{6}{figure.9}\protected@file@percent }
 \newlabel{fig:rolling}{{9}{6}{Rolling-Window LSTM training concept. The dataset is divided into overlapping windows of 5--10~years (selected per crop via validation), each shifted by 1~year. A 3-layer LSTM is trained on each window independently; predictions are consolidated into a final forecast}{figure.9}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Validation MAPE (\%) by Window Size (Year 2023)}}{6}{table.5}\protected@file@percent }
 \newlabel{tab:window_selection}{{V}{6}{Validation MAPE (\%) by Window Size (Year 2023)}{table.5}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}6}Evaluation Metrics}{6}{subsubsection.4.1.6}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Green bean 2024: RW-LSTM correctly predicts peak timing in Sep ($\Delta $Month~=~0) with the validated 5-year window, compared to Standard LSTM's 2-month error (Fig.~\ref {fig:lstm_gb_limit}).}}{6}{figure.10}\protected@file@percent }
 \newlabel{fig:rwlstm_gb}{{10}{6}{Green bean 2024: RW-LSTM correctly predicts peak timing in Sep ($\Delta $Month~=~0) with the validated 5-year window, compared to Standard LSTM's 2-month error (Fig.~\ref {fig:lstm_gb_limit})}{figure.10}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}6}Evaluation Metrics}{6}{subsubsection.4.1.6}\protected@file@percent }
 \@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces Rolling-Window LSTM Training and Prediction}}{6}{algocf.1}\protected@file@percent }
 \newlabel{alg:rwlstm}{{1}{6}{Rolling-Window LSTM (Proposed Improvement)}{algocf.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Crop Planning Recommendation System}{6}{subsection.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}1}Problem Formulation}{6}{subsubsection.4.2.1}\protected@file@percent }
+\citation{clrs2009,kleinberg2005}
 \citation{clrs2009}
 \citation{kleinberg2005}
 \citation{kleinberg2005}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Crop Planning Recommendation System}{7}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}1}Problem Formulation}{7}{subsubsection.4.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}2}Phase 1: Job Definition from Forecasts}{7}{subsubsection.4.2.2}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces Agronomic Constants per Crop}}{7}{table.6}\protected@file@percent }
 \newlabel{tab:agro}{{VI}{7}{Agronomic Constants per Crop}{table.6}{}}
@@ -123,47 +123,51 @@
 \@writefile{lot}{\contentsline {table}{\numberline {IX}{\ignorespaces Peak Timing Accuracy --- Rolling-Window LSTM}}{9}{table.9}\protected@file@percent }
 \newlabel{tab:peak}{{IX}{9}{Peak Timing Accuracy --- Rolling-Window LSTM}{table.9}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}2}Cross-Model Analysis and Ensemble Potential}{9}{subsubsection.5.1.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Cross-model forecast comparison for all four crops (2024 test year). Each subplot overlays actual prices (black) with LSTM (green), Transformer (red), and ARIMA (blue) forecasts. Key observations: (a)~ARIMA diverges upward for cassava due to stationarity violations; (b)~all models miss the corn Jun--Jul spike; (c)~all models underestimate the green bean Sep--Oct peak; (d)~Transformer tracks soybean most closely overall. No single model dominates across all crops. RW-LSTM forecasts are shown separately in Fig.~\ref {fig:rwlstm_all}.}}{10}{figure.14}\protected@file@percent }
-\newlabel{fig:cross_model}{{14}{10}{Cross-model forecast comparison for all four crops (2024 test year). Each subplot overlays actual prices (black) with LSTM (green), Transformer (red), and ARIMA (blue) forecasts. Key observations: (a)~ARIMA diverges upward for cassava due to stationarity violations; (b)~all models miss the corn Jun--Jul spike; (c)~all models underestimate the green bean Sep--Oct peak; (d)~Transformer tracks soybean most closely overall. No single model dominates across all crops. RW-LSTM forecasts are shown separately in Fig.~\ref {fig:rwlstm_all}}{figure.14}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {X}{\ignorespaces Oracle Per-Crop Model Selection}}{10}{table.10}\protected@file@percent }
 \newlabel{tab:ensemble}{{X}{10}{Oracle Per-Crop Model Selection}{table.10}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Crop Planning Results}{10}{subsection.5.2}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {XI}{\ignorespaces Income Comparison: Before vs.\ After Optimization}}{10}{table.11}\protected@file@percent }
 \newlabel{tab:income_detail}{{XI}{10}{Income Comparison: Before vs.\ After Optimization}{table.11}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XII}{\ignorespaces Optimized Multi-Crop Rotation vs.\ Monoculture}}{10}{table.12}\protected@file@percent }
+\newlabel{tab:mono}{{XII}{10}{Optimized Multi-Crop Rotation vs.\ Monoculture}{table.12}{}}
 \newlabel{sec:bruteforce}{{\mbox  {V-B}1}{10}{Brute-Force Optimality Verification}{subsubsection.5.2.1}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}1}Brute-Force Optimality Verification}{10}{subsubsection.5.2.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Rolling-Window LSTM forecast vs.\ actual prices for all four crops (2024 test year) with peak month annotations. Arrows indicate the predicted and actual peak months. Cassava and green bean achieve exact peak timing ($\Delta $Month\,=\,0), soybean is within one month ($\Delta $Month\,=\,1), while corn's peak is five months off ($\Delta $Month\,=\,5). This peak timing property---rather than overall MAPE---determines the quality of the downstream scheduling system.}}{11}{figure.15}\protected@file@percent }
-\newlabel{fig:rwlstm_all}{{15}{11}{Rolling-Window LSTM forecast vs.\ actual prices for all four crops (2024 test year) with peak month annotations. Arrows indicate the predicted and actual peak months. Cassava and green bean achieve exact peak timing ($\Delta $Month\,=\,0), soybean is within one month ($\Delta $Month\,=\,1), while corn's peak is five months off ($\Delta $Month\,=\,5). This peak timing property---rather than overall MAPE---determines the quality of the downstream scheduling system}{figure.15}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Normalized RW-LSTM forecasts (2024). Each crop's predicted prices are divided by their mean, enabling cross-crop comparison. Peaks occur in different months---Cassava (Jan), Corn (Feb), Soybean (Mar), Green Bean (Sep)---which enables non-overlapping crop rotation.}}{11}{figure.16}\protected@file@percent }
-\newlabel{fig:overlap}{{16}{11}{Normalized RW-LSTM forecasts (2024). Each crop's predicted prices are divided by their mean, enabling cross-crop comparison. Peaks occur in different months---Cassava (Jan), Corn (Feb), Soybean (Mar), Green Bean (Sep)---which enables non-overlapping crop rotation}{figure.16}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Unoptimized Gantt chart. Each crop is placed at its peak-optimal planting--harvest window. Cassava, corn, and soybean overlap during Oct 2023--Mar 2024, indicated by hatched regions.}}{11}{figure.17}\protected@file@percent }
-\newlabel{fig:gantt_unopt}{{17}{11}{Unoptimized Gantt chart. Each crop is placed at its peak-optimal planting--harvest window. Cassava, corn, and soybean overlap during Oct 2023--Mar 2024, indicated by hatched regions}{figure.17}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Optimized Gantt chart (brute-force optimal ordering). Corn and soybean were shifted to available gaps using Strategy~B (dashed borders), producing a non-overlapping four-crop rotation with total income of 39,212~THB/rai/year.}}{11}{figure.18}\protected@file@percent }
-\newlabel{fig:gantt_opt}{{18}{11}{Optimized Gantt chart (brute-force optimal ordering). Corn and soybean were shifted to available gaps using Strategy~B (dashed borders), producing a non-overlapping four-crop rotation with total income of 39,212~THB/rai/year}{figure.18}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {XII}{\ignorespaces Optimized Multi-Crop Rotation vs.\ Monoculture}}{11}{table.12}\protected@file@percent }
-\newlabel{tab:mono}{{XII}{11}{Optimized Multi-Crop Rotation vs.\ Monoculture}{table.12}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {XIII}{\ignorespaces Top 5 and Bottom 5 of 24 Crop Ordering Permutations}}{12}{table.13}\protected@file@percent }
-\newlabel{tab:permutations}{{XIII}{12}{Top 5 and Bottom 5 of 24 Crop Ordering Permutations}{table.13}{}}
-\newlabel{sec:sensitivity}{{\mbox  {V-B}2}{12}{Sensitivity to Yield Variability}{subsubsection.5.2.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}2}Sensitivity to Yield Variability}{12}{subsubsection.5.2.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {XIV}{\ignorespaces Sensitivity of Rotation Income to Yield Variability}}{12}{table.14}\protected@file@percent }
-\newlabel{tab:sensitivity}{{XIV}{12}{Sensitivity of Rotation Income to Yield Variability}{table.14}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Web Application}{12}{subsection.5.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {XIII}{\ignorespaces Top 5 and Bottom 5 of 24 Crop Ordering Permutations}}{10}{table.13}\protected@file@percent }
+\newlabel{tab:permutations}{{XIII}{10}{Top 5 and Bottom 5 of 24 Crop Ordering Permutations}{table.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Cross-model forecast comparison for all four crops (2024 test year). Each subplot overlays actual prices (black) with LSTM (green), Transformer (red), and ARIMA (blue) forecasts. Key observations: (a)~ARIMA diverges upward for cassava due to stationarity violations; (b)~all models miss the corn Jun--Jul spike; (c)~all models underestimate the green bean Sep--Oct peak; (d)~Transformer tracks soybean most closely overall. No single model dominates across all crops. RW-LSTM forecasts are shown separately in Fig.~\ref {fig:rwlstm_all}.}}{11}{figure.14}\protected@file@percent }
+\newlabel{fig:cross_model}{{14}{11}{Cross-model forecast comparison for all four crops (2024 test year). Each subplot overlays actual prices (black) with LSTM (green), Transformer (red), and ARIMA (blue) forecasts. Key observations: (a)~ARIMA diverges upward for cassava due to stationarity violations; (b)~all models miss the corn Jun--Jul spike; (c)~all models underestimate the green bean Sep--Oct peak; (d)~Transformer tracks soybean most closely overall. No single model dominates across all crops. RW-LSTM forecasts are shown separately in Fig.~\ref {fig:rwlstm_all}}{figure.14}{}}
+\newlabel{sec:sensitivity}{{\mbox  {V-B}2}{11}{Sensitivity to Yield Variability}{subsubsection.5.2.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}2}Sensitivity to Yield Variability}{11}{subsubsection.5.2.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {XIV}{\ignorespaces Sensitivity of Rotation Income to Yield Variability}}{11}{table.14}\protected@file@percent }
+\newlabel{tab:sensitivity}{{XIV}{11}{Sensitivity of Rotation Income to Yield Variability}{table.14}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Web Application}{11}{subsection.5.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Rolling-Window LSTM forecast vs.\ actual prices for all four crops (2024 test year) with peak month annotations. Arrows indicate the predicted and actual peak months. Cassava and green bean achieve exact peak timing ($\Delta $Month\,=\,0), soybean is within one month ($\Delta $Month\,=\,1), while corn's peak is five months off ($\Delta $Month\,=\,5). This peak timing property---rather than overall MAPE---determines the quality of the downstream scheduling system.}}{12}{figure.15}\protected@file@percent }
+\newlabel{fig:rwlstm_all}{{15}{12}{Rolling-Window LSTM forecast vs.\ actual prices for all four crops (2024 test year) with peak month annotations. Arrows indicate the predicted and actual peak months. Cassava and green bean achieve exact peak timing ($\Delta $Month\,=\,0), soybean is within one month ($\Delta $Month\,=\,1), while corn's peak is five months off ($\Delta $Month\,=\,5). This peak timing property---rather than overall MAPE---determines the quality of the downstream scheduling system}{figure.15}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Normalized RW-LSTM forecasts (2024). Each crop's predicted prices are divided by their mean, enabling cross-crop comparison. Peaks occur in different months---Cassava (Jan), Corn (Feb), Soybean (Mar), Green Bean (Sep)---which enables non-overlapping crop rotation.}}{12}{figure.16}\protected@file@percent }
+\newlabel{fig:overlap}{{16}{12}{Normalized RW-LSTM forecasts (2024). Each crop's predicted prices are divided by their mean, enabling cross-crop comparison. Peaks occur in different months---Cassava (Jan), Corn (Feb), Soybean (Mar), Green Bean (Sep)---which enables non-overlapping crop rotation}{figure.16}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Unoptimized Gantt chart. Each crop is placed at its peak-optimal planting--harvest window. Cassava, corn, and soybean overlap during Oct 2023--Mar 2024, indicated by hatched regions.}}{12}{figure.17}\protected@file@percent }
+\newlabel{fig:gantt_unopt}{{17}{12}{Unoptimized Gantt chart. Each crop is placed at its peak-optimal planting--harvest window. Cassava, corn, and soybean overlap during Oct 2023--Mar 2024, indicated by hatched regions}{figure.17}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Optimized Gantt chart (brute-force optimal ordering). Corn and soybean were shifted to available gaps using Strategy~B (dashed borders), producing a non-overlapping four-crop rotation with total income of 39,212~THB/rai/year.}}{12}{figure.18}\protected@file@percent }
+\newlabel{fig:gantt_opt}{{18}{12}{Optimized Gantt chart (brute-force optimal ordering). Corn and soybean were shifted to available gaps using Strategy~B (dashed borders), producing a non-overlapping four-crop rotation with total income of 39,212~THB/rai/year}{figure.18}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces CropPlanner --- Crop Prices Page. Predicted price charts for all four crops with monthly granularity.}}{12}{figure.19}\protected@file@percent }
 \newlabel{fig:crop-prices-page}{{19}{12}{CropPlanner --- Crop Prices Page. Predicted price charts for all four crops with monthly granularity}{figure.19}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces CropPlanner --- Crop Planning Page. Farmers input start month and area; the system returns a Gantt chart with financial summary (income, expenses, profit, and ROI).}}{12}{figure.20}\protected@file@percent }
-\newlabel{fig:crop-planning-page}{{20}{12}{CropPlanner --- Crop Planning Page. Farmers input start month and area; the system returns a Gantt chart with financial summary (income, expenses, profit, and ROI)}{figure.20}{}}
+\citation{clrs2009}
+\citation{kleinberg2005}
 \citation{salinas2020deepar}
+\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces CropPlanner --- Crop Planning Page. Farmers input start month and area; the system returns a Gantt chart with financial summary (income, expenses, profit, and ROI).}}{13}{figure.20}\protected@file@percent }
+\newlabel{fig:crop-planning-page}{{20}{13}{CropPlanner --- Crop Planning Page. Farmers input start month and area; the system returns a Gantt chart with financial summary (income, expenses, profit, and ROI)}{figure.20}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {VI}Discussion}{13}{section.6}\protected@file@percent }
 \newlabel{sec:discussion}{{VI}{13}{Discussion}{section.6}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}No Single Model Dominates}{13}{subsection.6.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}Peak Timing Over Overall MAPE}{13}{subsection.6.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}Greedy Scheduling: Verification and Scalability}{13}{subsection.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}Greedy Scheduling: Why It Fails and What It Implies}{13}{subsection.6.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-D}}Experimental Design and Income Model}{13}{subsection.6.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-E}}Threats to Validity}{13}{subsection.6.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-F}}Practical Deployment Challenges}{13}{subsection.6.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {VII}Limitations and Future Work}{13}{section.7}\protected@file@percent }
-\newlabel{sec:limfuture}{{VII}{13}{Limitations and Future Work}{section.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-F}}Practical Deployment Challenges}{14}{subsection.6.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Limitations and Future Work}{14}{section.7}\protected@file@percent }
+\newlabel{sec:limfuture}{{VII}{14}{Limitations and Future Work}{section.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}Conclusion}{14}{section.8}\protected@file@percent }
+\newlabel{sec:conclusion}{{VIII}{14}{Conclusion}{section.8}{}}
 \bibcite{oae2024stats}{1}
 \bibcite{oae2024forecast}{2}
 \bibcite{ocsb2024}{3}
@@ -187,7 +191,5 @@
 \bibcite{dury2012crop}{21}
 \bibcite{gebbers2010}{22}
 \bibcite{elichukwu2019}{23}
-\@writefile{toc}{\contentsline {section}{\numberline {VIII}Conclusion}{14}{section.8}\protected@file@percent }
-\newlabel{sec:conclusion}{{VIII}{14}{Conclusion}{section.8}{}}
-\@writefile{toc}{\contentsline {section}{References}{14}{section*.2}\protected@file@percent }
-\gdef \@abspage@last{14}
+\@writefile{toc}{\contentsline {section}{References}{15}{section*.2}\protected@file@percent }
+\gdef \@abspage@last{15}

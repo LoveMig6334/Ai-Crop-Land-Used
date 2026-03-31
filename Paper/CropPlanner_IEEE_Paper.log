@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.30)  31 MAR 2026 15:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.30)  31 MAR 2026 15:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1233,81 +1233,67 @@ Underfull \hbox (badness 2088) in paragraph at lines 1581--1582
 \T1/ptm/m/n/10 (+20) peak months, while the to-tal fea-si-ble in-come reached
  []
 
-[10] [11]
-<fig15.png, id=440, 1444.64719pt x 812.28468pt>
+[10]
+<fig15.png, id=432, 1444.64719pt x 812.28468pt>
 File: fig15.png Graphic file (type png)
 <use fig15.png>
-Package pdftex.def Info: fig15.png  used on input line 1668.
+Package pdftex.def Info: fig15.png  used on input line 1683.
 (pdftex.def)             Requested size: 252.0pt x 141.68095pt.
-<fig16.png, id=442, 1444.64719pt x 812.28468pt>
+<fig16.png, id=434, 1444.64719pt x 812.28468pt>
 File: fig16.png Graphic file (type png)
 <use fig16.png>
-Package pdftex.def Info: fig16.png  used on input line 1675.
+Package pdftex.def Info: fig16.png  used on input line 1690.
 (pdftex.def)             Requested size: 252.0pt x 141.68095pt.
- [12 <./fig15.png> <./fig16.png>] [13] [14]
+ [11] [12 <./fig15.png>] [13 <./fig16.png>] [14] [15
+
+]
 (CropPlanner_IEEE_Paper.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-29>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `CropPlanner_IEEE_Paper.out' has not changed.
 
-(rerunfilecheck)             Checksum: 0FF431C5D73339FE79AE4099732461F9;7485.
+(rerunfilecheck)             Checksum: BC1A5B4F72EC678C70BB2D8ED9BF3C80;7517.
  ) 
 Here is how much of TeX's memory you used:
- 39250 strings out of 467871
- 895808 string characters out of 5418376
- 1630337 words of memory out of 5000000
- 66901 multiletter control sequences out of 15000+600000
- 782377 words of font info for 475 fonts, out of 8000000 for 9000
+ 39248 strings out of 467871
+ 895761 string characters out of 5418376
+ 1622688 words of memory out of 5000000
+ 66898 multiletter control sequences out of 15000+600000
+ 782602 words of font info for 477 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,21n,94p,1446b,2573s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-pdfTeX warning (dest): name{figure.23} has been referenced but does not exist, 
-replaced by a fixed one
-
-
-pdfTeX warning (dest): name{figure.22} has been referenced but does not exist, 
-replaced by a fixed one
-
-
-pdfTeX warning (dest): name{figure.21} has been referenced but does not exist, 
-replaced by a fixed one
-
-<C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cm
-bx10.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
-nts/cm/cmbx8.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/publ
-ic/amsfonts/cm/cmex10.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/t
-ype1/public/amsfonts/cm/cmmi10.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTe
-X/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/thatt/AppData/Local/Progra
-ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/thatt/AppData/Loca
-l/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/thatt/AppD
-ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/th
-att/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/U
-sers/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pf
-b><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
-cmr8.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
-nts/cm/cmr9.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/publi
-c/amsfonts/cm/cmsy10.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/ty
-pe1/public/amsfonts/cm/cmsy5.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/
-fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/thatt/AppData/Local/Programs
-/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/thatt/AppData/Local/
-Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/thatt/AppDat
-a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam7.pfb><C:/Users
-/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm7.
-pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8
-a.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8
-a.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi
-8a.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr
-8a.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr
-i8a.pfb>
-Output written on CropPlanner_IEEE_Paper.pdf (14 pages, 607654 bytes).
+<C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
+cmbx10.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
+fonts/cm/cmbx8.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/pu
+blic/amsfonts/cm/cmex10.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/thatt/AppData/Local/Programs/MiK
+TeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/thatt/AppData/Local/Prog
+rams/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/thatt/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/thatt/Ap
+pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/
+thatt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:
+/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.
+pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/c
+m/cmr8.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
+fonts/cm/cmr9.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/pub
+lic/amsfonts/cm/cmsy10.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/
+type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTe
+X/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/thatt/AppData/Local/Progra
+ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/thatt/AppData/Loca
+l/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/thatt/AppD
+ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam7.pfb><C:/Use
+rs/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm
+7.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucr
+r8a.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utm
+b8a.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utm
+bi8a.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/ut
+mr8a.pfb><C:/Users/thatt/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/ut
+mri8a.pfb>
+Output written on CropPlanner_IEEE_Paper.pdf (15 pages, 612886 bytes).
 PDF statistics:
- 605 PDF objects out of 1000 (max. 8388607)
- 170 named destinations out of 1000 (max. 500000)
+ 610 PDF objects out of 1000 (max. 8388607)
+ 168 named destinations out of 1000 (max. 500000)
  86883 words of extra memory for PDF output out of 89155 (max. 10000000)
 

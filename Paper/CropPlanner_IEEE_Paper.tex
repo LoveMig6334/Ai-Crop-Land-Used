@@ -58,7 +58,7 @@
 \title{CropPlanner: An AI-Powered Web Application for Crop Planning Recommendations}
 
 \author{
-  \IEEEauthorblockN{Thatt Bunnag\IEEEauthorrefmark{1}, Nathanon Ratchathornbuathip\IEEEauthorrefmark{1}, Art-ong Mukngoen\IEEEauthorrefmark{2}, Atthaphon Lorphan\IEEEauthorrefmark{2}}
+  \IEEEauthorblockN{Thatt Bunnag\IEEEauthorrefmark{1}, Nathanon Ratchathornbuathip\IEEEauthorrefmark{1}, Art-ong Mukngoen\IEEEauthorrefmark{2}, Atthaphon Lorphan\IEEEauthorrefmark{2}} \\
   \IEEEauthorblockA{Chitralada School, Bangkok, Thailand \\
   \IEEEauthorrefmark{1}Students \quad \IEEEauthorrefmark{2}Advisors}
 }
@@ -308,12 +308,12 @@ Fig.~\ref{fig:seasonal} illustrates the contrast between two crops via additive 
   \resizebox{\textwidth}{!}{%
   \begin{tikzpicture}
     \begin{groupplot}[
-      group style={group size=2 by 2, horizontal sep=1.8cm, vertical sep=1.2cm},
-      width=9.5cm, height=4cm,
+      group style={group size=2 by 2, horizontal sep=1.8cm, vertical sep=1.8cm},
+      width=9.5cm, height=4.5cm,
       xlabel style={font=\scriptsize},
       ylabel style={font=\scriptsize},
       xticklabel style={font=\tiny},
-      yticklabel style={font=\tiny},
+      yticklabel style={font=\scriptsize},
       title style={font=\scriptsize\bfseries},
       grid=major, grid style={gray!12},
       every axis plot/.append style={thick},
@@ -1614,21 +1614,36 @@ Table~\ref{tab:permutations} presents the top~5 and bottom~5 of the 24~permutati
     \toprule
     \textbf{Rank} & \textbf{Ordering} & \textbf{Crops} & \textbf{Income} & \textbf{vs.\ Opt.} \\
     \midrule
-    1  & Ca$\to$GB$\to$Co$\to$So & 4/4 & 39,211 & 100.0\% \\
-    2  & Ca$\to$So$\to$GB$\to$Co & 4/4 & 39,211 & 100.0\% \\
-    3  & GB$\to$Ca$\to$Co$\to$So & 4/4 & 39,211 & 100.0\% \\
+    1  & Ca$\to$GB$\to$Co$\to$So & 4/4 & 39,212 & 100.0\% \\
+    2  & Ca$\to$So$\to$GB$\to$Co & 4/4 & 39,212 & 100.0\% \\
+    3  & GB$\to$Ca$\to$Co$\to$So & 4/4 & 39,212 & 100.0\% \\
     4  & Ca$\to$Co$\to$GB$\to$So & 4/4 & 37,479 & 95.6\% \\
     5  & Ca$\to$GB$\to$So$\to$Co & 4/4 & 37,479 & 95.6\% \\
+    6  & GB$\to$Ca$\to$So$\to$Co & 4/4 & 37,479 & 95.6\% \\
+    7  & Ca$\to$Co$\to$So$\to$GB & 4/4 & 36,956 & 94.2\% \\
+    8  & Ca$\to$So$\to$Co$\to$GB & 4/4 & 35,706 & 91.1\% \\
     \midrule
+    9  & Co$\to$GB$\to$Ca$\to$So & 3/4 & 33,717 & 86.0\% \\
+    10 & Co$\to$GB$\to$So$\to$Ca & 3/4 & 33,717 & 86.0\% \\
+    11 & GB$\to$Co$\to$Ca$\to$So & 3/4 & 33,717 & 86.0\% \\
+    12 & GB$\to$Co$\to$So$\to$Ca & 3/4 & 33,717 & 86.0\% \\
+    13 & Co$\to$Ca$\to$GB$\to$So & 3/4 & 33,394 & 85.2\% \\
+    14 & Co$\to$Ca$\to$So$\to$GB & 3/4 & 33,394 & 85.2\% \\
+    15 & Co$\to$So$\to$Ca$\to$GB & 3/4 & 32,206 & 82.1\% \\
+    16 & Co$\to$So$\to$GB$\to$Ca & 3/4 & 32,206 & 82.1\% \\
+    17 & GB$\to$So$\to$Ca$\to$Co & 3/4 & 29,790 & 76.0\% \\
+    18 & GB$\to$So$\to$Co$\to$Ca & 3/4 & 29,790 & 76.0\% \\
+    19 & So$\to$Co$\to$Ca$\to$GB & 3/4 & 29,790 & 76.0\% \\
     20 & So$\to$Co$\to$GB$\to$Ca & 3/4 & 29,790 & 76.0\% \\
     21 & So$\to$GB$\to$Ca$\to$Co & 3/4 & 29,790 & 76.0\% \\
     22 & So$\to$GB$\to$Co$\to$Ca & 3/4 & 29,790 & 76.0\% \\
+    \midrule
     23 & So$\to$Ca$\to$Co$\to$GB & 2/4 & 15,380 & 39.2\% \\
     24 & So$\to$Ca$\to$GB$\to$Co & 2/4 & 15,380 & 39.2\% \\
     \bottomrule
   \end{tabular}
   \vspace{2pt}
-  \raggedright\scriptsize Ca=Cassava, Co=Corn, GB=Green Bean, So=Soybean. Income in THB/rai/year. Of the 14~omitted middle entries (ranks 6--19), 5~achieve 4/4 crops (35,706--37,479~THB) and 9~achieve 3/4 crops (29,790--33,717~THB).
+  \raggedright\scriptsize Ca=Cassava, Co=Corn, GB=Green Bean, So=Soybean. Income in THB/rai/year. Horizontal rules separate 4/4, 3/4, and 2/4 crop schedules. The greedy heuristic (income-first ordering) corresponds to ranks 13--14.
 \end{table}
 
 Of the 24~permutations, 8~successfully schedule all four crops, 14~exclude one crop (3/4), and 2~exclude two crops (2/4). Two clear patterns emerge. First, all top-performing orderings place cassava---the longest crop at 250~days---first, allowing it to claim its peak-price position (January harvest) via the previous-year planting strategy. Shorter crops (corn, green bean, soybean) then fill the remaining gaps through shifting. The top~3 orderings all begin with cassava and achieve the same optimal income. Second, orderings starting with soybean consistently underperform---all bottom~5 entries begin with soybean, whose 90-day duration and March peak compete directly with corn's February peak, creating early conflicts that cascade into exclusions. The worst orderings (So$\to$Ca) lose 61\% of optimal income by scheduling only 2~crops. This sensitivity to ordering---even with just four crops---motivates exact methods such as Dynamic Programming for production deployment.
@@ -1695,9 +1710,13 @@ No single model is best for all crops, attributable to the limited dataset ($\si
 
 With validation-based window selection, RW-LSTM's average MAPE (17.06\%) is notably higher than Standard LSTM (7.07\%), indicating that its original performance was inflated by test-set feedback---underscoring the importance of rigorous train--validation--test separation. However, its peak timing remains strong for three of four crops (cassava and green bean exact, soybean $\leq$1~month off), making it viable for scheduling where peak position matters more than pointwise accuracy. Corn's 5-month error suggests its 6-year validated window is too short. An ensemble selecting the best model per crop would be ideal.
 
-\subsection{Greedy Scheduling: Verification and Scalability}
+\subsection{Greedy Scheduling: Why It Fails and What It Implies}
 
-With only four crops, the scheduling problem admits $4! = 24$ permutations, making exhaustive search trivial. Our brute-force verification revealed that the greedy heuristic is suboptimal: it produced 33,394~THB/rai/year (3~crops, soybean excluded), compared to the optimal 39,212~THB/rai/year (all 4~crops)---a gap of 14.8\%. The greedy algorithm's income-first prioritization placed corn first, which consumed a time slot that prevented soybean from being scheduled. The optimal ordering prioritizes cassava first (long growing period, must start early), followed by crops that fill the remaining gaps. This demonstrates that even with four crops, the scheduling structure is non-trivial: greedy approaches can miss solutions that require counter-intuitive priority orderings. For larger crop sets ($>$10), exhaustive search becomes infeasible ($15! \approx 1.3 \times 10^{12}$), and Dynamic Programming in $O(n \log n)$ becomes necessary.
+The greedy heuristic's 14.8\% suboptimality gap (33,394 vs.\ 39,212~THB/rai/year) deserves deeper analysis than the result summary in Section~\ref{sec:bruteforce}. Income-first sorting is optimal for the \textit{unweighted} interval scheduling problem, where all jobs have equal value and the goal is to maximize the number of scheduled jobs~\cite{clrs2009}. However, our problem is a \textit{weighted} variant with a critical complication: shifting a crop to a non-peak time slot changes its weight (income), because the harvest price depends on the month. This makes the problem fundamentally harder than standard Weighted Job Scheduling, where job weights are fixed regardless of placement.
+
+Concretely, the greedy algorithm places corn first (highest income at 20,377~THB) in its peak-optimal February slot. This forces cassava---which requires 250~days and must start in the previous year---into a shifted position that blocks soybean entirely. The optimal solution instead places cassava first in its peak position (January harvest, planted April of the previous year), then fits the shorter crops around it. The insight is that \textit{long-duration crops constrain the timeline disproportionately} and should be prioritized for peak placement, even if they are not the highest-income individual crop.
+
+From a scalability perspective, exhaustive enumeration of $n!$ orderings is trivial for $n = 4$ ($<$1~ms) and still feasible for $n = 10$ ($10! = 3.6 \times 10^6$ evaluations). However, by $n = 15$ ($15! \approx 1.3 \times 10^{12}$), exhaustive search becomes impractical. Dynamic Programming for weighted interval scheduling, which runs in $O(n \log n)$~\cite{kleinberg2005}, would be necessary---though the variable-weight complication (prices depend on harvest month) may require a modified DP formulation that evaluates candidate time slots per crop.
 
 \subsection{Experimental Design and Income Model}
 
@@ -1723,7 +1742,15 @@ Several challenges must be addressed before CropPlanner can be deployed in pract
 
 This study has several limitations: (1)~a single test year (2024) limits the generalizability of model comparisons, though a validation year (2023) was used for hyperparameter selection to prevent data leakage; (2)~no field testing with actual farmers was conducted, leaving usability and adoption unverified; (3)~the income model uses fixed yield averages and omits production costs, weather-induced yield variability, and price-yield correlations, making reported income figures upper-bound estimates of gross revenue; (4)~external factors such as government policy changes and global commodity prices are not incorporated into the forecasting models; and (5)~coverage is limited to Northeastern Thailand and four field crops.
 
-Future directions include: (1)~ensemble model selection per crop to leverage each model's strengths; (2)~multi-year rolling-origin evaluation (e.g., testing across 2022--2024) to provide stronger evidence of model stability; (3)~incorporating weather, macroeconomic, and supply-chain features as additional input variables; (4)~a full economic model with stochastic yields, production costs, and price-yield correlations for more realistic income estimates; (5)~Dynamic Programming for scheduling with $>$10 crops; (6)~user studies and pilot deployments with farmers to evaluate real-world impact; and (7)~expanding to additional regions and crop categories including horticultural crops.
+We highlight three future directions that address the most consequential limitations.
+
+\textit{Ensemble model selection.} The oracle analysis in Table~\ref{tab:ensemble} establishes an upper bound (5.76\% average MAPE) for per-crop model selection, but a production system requires an automated strategy. Candidates include validation-based selection (choose the model with the lowest validation MAPE per crop), stacking (train a meta-learner on the outputs of all base models), and Bayesian model averaging (weight predictions by posterior model probabilities). Each approach trades off simplicity against performance, and multi-year evaluation is needed to determine whether per-crop winners remain stable over time or shift with changing market conditions.
+
+\textit{Multi-year rolling-origin evaluation.} Testing on a single year (2024) cannot distinguish model stability from year-specific artifacts. A rolling-origin protocol---training on data up to year $T{-}1$, testing on year $T$, and repeating for $T \in \{2022, 2023, 2024\}$---would provide three independent test observations per model per crop, enabling statistical comparison (e.g., paired $t$-tests on annual MAPE) and revealing whether 2024 was coincidentally favorable for certain models.
+
+\textit{Full economic model.} The current income model (Eq.~\ref{eq:income}) computes gross revenue. A more realistic net profit model would subtract production costs (seed, fertilizer, labor, water---typically 40--60\% of gross revenue for Thai field crops), account for post-harvest losses (5--15\% depending on crop and storage conditions), and incorporate price-yield correlations: bumper harvests often suppress prices through increased supply, meaning that high-yield years may not translate to proportionally higher income. These adjustments would transform CropPlanner from a revenue estimator into a profit optimizer.
+
+Additional directions include: incorporating weather and macroeconomic features as model inputs; Dynamic Programming for scheduling with $>$10 crops; user studies with farming communities; and expanding coverage to additional regions and crop categories.
 
 % ============================================================
 % VIII. CONCLUSION
@@ -1737,7 +1764,11 @@ First, a comparative study of four forecasting models---Standard LSTM, Transform
 
 Second, we formalized the crop planning problem as a Weighted Job Scheduling Problem with mathematical notation and complexity analysis. Exhaustive enumeration over all $4! = 24$ permutations identified the optimal four-crop rotation yielding 39,212~THB/rai/year---approximately 1.9~times the best monoculture income. Permutation analysis revealed that only 8 of 24~orderings achieve a full 4-crop schedule, while orderings starting with soybean consistently underperform, losing up to 61\% of optimal income. The greedy heuristic, formalized in Algorithm~\ref{alg:greedy}, was suboptimal by 14.8\%, demonstrating that scheduling structure is non-trivial even for four crops and motivating exact methods for production deployment.
 
-Third, the CropPlanner web application enables farmers to plan up to 12~months ahead through intuitive visualizations, delivering AI-powered insights without requiring technical expertise. The system demonstrates the feasibility of an end-to-end pipeline from multi-model forecasting through scheduling optimization to web-based delivery---a combination that, as shown in our literature review, has received limited attention in prior work. This system has the potential to reduce income volatility and promote sustainable, diversified agriculture for Thai farmers.
+Third, the CropPlanner web application enables farmers to plan up to 12~months ahead through intuitive visualizations, delivering AI-powered insights without requiring technical expertise. The system demonstrates the feasibility of an end-to-end pipeline from multi-model forecasting through scheduling optimization to web-based delivery---a combination that, as shown in our literature review, has received limited attention in prior work.
+
+More broadly, CropPlanner illustrates a key lesson for applied ML system design: \textit{operational metrics differ from standard ML metrics}. Standard MAPE evaluation would select Standard LSTM (7.07\%) over RW-LSTM (17.06\%), yet the scheduling system depends on peak timing---a property where RW-LSTM excels. System designers must align model evaluation with downstream task requirements, not default to conventional accuracy measures. We believe this principle extends beyond agriculture to any domain where ML predictions feed into optimization or decision-making systems.
+
+All source code, data preprocessing scripts, and trained model weights used in this study will be made publicly available upon publication to facilitate reproduction and extension of this work.
 
 \section*{Acknowledgments}
 
